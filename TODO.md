@@ -7,8 +7,9 @@
   - [x] Levantar identidade visual
   - [x] Conferir planos gratuitos (Vercel Hobby, Supabase)
   - [x] Escrever especificação (`docs/superpowers/specs/2026-11-01-eliclothing-design.md`)
-  - [ ] **Usuário revisar e aprovar a especificação**
-  - [ ] Escrever plano de implementação da Etapa 2
+  - [x] Usuário aprovou a especificação (2026-11-01)
+  - [x] Escrever plano de implementação da Etapa 2
+  - [ ] **Usuário revisar o plano da Etapa 2 e escolher o método de execução**
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo

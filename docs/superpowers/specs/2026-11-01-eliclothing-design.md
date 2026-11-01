@@ -47,7 +47,7 @@ Padrões por omissão (mudam se o usuário pedir): compra **sem exigir login** (
 - **Primeiro admin:** cria-se a conta pelo site e roda-se uma linha de SQL com o e-mail do dono (mesma ideia do Dogão), explicada passo a passo.
 
 ## 5. Pedidos e pagamentos
-1. Cliente monta o carrinho (tamanho/cor obrigatórios) e informa nome, telefone e retirada/entrega.
+1. Cliente monta o carrinho (tamanho/cor obrigatórios). **Sem login, o checkout pede só o que o pagamento realmente exige** (decisão do usuário, 2026-11-01): nome e telefone (sempre, para contato); endereço apenas se escolher entrega; e-mail apenas se escolher Pix ou cartão (o Mercado Pago exige e ele não é gravado no pedido); observação opcional. Nada de CPF, data de nascimento ou cadastro obrigatório.
 2. O servidor valida, recalcula, reserva estoque e grava o pedido. Daí:
    - **WhatsApp:** abre o WhatsApp da loja com o resumo e o número do pedido; status "a combinar".
    - **Pix:** cria o pagamento no Mercado Pago e mostra QR code e "copia e cola" no próprio site; confere o status a cada poucos segundos.

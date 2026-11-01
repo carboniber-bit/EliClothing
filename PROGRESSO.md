@@ -36,8 +36,12 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 ## Testes executados
 - `git push` de teste: OK. Demais testes: nenhum ainda (não há código).
 
+## Aprovações
+- 2026-11-01: usuário **aprovou a especificação**. Regra nova: sem login, o checkout pede só o essencial para o pagamento (registrada na seção 5 da especificação).
+- Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
+
 ## Próxima ação exata
-Usuário revisa `docs/superpowers/specs/2026-11-01-eliclothing-design.md` e aprova (ou pede ajustes). Depois: escrever o plano de implementação da Etapa 2 e começar a codificar.
+Usuário revisa o plano da Etapa 2 e escolhe o método de execução (subagentes ou nativo). Depois: executar a Tarefa 1 (projeto base e testes).
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).
