@@ -9,7 +9,8 @@
   - [x] Escrever especificação (`docs/superpowers/specs/2026-11-01-eliclothing-design.md`)
   - [x] Usuário aprovou a especificação (2026-11-01)
   - [x] Escrever plano de implementação da Etapa 2
-  - [ ] **Usuário revisar o plano da Etapa 2 e escolher o método de execução**
+  - [x] Usuário revisou o plano e escolheu o modo nativo; WhatsApp confirmado
+  - [ ] **BLOQUEADO: Etapa 2 / Tarefa 1** — sem acesso ao npm nesta sessão; aguardando decisão do usuário sobre como seguir
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo

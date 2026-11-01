@@ -29,6 +29,12 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 ## O que está funcionando
 - Apenas o repositório e a documentação (não há código de aplicação).
 
+## BLOQUEIO ATUAL (2026-11-01) — Etapa 2, Tarefa 1
+- Esta sessão **não consegue instalar pacotes**: o proxy nega o acesso ao registro do npm (`registry.npmjs.org`, erro 403 de política) e o GitHub Actions também não é acessível por aqui. Sem isso não dá para criar o projeto Next.js, rodar testes nem fazer build neste ambiente.
+- Nenhum código de aplicação foi escrito. Branch de trabalho criada: `etapa-2-base-visual` (a `main` só recebe merge com aprovação do usuário).
+- Decisão pendente do usuário: como seguir (ver a última mensagem da conversa). Opção recomendada: o usuário roda o comando de criação do projeto no próprio computador, envia para a branch, e o Claude continua daí; os testes passam a ser rodados no computador do usuário (ou no CI do GitHub) e os resultados colados na conversa.
+- Atualização: WhatsApp oficial confirmado — (11) 97302-9002; plano da Etapa 2 ajustado (o botão do rodapé aparece).
+
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
 - Cores aproximadas; confirmar com o logo original (o logo recebido traz o telefone embutido; é preciso uma versão sem o telefone).
