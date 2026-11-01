@@ -4,19 +4,24 @@
 - [ ] **Etapa 1 — Análise e planejamento**
   - [x] Verificar repositório EliClothing (vazio)
   - [x] Analisar Dogão do Adriano
-  - [x] Levantar identidade visual (prints do Instagram)
-  - [ ] Decidir finalização de pedido (pergunta pendente ao usuário)
-  - [ ] Apresentar plano final por etapas e **aguardar aprovação**
+  - [x] Levantar identidade visual
+  - [x] Conferir planos gratuitos (Vercel Hobby, Supabase)
+  - [x] Escrever especificação (`docs/superpowers/specs/2026-11-01-eliclothing-design.md`)
+  - [ ] **Usuário revisar e aprovar a especificação**
+  - [ ] Escrever plano de implementação da Etapa 2
 
 ## Próximas etapas (não iniciadas)
-- [ ] Etapa 2 — Estrutura e identidade visual
-- [ ] Etapa 3 — Banco de dados e autenticação
+- [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo
+- [ ] Etapa 3 — Banco, RLS, login, primeiro admin, deploy de teste na Vercel
 - [ ] Etapa 4 — Painel administrativo
-- [ ] Etapa 5 — Funcionalidades da loja
+- [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
+- [ ] Etapa 5b — Pix e cartão (Mercado Pago)
+- [ ] Etapa 5c — Bot do Telegram
 - [ ] Etapa 6 — Testes e melhorias
-- [ ] Etapa 7 — Publicação
+- [ ] Etapa 7 — Publicação (decidir plano Pro antes de vender)
+
+## Fora do primeiro lançamento (guardado)
+- Favoritos, cupons, cálculo automático de frete.
 
 ## Concluído
-- [x] Clone do repositório EliClothing e verificação de que está vazio
-- [x] Análise do Dogão do Adriano
-- [x] Levantamento da identidade visual a partir dos prints
+- [x] Repositório verificado, Dogão analisado, visual levantado, especificação escrita, push de teste OK

@@ -3,37 +3,43 @@
 _Última atualização: 2026-11-01_
 
 ## Objetivo geral
-Loja virtual completa da EliClothing (loja de roupas feminina, loja física e online em Osasco-SP): vitrine pública, carrinho, pedidos, login e painel administrativo, com Supabase (banco, auth, storage) e hospedagem na Vercel, priorizando planos gratuitos.
+Loja virtual completa da EliClothing (moda feminina, loja física e online em Osasco-SP): vitrine, carrinho, pedidos (WhatsApp, Pix e cartão), login, painel administrativo e bot do Telegram, com Supabase e Vercel, priorizando planos gratuitos.
+
+## Decisões do usuário (2026-11-01)
+- Catálogo nasce **vazio e editável**; itens, fotos e preços entram depois (pelo painel ou enviados ao Claude).
+- Vercel **gratuita (Hobby) só para testes**; para vender será preciso Pro (decisão na Etapa 7).
+- Finalização: **WhatsApp + Pix + cartão online** (Mercado Pago) desde o início.
+- **Bot do Telegram** para avisar e confirmar pedidos.
+- Visual com bastante rosa, público feminino.
 
 ## Estado real do projeto
-- Repositório `carboniber-bit/EliClothing`: **vazio** (nenhum arquivo, nenhum commit). Nada a preservar.
+- Repositório `carboniber-bit/EliClothing` estava vazio; agora tem a branch `main` com 1 commit (somente documentação). **Push para o GitHub testado e funcionando.**
 - Nenhum código do site foi escrito. Nenhuma configuração externa foi feita.
-- Etapa atual: **Etapa 1 — Análise e planejamento** (análise feita; falta aprovação do plano).
+- Etapa atual: **Etapa 1 — Análise e planejamento** (especificação escrita; aguardando revisão do usuário).
 
 ## Concluído
-- Clone do repositório EliClothing e confirmação de que está vazio.
-- Acesso liberado e análise do Dogão do Adriano (24 arquivos, lido: README, PROGRESSO, schema.sql, `api/_lib.js`, estrutura de `api/`, `auth.js`, testes).
-- Identidade visual levantada a partir de 3 prints do Instagram enviados pelo usuário (o Instagram não abre direto nesta sessão).
+- Análise do repositório EliClothing (vazio) e do Dogão do Adriano.
+- Identidade visual levantada dos prints/logo enviados.
+- Termos conferidos: Vercel Hobby = uso pessoal/não comercial; Supabase gratuito pausa por inatividade.
+- Especificação: `docs/superpowers/specs/2026-11-01-eliclothing-design.md`.
 
 ## Arquivos alterados
-- `TODO.md` e `PROGRESSO.md` (ainda sem commit).
+- `TODO.md`, `PROGRESSO.md`, `docs/superpowers/specs/2026-11-01-eliclothing-design.md` (commit `docs: especificação de design...`).
 
 ## O que está funcionando
-- Nada ainda (não há código).
+- Apenas o repositório e a documentação (não há código de aplicação).
 
-## Erros conhecidos / bloqueios
-- Push para o GitHub ainda não testado (a conexão avisou que pode ser recusado). Será testado no primeiro commit.
-- Cores levantadas dos prints são aproximadas; confirmar com o arquivo original do logo.
+## Erros conhecidos / pendências
+- Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
+- Cores aproximadas; confirmar com o logo original (o logo recebido traz o telefone embutido; é preciso uma versão sem o telefone).
 
 ## Testes executados
-- Nenhum (ainda não há código).
+- `git push` de teste: OK. Demais testes: nenhum ainda (não há código).
 
 ## Próxima ação exata
-Usuário responde a pergunta pendente: finalização do pedido no início (WhatsApp registrado no painel, ou já com Pix/cartão). Em seguida, apresentar o plano final por etapas e **aguardar aprovação** antes de qualquer código.
+Usuário revisa `docs/superpowers/specs/2026-11-01-eliclothing-design.md` e aprova (ou pede ajustes). Depois: escrever o plano de implementação da Etapa 2 e começar a codificar.
 
-## Configurações externas que dependem do usuário
-- [ ] Decidir a forma de finalização do pedido (pergunta pendente).
-- [ ] Criar projeto Supabase (somente na Etapa 3, com passo a passo).
-- [ ] Criar/conectar projeto na Vercel (somente na Etapa 7, com passo a passo).
-- [ ] Informar o WhatsApp oficial da loja (Etapa 5).
-- [ ] Enviar o arquivo original do logo (PNG/SVG) quando puder.
+## Configurações externas que dependem do usuário (nada agora)
+- Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).
+- Etapa 5a: WhatsApp oficial da loja. 5b: conta Mercado Pago com chave Pix e credenciais de teste. 5c: criar o bot no BotFather e obter o chat ID.
+- Quando houver: logo sem telefone, produtos, fotos e preços.
