@@ -38,6 +38,19 @@
   --font-sans: var(--fonte-texto);
 }
 
+/* Ícones do botão de tema: a lua aparece no claro, o sol no escuro. */
+.icone-sol {
+  display: none;
+}
+
+[data-tema="dark"] .icone-sol {
+  display: inline;
+}
+
+[data-tema="dark"] .icone-lua {
+  display: none;
+}
+
 html {
   color-scheme: light;
 }

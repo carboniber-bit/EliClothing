@@ -43,3 +43,7 @@ next-env.d.ts
 # exceções e rascunhos locais
 !.env.example
 .superpowers/
+
+# Playwright
+/test-results/
+/playwright-report/

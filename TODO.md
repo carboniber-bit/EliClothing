@@ -10,7 +10,8 @@
   - [x] Usuário aprovou a especificação (2026-11-01)
   - [x] Escrever plano de implementação da Etapa 2
   - [x] Usuário revisou o plano e escolheu o modo nativo; WhatsApp confirmado
-  - [~] Etapa 2 / Tarefas 1 e 2 escritas; **aguardando o usuário rodar os testes no PC** (sem npm nesta sessão)
+  - [x] Etapa 2 / Tarefas 1 e 2 testadas no PC do usuário (lint com 1 erro, corrigido)
+  - [~] Etapa 2 / Tarefas 3 a 6 escritas; **aguardando o usuário rodar lint, testes e e2e no PC** (sem npm nesta sessão)
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo
