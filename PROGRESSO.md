@@ -1,6 +1,6 @@
 # PROGRESSO — EliClothing
 
-_Última atualização: 2026-11-01_
+_Última atualização: 2026-11-02_
 
 ## Objetivo geral
 Loja virtual completa da EliClothing (moda feminina, loja física e online em Osasco-SP): vitrine, carrinho, pedidos (WhatsApp, Pix e cartão), login, painel administrativo e bot do Telegram, com Supabase e Vercel, priorizando planos gratuitos.
@@ -29,6 +29,23 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 ## O que está funcionando
 - Apenas o repositório e a documentação (não há código de aplicação).
 
+## BLOQUEIO ATUAL (2026-11-01) — Etapa 2, Tarefa 1
+- Esta sessão **não consegue instalar pacotes**: o proxy nega o acesso ao registro do npm (`registry.npmjs.org`, erro 403 de política) e o GitHub Actions também não é acessível por aqui. Sem isso não dá para criar o projeto Next.js, rodar testes nem fazer build neste ambiente.
+- Nenhum código de aplicação foi escrito. Branch de trabalho criada: `etapa-2-base-visual` (a `main` só recebe merge com aprovação do usuário).
+- Decisão pendente do usuário: como seguir (ver a última mensagem da conversa). Opção recomendada: o usuário roda o comando de criação do projeto no próprio computador, envia para a branch, e o Claude continua daí; os testes passam a ser rodados no computador do usuário (ou no CI do GitHub) e os resultados colados na conversa.
+- Atualização: WhatsApp oficial confirmado — (11) 97302-9002; plano da Etapa 2 ajustado (o botão do rodapé aparece).
+
+## Atualização (2026-11-01 noite)
+- Projeto base Next.js (16.4.3, React 19.3.0, Tailwind 4.3.3, Vitest 5.0.5) está na branch `etapa-2-base-visual`; `package.json` e `package-lock.json` com as dependências de teste e fontes foram recuperados do pacote do usuário.
+- Ainda falta ler a documentação embutida do Next 16.4.3 (`node_modules/next/dist/docs`), exigida pelo `AGENTS.md`, antes de escrever código de aplicação. O zip enviado chegou cortado; pedir só a pasta de docs, em arquivo separado.
+- Docs do Next 16.4.3 lidos (tema sem flash, testes com Vitest/Playwright, páginas estáticas).
+- Rodada 1 (PC do usuário): Vitest 22/22, build OK, e2e 4/4, lint com 1 erro no ThemeToggle (corrigido).
+- Rodada 2 (PC do usuário, 01/11 22:43): Vitest 42/42, lint limpo, build OK, e2e 64/74. Tarefas 3, 4 e 5 verificadas. As 10 falhas são o teste de texto a 200% em telas de 320 e 390 px: títulos com palavras longas estouravam a largura. Corrigido no CSS (`overflow-wrap`/`hyphens`); a correção foi conferida num Chromium aqui com uma página de teste, mas **reconfirmado na rodada 3.**
+- Rodada 3 (PC do usuário, 01/11 22:48, commit 5d5e8a6): Vitest 42/42, ESLint limpo, build OK, Playwright 74/74. Tarefas 1–6 da Etapa 2 verificadas. O CI do GitHub ainda não foi observado (Actions inacessível desta sessão).
+
+- Revisão final independente (2026-11-02): sem itens críticos. Corrigidos: teste de tema sem JavaScript, menu mobile (Esc global, foco, fecha ao alargar), h2 no catálogo, hover do botão secundário, CI (concurrency, artefatos). Verificação no PC do usuário no commit b0f0916: Vitest 42/42, lint limpo, Playwright 78/78. Merge na `main` aprovado pelo usuário.
+- Backlog (menores): cartão de produto sem e2e com produtos reais (Etapa 5a), `images.remotePatterns` e Suspense/`use cache` ao ligar o Supabase, favicon/SVGs não usados, contraste do marcador ELI.
+
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
 - Cores aproximadas; confirmar com o logo original (o logo recebido traz o telefone embutido; é preciso uma versão sem o telefone).
@@ -41,7 +58,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
 
 ## Próxima ação exata
-Usuário revisa o plano da Etapa 2 e escolhe o método de execução (subagentes ou nativo). Depois: executar a Tarefa 1 (projeto base e testes).
+Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Vercel; usuário cria o projeto no Supabase com passo a passo.
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).

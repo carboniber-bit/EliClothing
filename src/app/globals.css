@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+/* Tema claro (padrão). Valores aproximados do logo e do Instagram da loja. */
+:root {
+  --fundo: #fff8f5;
+  --superficie: #fce8e4;
+  --texto: #6b1f2e;
+  --texto-suave: #8a4a58;
+  --acento: #f2a7b8;
+  --primario: #6b1f2e;
+  --primario-texto: #fff8f5;
+  --borda: #e9c9cc;
+  --fonte-titulo: "Playfair Display Variable", Georgia, serif;
+  --fonte-texto: "Manrope Variable", system-ui, sans-serif;
+}
+
+[data-tema="dark"] {
+  --fundo: #1e1015;
+  --superficie: #2a1820;
+  --texto: #fce8e4;
+  --texto-suave: #d9a9b6;
+  --acento: #f2a7b8;
+  --primario: #f2a7b8;
+  --primario-texto: #1e1015;
+  --borda: #4a2a35;
+}
+
+@theme inline {
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-acento: var(--acento);
+  --color-primario: var(--primario);
+  --color-primario-texto: var(--primario-texto);
+  --color-borda: var(--borda);
+  --font-titulo: var(--fonte-titulo);
+  --font-sans: var(--fonte-texto);
+}
+
+/* Ícones do botão de tema: a lua aparece no claro, o sol no escuro. */
+.icone-sol {
+  display: none;
+}
+
+[data-tema="dark"] .icone-sol {
+  display: inline;
+}
+
+[data-tema="dark"] .icone-lua {
+  display: none;
+}
+
+html {
+  color-scheme: light;
+}
+
+html[data-tema="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-texto);
+  line-height: 1.6;
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fonte-titulo);
+  line-height: 1.15;
+  /* Palavras longas quebram em vez de estourar a tela (celular pequeno ou texto ampliado). */
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -9,10 +9,15 @@
   - [x] Escrever especificação (`docs/superpowers/specs/2026-11-01-eliclothing-design.md`)
   - [x] Usuário aprovou a especificação (2026-11-01)
   - [x] Escrever plano de implementação da Etapa 2
-  - [ ] **Usuário revisar o plano da Etapa 2 e escolher o método de execução**
+  - [x] Usuário revisou o plano e escolheu o modo nativo; WhatsApp confirmado
+  - [x] Etapa 2 / Tarefas 1 e 2 testadas no PC do usuário (lint com 1 erro, corrigido)
+  - [x] Etapa 2 / Tarefas 3, 4 e 5 testadas no PC do usuário (rodada 2)
+  - [x] Etapa 2 / Tarefa 6: CSS corrigido e confirmado na rodada 3 (Playwright 74/74)
+  - [x] Etapa 2: revisão final independente feita, correções verificadas (Vitest 42/42, lint, Playwright 78/78) e merge na `main` aprovado pelo usuário
+
+## Concluído: Etapa 2 (estrutura, visual, home e catálogo vazio, claro/escuro, responsivo)
 
 ## Próximas etapas (não iniciadas)
-- [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo
 - [ ] Etapa 3 — Banco, RLS, login, primeiro admin, deploy de teste na Vercel
 - [ ] Etapa 4 — Painel administrativo
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
