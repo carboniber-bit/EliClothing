@@ -38,7 +38,8 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 ## Atualização (2026-11-01 noite)
 - Projeto base Next.js (16.4.3, React 19.3.0, Tailwind 4.3.3, Vitest 5.0.5) está na branch `etapa-2-base-visual`; `package.json` e `package-lock.json` com as dependências de teste e fontes foram recuperados do pacote do usuário.
 - Ainda falta ler a documentação embutida do Next 16.4.3 (`node_modules/next/dist/docs`), exigida pelo `AGENTS.md`, antes de escrever código de aplicação. O zip enviado chegou cortado; pedir só a pasta de docs, em arquivo separado.
-- Nenhum teste foi executado ainda (não há código nem ambiente com npm nesta sessão).
+- Docs do Next 16.4.3 lidos (tema sem flash, testes com Vitest/Playwright, páginas estáticas).
+- Tarefas 1 e 2 **escritas, ainda NÃO validadas**: faltam rodar `npm test`, `npm run lint`, `npm run build` e `npm run test:e2e` no computador do usuário. Só a lógica pura de tema/contraste foi conferida aqui (21/21 em um executor mínimo; não substitui o Vitest).
 
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
@@ -52,7 +53,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
 
 ## Próxima ação exata
-Usuário revisa o plano da Etapa 2 e escolhe o método de execução (subagentes ou nativo). Depois: executar a Tarefa 1 (projeto base e testes).
+Usuário roda os testes das Tarefas 1 e 2 no PC (bloco de comandos passado na conversa) e envia `resultado.txt`. Depois: corrigir o que falhar e seguir para a Tarefa 3 (cabeçalho, rodapé, navegação).
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).

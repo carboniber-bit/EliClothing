@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
+/* Tema claro (padrão). Valores aproximados do logo e do Instagram da loja. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --fundo: #fff8f5;
+  --superficie: #fce8e4;
+  --texto: #6b1f2e;
+  --texto-suave: #8a4a58;
+  --acento: #f2a7b8;
+  --primario: #6b1f2e;
+  --primario-texto: #fff8f5;
+  --borda: #e9c9cc;
+  --fonte-titulo: "Playfair Display Variable", Georgia, serif;
+  --fonte-texto: "Manrope Variable", system-ui, sans-serif;
+}
+
+[data-tema="dark"] {
+  --fundo: #1e1015;
+  --superficie: #2a1820;
+  --texto: #fce8e4;
+  --texto-suave: #d9a9b6;
+  --acento: #f2a7b8;
+  --primario: #f2a7b8;
+  --primario-texto: #1e1015;
+  --borda: #4a2a35;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-fundo: var(--fundo);
+  --color-superficie: var(--superficie);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-acento: var(--acento);
+  --color-primario: var(--primario);
+  --color-primario-texto: var(--primario-texto);
+  --color-borda: var(--borda);
+  --font-titulo: var(--fonte-titulo);
+  --font-sans: var(--fonte-texto);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+}
+
+html[data-tema="dark"] {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: var(--fonte-texto);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--fonte-titulo);
+  line-height: 1.15;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primario);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
