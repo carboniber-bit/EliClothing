@@ -43,6 +43,9 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Rodada 2 (PC do usuário, 01/11 22:43): Vitest 42/42, lint limpo, build OK, e2e 64/74. Tarefas 3, 4 e 5 verificadas. As 10 falhas são o teste de texto a 200% em telas de 320 e 390 px: títulos com palavras longas estouravam a largura. Corrigido no CSS (`overflow-wrap`/`hyphens`); a correção foi conferida num Chromium aqui com uma página de teste, mas **reconfirmado na rodada 3.**
 - Rodada 3 (PC do usuário, 01/11 22:48, commit 5d5e8a6): Vitest 42/42, ESLint limpo, build OK, Playwright 74/74. Tarefas 1–6 da Etapa 2 verificadas. O CI do GitHub ainda não foi observado (Actions inacessível desta sessão).
 
+- Revisão final independente (2026-11-02): sem itens críticos. Corrigidos: teste de tema sem JavaScript, menu mobile (Esc global, foco, fecha ao alargar), h2 no catálogo, hover do botão secundário, CI (concurrency, artefatos). Verificação no PC do usuário no commit b0f0916: Vitest 42/42, lint limpo, Playwright 78/78. Merge na `main` aprovado pelo usuário.
+- Backlog (menores): cartão de produto sem e2e com produtos reais (Etapa 5a), `images.remotePatterns` e Suspense/`use cache` ao ligar o Supabase, favicon/SVGs não usados, contraste do marcador ELI.
+
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
 - Cores aproximadas; confirmar com o logo original (o logo recebido traz o telefone embutido; é preciso uma versão sem o telefone).
@@ -55,7 +58,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
 
 ## Próxima ação exata
-Revisão final independente da branch `etapa-2-base-visual`; corrigir achados importantes; pedir aprovação do usuário para o merge na `main`. Depois, Etapa 3.
+Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Vercel; usuário cria o projeto no Supabase com passo a passo.
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).
