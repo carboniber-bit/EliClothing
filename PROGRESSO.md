@@ -39,8 +39,8 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Projeto base Next.js (16.4.3, React 19.3.0, Tailwind 4.3.3, Vitest 5.0.5) está na branch `etapa-2-base-visual`; `package.json` e `package-lock.json` com as dependências de teste e fontes foram recuperados do pacote do usuário.
 - Ainda falta ler a documentação embutida do Next 16.4.3 (`node_modules/next/dist/docs`), exigida pelo `AGENTS.md`, antes de escrever código de aplicação. O zip enviado chegou cortado; pedir só a pasta de docs, em arquivo separado.
 - Docs do Next 16.4.3 lidos (tema sem flash, testes com Vitest/Playwright, páginas estáticas).
-- Resultado real no PC do usuário (rodada 1): Vitest 22/22, build OK, e2e 4/4, lint com 1 erro no ThemeToggle (corrigido, falta reconfirmar).
-- Tarefas 3 a 6 (cabeçalho, rodapé, catálogo vazio, home, responsivo, CI, README) **escritas na mesma rodada, ainda NÃO validadas**: só a lógica pura foi conferida aqui (35/35 num executor mínimo, que não substitui o Vitest). Falta rodar lint, Vitest, build e e2e no PC do usuário.
+- Rodada 1 (PC do usuário): Vitest 22/22, build OK, e2e 4/4, lint com 1 erro no ThemeToggle (corrigido).
+- Rodada 2 (PC do usuário, 01/11 22:43): Vitest 42/42, lint limpo, build OK, e2e 64/74. Tarefas 3, 4 e 5 verificadas. As 10 falhas são o teste de texto a 200% em telas de 320 e 390 px: títulos com palavras longas estouravam a largura. Corrigido no CSS (`overflow-wrap`/`hyphens`); a correção foi conferida num Chromium aqui com uma página de teste, mas **falta reconfirmar com o e2e real** (rodada 3).
 
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
@@ -54,7 +54,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
 
 ## Próxima ação exata
-Usuário roda o bloco de testes no PC (mesmo bloco da conversa, com o ZIP atualizado da branch) e envia `resultado.txt`. Depois: corrigir o que falhar, revisão final da Etapa 2 e merge só com aprovação do usuário.
+Usuário roda o bloco de testes (rodada 3) e envia `resultado.txt`. Se 74/74: revisão final da Etapa 2 e merge só com aprovação do usuário.
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).

@@ -11,7 +11,8 @@
   - [x] Escrever plano de implementação da Etapa 2
   - [x] Usuário revisou o plano e escolheu o modo nativo; WhatsApp confirmado
   - [x] Etapa 2 / Tarefas 1 e 2 testadas no PC do usuário (lint com 1 erro, corrigido)
-  - [~] Etapa 2 / Tarefas 3 a 6 escritas; **aguardando o usuário rodar lint, testes e e2e no PC** (sem npm nesta sessão)
+  - [x] Etapa 2 / Tarefas 3, 4 e 5 testadas no PC do usuário (rodada 2)
+  - [~] Etapa 2 / Tarefa 6: 10 testes de texto a 200% falharam; CSS corrigido, **aguardando a rodada 3 no PC**
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo

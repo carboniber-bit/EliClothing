@@ -64,6 +64,7 @@ body {
   color: var(--texto);
   font-family: var(--fonte-texto);
   line-height: 1.6;
+  overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -72,6 +73,9 @@ h2,
 h3 {
   font-family: var(--fonte-titulo);
   line-height: 1.15;
+  /* Palavras longas quebram em vez de estourar a tela (celular pequeno ou texto ampliado). */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 
 :focus-visible {
