@@ -35,6 +35,11 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Decisão pendente do usuário: como seguir (ver a última mensagem da conversa). Opção recomendada: o usuário roda o comando de criação do projeto no próprio computador, envia para a branch, e o Claude continua daí; os testes passam a ser rodados no computador do usuário (ou no CI do GitHub) e os resultados colados na conversa.
 - Atualização: WhatsApp oficial confirmado — (11) 97302-9002; plano da Etapa 2 ajustado (o botão do rodapé aparece).
 
+## Atualização (2026-11-01 noite)
+- Projeto base Next.js (16.4.3, React 19.3.0, Tailwind 4.3.3, Vitest 5.0.5) está na branch `etapa-2-base-visual`; `package.json` e `package-lock.json` com as dependências de teste e fontes foram recuperados do pacote do usuário.
+- Ainda falta ler a documentação embutida do Next 16.4.3 (`node_modules/next/dist/docs`), exigida pelo `AGENTS.md`, antes de escrever código de aplicação. O zip enviado chegou cortado; pedir só a pasta de docs, em arquivo separado.
+- Nenhum teste foi executado ainda (não há código nem ambiente com npm nesta sessão).
+
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
 - Cores aproximadas; confirmar com o logo original (o logo recebido traz o telefone embutido; é preciso uma versão sem o telefone).
