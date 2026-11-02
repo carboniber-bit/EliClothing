@@ -12,7 +12,8 @@
   - [x] Usuário revisou o plano e escolheu o modo nativo; WhatsApp confirmado
   - [x] Etapa 2 / Tarefas 1 e 2 testadas no PC do usuário (lint com 1 erro, corrigido)
   - [x] Etapa 2 / Tarefas 3, 4 e 5 testadas no PC do usuário (rodada 2)
-  - [~] Etapa 2 / Tarefa 6: 10 testes de texto a 200% falharam; CSS corrigido, **aguardando a rodada 3 no PC**
+  - [x] Etapa 2 / Tarefa 6: CSS corrigido e confirmado na rodada 3 (Playwright 74/74)
+  - [ ] Etapa 2: revisão final independente da branch + aprovação do usuário para merge na `main`
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 2 — Estrutura, identidade visual, home e catálogo vazio, claro/escuro, responsivo

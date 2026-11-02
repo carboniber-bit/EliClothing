@@ -1,6 +1,6 @@
 # PROGRESSO — EliClothing
 
-_Última atualização: 2026-11-01_
+_Última atualização: 2026-11-02_
 
 ## Objetivo geral
 Loja virtual completa da EliClothing (moda feminina, loja física e online em Osasco-SP): vitrine, carrinho, pedidos (WhatsApp, Pix e cartão), login, painel administrativo e bot do Telegram, com Supabase e Vercel, priorizando planos gratuitos.
@@ -40,7 +40,8 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Ainda falta ler a documentação embutida do Next 16.4.3 (`node_modules/next/dist/docs`), exigida pelo `AGENTS.md`, antes de escrever código de aplicação. O zip enviado chegou cortado; pedir só a pasta de docs, em arquivo separado.
 - Docs do Next 16.4.3 lidos (tema sem flash, testes com Vitest/Playwright, páginas estáticas).
 - Rodada 1 (PC do usuário): Vitest 22/22, build OK, e2e 4/4, lint com 1 erro no ThemeToggle (corrigido).
-- Rodada 2 (PC do usuário, 01/11 22:43): Vitest 42/42, lint limpo, build OK, e2e 64/74. Tarefas 3, 4 e 5 verificadas. As 10 falhas são o teste de texto a 200% em telas de 320 e 390 px: títulos com palavras longas estouravam a largura. Corrigido no CSS (`overflow-wrap`/`hyphens`); a correção foi conferida num Chromium aqui com uma página de teste, mas **falta reconfirmar com o e2e real** (rodada 3).
+- Rodada 2 (PC do usuário, 01/11 22:43): Vitest 42/42, lint limpo, build OK, e2e 64/74. Tarefas 3, 4 e 5 verificadas. As 10 falhas são o teste de texto a 200% em telas de 320 e 390 px: títulos com palavras longas estouravam a largura. Corrigido no CSS (`overflow-wrap`/`hyphens`); a correção foi conferida num Chromium aqui com uma página de teste, mas **reconfirmado na rodada 3.**
+- Rodada 3 (PC do usuário, 01/11 22:48, commit 5d5e8a6): Vitest 42/42, ESLint limpo, build OK, Playwright 74/74. Tarefas 1–6 da Etapa 2 verificadas. O CI do GitHub ainda não foi observado (Actions inacessível desta sessão).
 
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
@@ -54,7 +55,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Plano da Etapa 2 escrito: `docs/superpowers/plans/2026-11-01-etapa-2-base-visual.md` (6 tarefas). **Aguardando o usuário revisar e escolher o método de execução.**
 
 ## Próxima ação exata
-Usuário roda o bloco de testes (rodada 3) e envia `resultado.txt`. Se 74/74: revisão final da Etapa 2 e merge só com aprovação do usuário.
+Revisão final independente da branch `etapa-2-base-visual`; corrigir achados importantes; pedir aprovação do usuário para o merge na `main`. Depois, Etapa 3.
 
 ## Configurações externas que dependem do usuário (nada agora)
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).
