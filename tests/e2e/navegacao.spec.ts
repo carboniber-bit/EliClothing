@@ -59,6 +59,23 @@ test.describe("celular", () => {
     await expect(page.getByRole("button", { name: "Abrir menu" })).toBeFocused();
   });
 
+  test("Esc também fecha o menu quando o foco está fora dele", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Abrir menu" }).click();
+    await page.getByRole("button", { name: "Alternar tema claro/escuro" }).focus();
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("navigation", { name: "Menu" })).toBeHidden();
+    await expect(page.getByRole("button", { name: "Abrir menu" })).toBeFocused();
+  });
+
+  test("escolher o link da página atual fecha o menu e não perde o foco", async ({ page }) => {
+    await page.goto("/");
+    await page.getByRole("button", { name: "Abrir menu" }).click();
+    await page.getByRole("navigation", { name: "Menu" }).getByRole("link", { name: "Início" }).click();
+    await expect(page.getByRole("navigation", { name: "Menu" })).toBeHidden();
+    await expect(page.getByRole("button", { name: "Abrir menu" })).toBeFocused();
+  });
+
   test("com o menu aberto o Tab não sai dele", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("button", { name: "Abrir menu" }).click();

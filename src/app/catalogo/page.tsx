@@ -19,7 +19,10 @@ export default async function Catalogo() {
       <p className="mt-2 text-texto-suave">Todas as peças da {loja.nome} em um só lugar.</p>
       <div className="mt-8">
         {produtos.length > 0 ? (
-          <GradeProdutos produtos={produtos} />
+          <>
+            <h2 className="sr-only">Peças</h2>
+            <GradeProdutos produtos={produtos} />
+          </>
         ) : (
           <EstadoVazio
             titulo="Catálogo em preparação"

@@ -14,7 +14,7 @@ const base =
 
 const variantes = {
   primario: "bg-primario text-primario-texto hover:opacity-90",
-  secundario: "border border-primario bg-transparent text-texto hover:bg-superficie",
+  secundario: "border border-primario bg-transparent text-texto hover:bg-acento/30",
 };
 
 export function Botao({ children, variante = "primario", href, onClick, className = "" }: Props) {

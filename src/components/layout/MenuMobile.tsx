@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 
 export type LinkMenu = { rotulo: string; href: string; externo?: boolean };
 
@@ -15,13 +15,30 @@ export function MenuMobile({ links }: { links: LinkMenu[] }) {
     if (devolverFoco) botao.current?.focus();
   }
 
+  // Esc fecha o menu de qualquer lugar da página; ao passar para a tela larga o menu fecha sozinho.
+  useEffect(() => {
+    if (!aberto) return;
+    const aoEsc = (e: globalThis.KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setAberto(false);
+        botao.current?.focus();
+      }
+    };
+    const larga = window.matchMedia("(min-width: 768px)");
+    const aoMudarTela = () => {
+      if (larga.matches) setAberto(false);
+    };
+    document.addEventListener("keydown", aoEsc);
+    larga.addEventListener("change", aoMudarTela);
+    return () => {
+      document.removeEventListener("keydown", aoEsc);
+      larga.removeEventListener("change", aoMudarTela);
+    };
+  }, [aberto]);
+
   function aoTeclar(e: KeyboardEvent<HTMLDivElement>) {
     if (!aberto) return;
-    if (e.key === "Escape") {
-      e.preventDefault();
-      fechar(true);
-      return;
-    }
     if (e.key !== "Tab" || !raiz.current) return;
     // O foco circula só entre o botão e os links do menu enquanto ele está aberto.
     const itens = Array.from(raiz.current.querySelectorAll<HTMLElement>("button, a[href]"));
@@ -65,7 +82,7 @@ export function MenuMobile({ links }: { links: LinkMenu[] }) {
                   href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => fechar(false)}
+                  onClick={() => fechar(true)}
                   className="flex min-h-12 items-center text-base font-semibold"
                 >
                   {l.rotulo}
@@ -73,7 +90,7 @@ export function MenuMobile({ links }: { links: LinkMenu[] }) {
               ) : (
                 <Link
                   href={l.href}
-                  onClick={() => fechar(false)}
+                  onClick={() => fechar(true)}
                   className="flex min-h-12 items-center text-base font-semibold"
                 >
                   {l.rotulo}
