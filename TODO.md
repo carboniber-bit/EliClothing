@@ -17,8 +17,16 @@
 
 ## Concluído: Etapa 2 (estrutura, visual, home e catálogo vazio, claro/escuro, responsivo)
 
+## Etapa 3 — em andamento (branch etapa-3-banco-auth)
+- [x] Migrações SQL + RLS + testes (64 verificações)
+- [x] Banco instalado no Supabase real
+- [x] Login, cadastro, recuperação, conta, /admin protegido; primeiro admin
+- [ ] Revisão final de segurança
+- [ ] Deploy de teste na Vercel + URLs no Supabase
+- [ ] Testar recuperação de senha por e-mail
+- [ ] Merge na main (com aprovação)
+
 ## Próximas etapas (não iniciadas)
-- [ ] Etapa 3 — Banco, RLS, login, primeiro admin, deploy de teste na Vercel
 - [ ] Etapa 4 — Painel administrativo
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)

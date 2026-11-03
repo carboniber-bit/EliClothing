@@ -49,8 +49,10 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 ## Etapa 3 (em andamento, branch `etapa-3-banco-auth`)
 - Projeto Supabase criado pelo usuário (região São Paulo).
 - Migrações 0001–0004 escritas (tabelas, RLS, auditoria, pedido com reserva atômica de estoque, bucket de fotos) e **testadas aqui** num PostgreSQL 16 temporário com 64 verificações (visitante, cliente, admin, estoque, Pix expirado, fotos). Testei também sabotando a segurança de propósito: os testes falharam como deveriam.
-- Ainda **não** rodado no Supabase de verdade; próximo passo do usuário: colar `supabase/instalar-banco.sql` no SQL Editor.
-- Falta: telas de login/cadastro/recuperação, ligação do site ao Supabase (variáveis de ambiente), primeiro admin, deploy de teste na Vercel.
+- Banco instalado no Supabase real pelo usuário (2026-11-02). Telas de entrar/cadastrar/recuperar senha/nova senha/conta e área /admin protegida (proxy + checagem no servidor) escritas.
+- Verificado no PC do usuário (sem Supabase configurado): Vitest 59/59, ESLint limpo, Playwright 122/122. Teste manual contra o Supabase real: cadastro, login, conta promovida a administradora por SQL e acesso a /admin OK.
+- Achado no teste real: desligar o provedor Email no Supabase bloqueia cadastros (`email_provider_disabled`); "Confirm email" ficou LIGADO — confirmar por SQL em teste. Antes de vender: configurar SMTP próprio (o envio padrão é muito limitado).
+- Falta: revisão final, deploy de teste na Vercel (variáveis NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY, NEXT_PUBLIC_SITE_URL), URLs de redirecionamento no Supabase, testar recuperação de senha por e-mail.
 
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
