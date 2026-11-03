@@ -15,6 +15,12 @@ import type { EstadoForm } from "./estado";
 
 const INDISPONIVEL = "O login ainda não está disponível neste ambiente. Tente novamente mais tarde.";
 
+/** Só em desenvolvimento (no PC): mostra o motivo técnico para facilitar o diagnóstico. Em produção, nada vaza. */
+function detalhe(erro: { code?: string; status?: number; message?: string }): string {
+  if (process.env.NODE_ENV === "production") return "";
+  return ` [detalhe técnico: ${erro.code ?? erro.status ?? "?"} - ${erro.message ?? ""}]`;
+}
+
 function textos(dados: FormData): Record<string, string> {
   const saida: Record<string, string> = {};
   for (const [chave, valor] of dados.entries()) if (typeof valor === "string") saida[chave] = valor;
@@ -47,7 +53,7 @@ export async function entrar(_anterior: EstadoForm, dados: FormData): Promise<Es
     if (error.code === "email_not_confirmed") {
       return { erro: "Confirme seu e-mail pelo link que enviamos antes de entrar.", valores };
     }
-    return { erro: "E-mail ou senha incorretos.", valores };
+    return { erro: `E-mail ou senha incorretos.${detalhe(error)}`, valores };
   }
   redirect(caminhoInternoSeguro(bruto.proximo));
 }
@@ -76,7 +82,7 @@ export async function cadastrar(_anterior: EstadoForm, dados: FormData): Promise
     if (error.code === "weak_password") {
       return { erro: "Essa senha é fraca demais. Use uma senha mais difícil de adivinhar.", valores };
     }
-    return { erro: "Não foi possível criar a conta agora. Tente novamente.", valores };
+    return { erro: `Não foi possível criar a conta agora. Tente novamente.${detalhe(error)}`, valores };
   }
   if (data.session) redirect("/conta"); // projeto sem confirmação de e-mail
   return {
