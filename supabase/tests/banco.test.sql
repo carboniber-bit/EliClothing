@@ -222,7 +222,59 @@ do $$ begin
   perform t.ok(t.conta('select 1 from storage.objects') = 1, 'admin envia foto');
   perform t.voltar();
   perform t.como('anon');
-  perform t.ok(t.conta('select 1 from storage.objects') = 1, 'visitante vê as fotos');
+  perform t.ok(t.conta('select 1 from storage.objects') = 0, 'visitante não consegue listar a pasta de fotos');
+  perform t.voltar();
+end $$;
+
+-- ===== ajustes da revisão (0005) =====
+do $$
+declare r record; r2 record; n int; est int;
+begin
+  perform t.como('service_role');
+  select * into r from public.criar_pedido('Eva','11944443333','retirada',null,null,'whatsapp',null,
+    '[{"variacao_id":"22222222-0000-0000-0000-000000000001","quantidade":1}]'::jsonb);
+  perform t.voltar();
+  perform t.ok((select expira_em from public.pedidos where id = r.id) > now() + interval '47 hours', 'pedido de WhatsApp ganha prazo de 48 h');
+
+  -- máquina de estados
+  perform t.como('authenticated', 'aaaaaaaa-0000-0000-0000-000000000001');
+  perform public.alterar_status_pedido(r.id, 'pago');
+  perform t.erro(format($q$select public.alterar_status_pedido(%L, 'novo')$q$, r.id), 'P0001', 'pago não volta para novo');
+  perform t.erro(format($q$select public.alterar_status_pedido(%L, 'expirado')$q$, r.id), 'P0001', 'pedido pago nunca vira expirado');
+  perform public.alterar_status_pedido(r.id, 'pago');  -- repetir é inofensivo
+  perform t.voltar();
+
+  -- pedido pago, mesmo com prazo vencido, não é expirado
+  update public.pedidos set expira_em = now() - interval '1 hour' where id = r.id;
+  select estoque into est from public.variacoes where id = '22222222-0000-0000-0000-000000000001';
+  perform t.como('service_role');
+  n := public.expirar_pedidos_vencidos();
+  perform t.voltar();
+  perform t.ok(n = 0, 'expiração ignora pedido já pago');
+  perform t.ok((select estoque from public.variacoes where id = '22222222-0000-0000-0000-000000000001') = est, 'estoque do pedido pago não é devolvido');
+
+  -- WhatsApp novo vencido expira e devolve o estoque
+  perform t.como('service_role');
+  select * into r2 from public.criar_pedido('Fê','11933332222','retirada',null,null,'whatsapp',null,
+    '[{"variacao_id":"22222222-0000-0000-0000-000000000001","quantidade":1}]'::jsonb);
+  perform t.voltar();
+  update public.pedidos set expira_em = now() - interval '1 minute' where id = r2.id;
+  select estoque into est from public.variacoes where id = '22222222-0000-0000-0000-000000000001';
+  perform t.como('service_role');
+  n := public.expirar_pedidos_vencidos();
+  perform t.voltar();
+  perform t.ok(n = 1, 'WhatsApp não confirmado vencido expira');
+  perform t.ok((select estoque from public.variacoes where id = '22222222-0000-0000-0000-000000000001') = est + 1, 'e devolve o estoque');
+
+  -- origem da auditoria: admin do painel não consegue se passar por "loja"
+  perform t.como('authenticated', 'aaaaaaaa-0000-0000-0000-000000000001');
+  perform public.alterar_status_pedido(r.id, 'confirmado', 'loja');
+  perform t.voltar();
+  perform t.ok((select origem from public.auditoria where tabela = 'pedidos' and registro_id = r.id::text and (depois ->> 'status') = 'confirmado' order by id desc limit 1) = 'painel', 'origem da auditoria feita no painel não é forjável');
+
+  -- limites de tamanho
+  perform t.como('authenticated', 'bbbbbbbb-0000-0000-0000-000000000002');
+  perform t.erro($q$update public.perfis set nome = repeat('a', 500) where id = auth.uid()$q$, '23514', 'nome gigante é recusado');
   perform t.voltar();
 end $$;
 
