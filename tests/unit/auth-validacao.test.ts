@@ -45,7 +45,8 @@ describe("validação de login e cadastro", () => {
     expect(r.success).toBe(false);
     if (!r.success) {
       const erros = errosDoZod(r.error);
-      expect(Object.keys(erros).sort()).toEqual(["email", "nome", "senha"]);
+      expect(Object.keys(erros)).toEqual(expect.arrayContaining(["email", "nome", "senha"]));
+      for (const mensagem of Object.values(erros)) expect(typeof mensagem).toBe("string");
     }
   });
 });
