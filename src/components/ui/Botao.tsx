@@ -6,6 +6,7 @@ type Props = {
   variante?: "primario" | "secundario";
   href?: string;
   onClick?: () => void;
+  type?: "button" | "submit";
   className?: string;
 };
 
@@ -17,7 +18,7 @@ const variantes = {
   secundario: "border border-primario bg-transparent text-texto hover:bg-acento/30",
 };
 
-export function Botao({ children, variante = "primario", href, onClick, className = "" }: Props) {
+export function Botao({ children, variante = "primario", href, onClick, type = "button", className = "" }: Props) {
   const classes = `${base} ${variantes[variante]} ${className}`.trim();
 
   if (href) {
@@ -36,7 +37,7 @@ export function Botao({ children, variante = "primario", href, onClick, classNam
   }
 
   return (
-    <button type="button" onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes}>
       {children}
     </button>
   );

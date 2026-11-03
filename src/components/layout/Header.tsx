@@ -8,6 +8,7 @@ const links: LinkMenu[] = [
   { rotulo: "Início", href: "/" },
   { rotulo: "Catálogo", href: "/catalogo" },
   { rotulo: "Instagram", href: loja.instagramUrl, externo: true },
+  { rotulo: "Entrar", href: "/entrar" },
 ];
 
 export function Header() {
