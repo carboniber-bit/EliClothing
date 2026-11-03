@@ -1,6 +1,6 @@
 # PROGRESSO — EliClothing
 
-_Última atualização: 2026-11-02_
+_Última atualização: 2026-11-02 (noite)_
 
 ## Objetivo geral
 Loja virtual completa da EliClothing (moda feminina, loja física e online em Osasco-SP): vitrine, carrinho, pedidos (WhatsApp, Pix e cartão), login, painel administrativo e bot do Telegram, com Supabase e Vercel, priorizando planos gratuitos.
@@ -45,6 +45,12 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 
 - Revisão final independente (2026-11-02): sem itens críticos. Corrigidos: teste de tema sem JavaScript, menu mobile (Esc global, foco, fecha ao alargar), h2 no catálogo, hover do botão secundário, CI (concurrency, artefatos). Verificação no PC do usuário no commit b0f0916: Vitest 42/42, lint limpo, Playwright 78/78. Merge na `main` aprovado pelo usuário.
 - Backlog (menores): cartão de produto sem e2e com produtos reais (Etapa 5a), `images.remotePatterns` e Suspense/`use cache` ao ligar o Supabase, favicon/SVGs não usados, contraste do marcador ELI.
+
+## Etapa 3 (em andamento, branch `etapa-3-banco-auth`)
+- Projeto Supabase criado pelo usuário (região São Paulo).
+- Migrações 0001–0004 escritas (tabelas, RLS, auditoria, pedido com reserva atômica de estoque, bucket de fotos) e **testadas aqui** num PostgreSQL 16 temporário com 64 verificações (visitante, cliente, admin, estoque, Pix expirado, fotos). Testei também sabotando a segurança de propósito: os testes falharam como deveriam.
+- Ainda **não** rodado no Supabase de verdade; próximo passo do usuário: colar `supabase/instalar-banco.sql` no SQL Editor.
+- Falta: telas de login/cadastro/recuperação, ligação do site ao Supabase (variáveis de ambiente), primeiro admin, deploy de teste na Vercel.
 
 ## Erros conhecidos / pendências
 - Aviso do GitHub: o repositório "mudou de local" (`EliClothing`, maiúsculas); o envio funcionou mesmo assim.
