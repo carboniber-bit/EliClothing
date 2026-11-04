@@ -10,6 +10,7 @@
   --primario: #6b1f2e;
   --primario-texto: #fff8f5;
   --borda: #e9c9cc;
+  --erro: #9b1c1c;
   --fonte-titulo: "Playfair Display Variable", Georgia, serif;
   --fonte-texto: "Manrope Variable", system-ui, sans-serif;
 }
@@ -23,6 +24,7 @@
   --primario: #f2a7b8;
   --primario-texto: #1e1015;
   --borda: #4a2a35;
+  --erro: #ffb4ab;
 }
 
 @theme inline {
@@ -34,6 +36,7 @@
   --color-primario: var(--primario);
   --color-primario-texto: var(--primario-texto);
   --color-borda: var(--borda);
+  --color-erro: var(--erro);
   --font-titulo: var(--fonte-titulo);
   --font-sans: var(--fonte-texto);
 }

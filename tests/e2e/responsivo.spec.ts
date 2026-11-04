@@ -7,7 +7,7 @@ const telas = [
   { nome: "768", largura: 768, altura: 1024 },
   { nome: "1280", largura: 1280, altura: 800 },
 ];
-const rotas = ["/", "/catalogo", "/nao-existe"];
+const rotas = ["/", "/catalogo", "/nao-existe", "/entrar", "/cadastrar"];
 
 for (const tela of telas) {
   for (const tema of ["light", "dark"] as const) {
