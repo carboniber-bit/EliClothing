@@ -31,6 +31,8 @@
 - [ ] Etapa 4 — Painel administrativo (em andamento, branch etapa-4-painel)
   - [x] 4A Base + produtos + variações/estoque + categorias + botão Minha conta + sessão renovada (testado no PC: Vitest 90/90, lint, Playwright; mesclada na main)
   - [ ] 4B Fotos, coleções, home, conteúdo, vitrine lendo do banco
+    - [x] 4B-1 código pronto: fotos do produto (envio, principal, ordem, exclusão) + loja lê produtos do banco (aguardando teste no PC)
+    - [ ] 4B-2 coleções, seções da home, banners, textos/WhatsApp da loja
   - [ ] 4C Pedidos, equipe, histórico
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)
