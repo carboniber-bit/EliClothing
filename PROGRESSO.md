@@ -46,7 +46,7 @@ Loja virtual completa da EliClothing (moda feminina, loja física e online em Os
 - Revisão final independente (2026-11-02): sem itens críticos. Corrigidos: teste de tema sem JavaScript, menu mobile (Esc global, foco, fecha ao alargar), h2 no catálogo, hover do botão secundário, CI (concurrency, artefatos). Verificação no PC do usuário no commit b0f0916: Vitest 42/42, lint limpo, Playwright 78/78. Merge na `main` aprovado pelo usuário.
 - Backlog (menores): cartão de produto sem e2e com produtos reais (Etapa 5a), `images.remotePatterns` e Suspense/`use cache` ao ligar o Supabase, favicon/SVGs não usados, contraste do marcador ELI.
 
-## Etapa 3 (em andamento, branch `etapa-3-banco-auth`)
+## Etapa 3 (CONCLUÍDA em 2026-11-03; mesclada na main)
 - Projeto Supabase criado pelo usuário (região São Paulo).
 - Migrações 0001–0004 escritas (tabelas, RLS, auditoria, pedido com reserva atômica de estoque, bucket de fotos) e **testadas aqui** num PostgreSQL 16 temporário com 64 verificações (visitante, cliente, admin, estoque, Pix expirado, fotos). Testei também sabotando a segurança de propósito: os testes falharam como deveriam.
 - Banco instalado no Supabase real pelo usuário (2026-11-02). Telas de entrar/cadastrar/recuperar senha/nova senha/conta e área /admin protegida (proxy + checagem no servidor) escritas.
@@ -74,3 +74,7 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 - Etapa 3: criar projeto no Supabase e conectar a Vercel (passo a passo será dado).
 - Etapa 5a: WhatsApp oficial da loja. 5b: conta Mercado Pago com chave Pix e credenciais de teste. 5c: criar o bot no BotFather e obter o chat ID.
 - Quando houver: logo sem telefone, produtos, fotos e preços.
+
+## Etapa 3 — encerramento
+- Verificado no site real (Vercel): cadastro, login, recuperação de senha por e-mail, /admin só para administradora. Causa de um falso erro de login na Vercel: a variável NEXT_PUBLIC_SUPABASE_URL tinha o endereço do painel em vez da Project URL; o código agora só diz "senha incorreta" para erro de credenciais.
+- Próxima ação: Etapa 4 (painel administrativo + catálogo lendo do banco).

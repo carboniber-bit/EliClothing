@@ -17,17 +17,18 @@
 
 ## Concluído: Etapa 2 (estrutura, visual, home e catálogo vazio, claro/escuro, responsivo)
 
-## Etapa 3 — em andamento (branch etapa-3-banco-auth)
-- [x] Migrações SQL + RLS + testes (64 verificações)
-- [x] Banco instalado no Supabase real
-- [x] Login, cadastro, recuperação, conta, /admin protegido; primeiro admin
-- [ ] Revisão final de segurança
-- [ ] Deploy de teste na Vercel + URLs no Supabase
-- [ ] Testar recuperação de senha por e-mail
-- [ ] Merge na main (com aprovação)
+## Concluído: Etapa 3 (banco, RLS, login, recuperação de senha, primeiro admin, deploy de teste na Vercel)
+
+## Pendências antes de vender (guardadas)
+- [ ] Ligar "Confirm email" no Supabase e configurar SMTP próprio (o envio padrão é muito limitado)
+- [ ] Definir `NEXT_PUBLIC_SITE_URL` na Vercel e revisar Site URL/Redirect URLs no Supabase
+- [ ] Decidir plano Vercel Pro (Hobby é só não comercial)
+- [ ] Validar o formato de `NEXT_PUBLIC_SUPABASE_URL` no código (alguém colou o endereço do painel)
+- [ ] Pedidos: rate limit/captcha na rota que chama criar_pedido
+- [ ] Logo sem telefone embutido
 
 ## Próximas etapas (não iniciadas)
-- [ ] Etapa 4 — Painel administrativo
+- [ ] Etapa 4 — Painel administrativo (próxima)
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)
 - [ ] Etapa 5c — Bot do Telegram
