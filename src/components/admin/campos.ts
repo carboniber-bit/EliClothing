@@ -46,3 +46,11 @@ export const camposEstoque: CampoAdmin[] = [
   { nome: "estoque", rotulo: "Estoque", tipo: "inteiro" },
   { nome: "ativo", rotulo: "Disponível", tipo: "checkbox" },
 ];
+
+export const camposColecao: CampoAdmin[] = [
+  { nome: "nome", rotulo: "Nome", tipo: "texto", dica: "Exemplo: Verão 2027, Festa, Básicos." },
+  { nome: "descricao", rotulo: "Descrição (opcional)", tipo: "area" },
+  { nome: "ordem", rotulo: "Ordem", tipo: "inteiro", dica: "Menor número aparece primeiro." },
+  { nome: "slug", rotulo: "Endereço (opcional)", tipo: "texto" },
+  { nome: "ativo", rotulo: "Aparece na loja", tipo: "checkbox" },
+];

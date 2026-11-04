@@ -7,6 +7,7 @@ import { FormularioAdmin } from "@/components/admin/FormularioAdmin";
 import { GaleriaFotos } from "@/components/admin/GaleriaFotos";
 import { atualizarProduto, atualizarVariacao, criarVariacao, excluirProduto, excluirVariacao } from "@/lib/admin/acoes";
 import { centavosParaReais } from "@/lib/admin/formatacao";
+import { definirColecoesDoProduto } from "@/lib/admin/acoes-colecoes";
 import { definirFotoPrincipal, excluirFoto, moverFoto, registrarFoto } from "@/lib/admin/acoes-fotos";
 import { exigirAdmin } from "@/lib/admin/guarda";
 import { urlFoto } from "@/lib/catalogo/mapeamento";
@@ -37,16 +38,20 @@ export default async function EditarProduto({ params, searchParams }: PageProps<
   if (!UUID.test(id)) notFound();
   const { supabase } = await exigirAdmin();
 
-  const [{ data: produtoBruto }, { data: variacoesBrutas }, { data: categoriasBrutas }, { data: fotosBrutas }] = await Promise.all([
+  const [{ data: produtoBruto }, { data: variacoesBrutas }, { data: categoriasBrutas }, { data: fotosBrutas }, { data: colecoesBrutas }, { data: ligacoesBrutas }] = await Promise.all([
     supabase.from("produtos").select("*").eq("id", id).maybeSingle(),
     supabase.from("variacoes").select("id, tamanho, cor, estoque, ativo").eq("produto_id", id).order("tamanho").order("cor"),
     supabase.from("categorias").select("id, nome").order("ordem").order("nome"),
     supabase.from("imagens").select("id, caminho, principal").eq("produto_id", id).order("ordem").order("criado_em"),
+    supabase.from("colecoes").select("id, nome").order("ordem").order("nome"),
+    supabase.from("produto_colecoes").select("colecao_id").eq("produto_id", id),
   ]);
   if (!produtoBruto) notFound();
   const produto = produtoBruto as Produto;
   const variacoes = (variacoesBrutas ?? []) as Variacao[];
   const categorias = (categoriasBrutas ?? []) as { id: string; nome: string }[];
+  const colecoes = (colecoesBrutas ?? []) as { id: string; nome: string }[];
+  const marcadas = new Set(((ligacoesBrutas ?? []) as { colecao_id: string }[]).map((l) => l.colecao_id));
   const base = configSupabase()?.url ?? "";
   const fotos = ((fotosBrutas ?? []) as Foto[]).map((f) => ({ id: f.id, url: urlFoto(base, f.caminho), principal: f.principal }));
 
@@ -102,6 +107,31 @@ export default async function EditarProduto({ params, searchParams }: PageProps<
           mover={moverFoto}
           excluir={excluirFoto}
         />
+      </section>
+
+      <section aria-labelledby="colecoes-titulo" className="mt-12">
+        <h2 id="colecoes-titulo" className="mb-1 text-2xl">
+          Coleções
+        </h2>
+        {colecoes.length === 0 ? (
+          <p className="text-texto-suave">Você ainda não criou coleções. Crie na aba Coleções do painel.</p>
+        ) : (
+          <form action={definirColecoesDoProduto.bind(null, produto.id)} className="space-y-2">
+            <p className="mb-2 text-texto-suave">Marque as coleções em que esta peça aparece.</p>
+            {colecoes.map((c) => (
+              <label key={c.id} className="flex min-h-11 items-center gap-3 text-sm font-semibold">
+                <input type="checkbox" name="colecao" value={c.id} defaultChecked={marcadas.has(c.id)} className="h-5 w-5 accent-primario" />
+                {c.nome}
+              </label>
+            ))}
+            <button
+              type="submit"
+              className="inline-flex min-h-11 items-center justify-center rounded-full bg-primario px-6 text-sm font-semibold text-primario-texto transition-opacity hover:opacity-90"
+            >
+              Salvar coleções
+            </button>
+          </form>
+        )}
       </section>
 
       <section aria-labelledby="variacoes" className="mt-12">

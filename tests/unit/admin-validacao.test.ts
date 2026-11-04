@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { errosDoZod } from "@/lib/validacao/auth";
-import { categoriaSchema, estoqueSchema, produtoSchema, variacaoSchema } from "@/lib/validacao/admin";
+import { categoriaSchema, colecaoSchema, estoqueSchema, produtoSchema, variacaoSchema } from "@/lib/validacao/admin";
 
 const base = { nome: "Vestido Floral", slug: "", descricao: "", preco: "100,00", preco_promocional: "", categoria_id: "" };
 
@@ -65,5 +65,24 @@ describe("categoriaSchema", () => {
     expect(r.slug).toBe("calcas-jeans");
     expect(r.ordem).toBe(0);
     expect(r.pai_id).toBeNull();
+  });
+});
+
+describe("colecaoSchema", () => {
+  it("gera o endereço do nome, aceita ordem vazia e descrição vazia vira nula", () => {
+    const r = colecaoSchema.parse({ nome: "Verão 2027", slug: "", descricao: "", ordem: "", ativo: "on" });
+    expect(r.slug).toBe("verao-2027");
+    expect(r.ordem).toBe(0);
+    expect(r.descricao).toBeNull();
+    expect(r.ativo).toBe(true);
+  });
+
+  it("recusa nome vazio e ordem que não é número", () => {
+    expect(colecaoSchema.safeParse({ nome: "  ", slug: "", descricao: "", ordem: "0" }).success).toBe(false);
+    expect(colecaoSchema.safeParse({ nome: "Festa", slug: "", descricao: "", ordem: "abc" }).success).toBe(false);
+  });
+
+  it("sem a marcação 'ativo' a coleção fica escondida", () => {
+    expect(colecaoSchema.parse({ nome: "Festa", slug: "", descricao: "x", ordem: "2" }).ativo).toBe(false);
   });
 });
