@@ -21,7 +21,7 @@ export function MenuAdmin() {
             href={item.href}
             aria-current={ativo ? "page" : undefined}
             className={`inline-flex min-h-11 items-center rounded-full border px-5 text-sm font-semibold ${
-              ativo ? "border-primario bg-primario text-primario-texto" : "border-borda bg-superficie text-texto"
+              ativo ? "border-primario bg-primario text-primario-texto" : "border-borda bg-superficie text-texto transition-colors hover:bg-acento/30"
             }`}
           >
             {item.rotulo}

@@ -81,6 +81,14 @@ h3 {
   hyphens: auto;
 }
 
+/* Tailwind 4 deixa botões com cursor de seta; aqui mostram a mãozinha. */
+button:not(:disabled),
+summary,
+select,
+label:has(input[type="checkbox"]) {
+  cursor: pointer;
+}
+
 :focus-visible {
   outline: 3px solid var(--primario);
   outline-offset: 2px;

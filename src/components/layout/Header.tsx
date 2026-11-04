@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { loja } from "@/lib/loja/config";
+import { BotaoConta } from "./BotaoConta";
 import { Logo } from "./Logo";
 import { MenuMobile, type LinkMenu } from "./MenuMobile";
 import { ThemeToggle } from "./ThemeToggle";
@@ -8,7 +9,6 @@ const links: LinkMenu[] = [
   { rotulo: "Início", href: "/" },
   { rotulo: "Catálogo", href: "/catalogo" },
   { rotulo: "Instagram", href: loja.instagramUrl, externo: true },
-  { rotulo: "Entrar", href: "/entrar" },
 ];
 
 export function Header() {
@@ -36,6 +36,7 @@ export function Header() {
           )}
         </nav>
         <div className="flex items-center gap-2">
+          <BotaoConta />
           <ThemeToggle />
           <MenuMobile links={links} />
         </div>

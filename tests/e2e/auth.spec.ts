@@ -72,3 +72,16 @@ test("todas as páginas do painel mandam visitante para a tela de entrar", async
     await expect(page, rota).toHaveURL(/\/entrar\?proximo=/);
   }
 });
+
+test("botões mostram a mãozinha do mouse", async ({ page }) => {
+  await page.goto("/entrar");
+  const botao = page.getByRole("main").getByRole("button", { name: "Entrar" });
+  await expect(botao).toHaveCSS("cursor", "pointer");
+});
+
+test("visitante vê o botão Entrar no cabeçalho em qualquer página", async ({ page }) => {
+  for (const rota of ["/", "/catalogo"]) {
+    await page.goto(rota);
+    await expect(page.getByRole("banner").getByRole("link", { name: "Entrar" })).toBeVisible();
+  }
+});

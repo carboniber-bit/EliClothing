@@ -74,14 +74,14 @@ export default async function Produtos() {
                     <div className="flex flex-wrap gap-2">
                       <Link
                         href={`/admin/produtos/${p.id}`}
-                        className="inline-flex min-h-11 items-center rounded-full bg-primario px-5 text-sm font-semibold text-primario-texto"
+                        className="inline-flex min-h-11 items-center rounded-full bg-primario px-5 text-sm font-semibold text-primario-texto transition-opacity hover:opacity-90"
                       >
                         Editar
                       </Link>
                       <form action={alternarAtivoProduto.bind(null, p.id, p.ativo)}>
                         <button
                           type="submit"
-                          className="inline-flex min-h-11 items-center rounded-full border border-primario px-5 text-sm font-semibold"
+                          className="inline-flex min-h-11 items-center rounded-full border border-primario px-5 text-sm font-semibold transition-colors hover:bg-acento/30"
                         >
                           {p.ativo ? "Esconder" : "Mostrar"}
                         </button>
