@@ -2,8 +2,11 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { configSupabase } from "@/lib/supabase/config";
 
-// Roda só nas páginas que dependem de login. A vitrine continua estática e rápida.
-export const config = { matcher: ["/conta/:path*", "/admin/:path*", "/nova-senha"] };
+// Roda em todas as páginas (não em arquivos estáticos) para renovar a sessão de quem está logado e
+// gravar os cookies novos. Sem cookie de login não faz nenhuma chamada de rede.
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|woff2?)$).*)"],
+};
 
 export async function proxy(request: NextRequest) {
   const caminho = request.nextUrl.pathname;
