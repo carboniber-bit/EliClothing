@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import type { EstadoForm } from "@/lib/auth/estado";
 import { categoriaSchema, estoqueSchema, produtoSchema, variacaoSchema } from "@/lib/validacao/admin";
@@ -17,6 +17,7 @@ function textos(dados: FormData): Record<string, string> {
 }
 
 function atualizarVitrine() {
+  updateTag("catalogo");
   revalidatePath("/");
   revalidatePath("/catalogo");
 }
@@ -101,8 +102,12 @@ export async function alternarAtivoProduto(id: string, ativoAtual: boolean): Pro
 export async function excluirProduto(id: string): Promise<void> {
   const admin = await obterAdmin();
   if (!admin) return;
+  // Apaga também as fotos do Storage (senão ficam ocupando espaço).
+  const { data: fotos } = await admin.supabase.from("imagens").select("caminho").eq("produto_id", id);
+  const caminhos = ((fotos ?? []) as { caminho: string }[]).map((f) => f.caminho);
   const { error } = await admin.supabase.from("produtos").delete().eq("id", id);
   if (error) return;
+  if (caminhos.length > 0) await admin.supabase.storage.from("produtos").remove(caminhos);
   atualizarVitrine();
   redirect("/admin/produtos");
 }
