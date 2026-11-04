@@ -8,7 +8,7 @@ async function Interno() {
     return (
       <Link
         href="/entrar"
-        className="inline-flex min-h-11 items-center justify-center rounded-full border border-primario px-5 text-sm font-semibold transition-colors hover:bg-acento/30"
+        className="inline-flex min-h-11 items-center justify-center rounded-full border border-primario px-4 text-sm font-semibold transition-colors hover:bg-acento/30"
       >
         Entrar
       </Link>
