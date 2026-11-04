@@ -1,41 +1,47 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { EsqueletoFormulario } from "@/components/auth/CartaoAuth";
-import { obterUsuarioAtual } from "@/lib/auth/usuario";
+import { Botao } from "@/components/ui/Botao";
+import { exigirAdmin } from "@/lib/admin/guarda";
 
 export const metadata: Metadata = { title: "Painel da loja", robots: { index: false } };
 
-async function Conteudo() {
-  const usuario = await obterUsuarioAtual();
-  if (!usuario) redirect("/entrar?proximo=/admin");
-  if (!usuario.admin) {
-    return (
-      <p className="rounded-2xl border border-borda bg-superficie p-5">
-        Esta área é só para a equipe da loja.{" "}
-        <Link href="/" className="font-semibold underline">
-          Voltar para o início
-        </Link>
-      </p>
-    );
-  }
-  return (
-    <p className="rounded-2xl border border-borda bg-superficie p-5">
-      Olá, {usuario.nome ?? usuario.email}! O painel completo (produtos, fotos, pedidos) chega na próxima etapa.
-    </p>
-  );
-}
+export default async function Painel() {
+  const { supabase, usuario } = await exigirAdmin();
+  const contar = (consulta: PromiseLike<{ count: number | null }>) => consulta.then((r) => r.count ?? 0);
+  const [total, ativos, semEstoque, novos] = await Promise.all([
+    contar(supabase.from("produtos").select("id", { count: "exact", head: true })),
+    contar(supabase.from("produtos").select("id", { count: "exact", head: true }).eq("ativo", true)),
+    contar(supabase.from("variacoes").select("id", { count: "exact", head: true }).eq("ativo", true).eq("estoque", 0)),
+    contar(supabase.from("pedidos").select("id", { count: "exact", head: true }).eq("status", "novo")),
+  ]);
 
-export default function Admin() {
+  const cartoes = [
+    { rotulo: "Produtos cadastrados", valor: total },
+    { rotulo: "Aparecendo na loja", valor: ativos },
+    { rotulo: "Variações sem estoque", valor: semEstoque },
+    { rotulo: "Pedidos novos", valor: novos },
+  ];
+
   return (
-    <div className="mx-auto w-full max-w-3xl px-4 py-10">
+    <>
       <h1 className="text-4xl">Painel da loja</h1>
-      <div className="mt-6">
-        <Suspense fallback={<EsqueletoFormulario />}>
-          <Conteudo />
-        </Suspense>
+      <p className="mt-2 text-texto-suave">Olá, {usuario.nome ?? usuario.email}!</p>
+      <dl className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        {cartoes.map((c) => (
+          <div key={c.rotulo} className="rounded-2xl border border-borda bg-superficie p-4">
+            <dt className="text-sm text-texto-suave">{c.rotulo}</dt>
+            <dd className="mt-1 font-titulo text-3xl">{c.valor}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Botao href="/admin/produtos/novo">Cadastrar produto</Botao>
+        <Botao href="/admin/categorias" variante="secundario">
+          Categorias
+        </Botao>
+        <Botao href="/catalogo" variante="secundario">
+          Ver a loja
+        </Botao>
       </div>
-    </div>
+    </>
   );
 }
