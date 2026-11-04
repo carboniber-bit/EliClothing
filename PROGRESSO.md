@@ -84,3 +84,9 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 - Cabeçalho: botão Entrar / Minha conta (avatar com inicial) para todas as páginas; proxy agora renova a sessão em todas as páginas (a sessão dura até Sair).
 - Verificado no PC do usuário: Vitest 90/90, ESLint limpo, Playwright passando (o teste de texto a 200% achou overflow no cabeçalho e foi corrigido); uso manual do painel confirmado.
 - Próximo: 4B (fotos, vitrine lendo do banco, coleções, home, conteúdo).
+
+## Etapa 4B-1 — Fotos e vitrine lendo do banco (2026-11-04)
+- Painel: seção "Fotos" na edição do produto (enviar várias, foto principal, ordem, excluir). Fotos reduzidas a 1600 px e convertidas para JPEG no navegador.
+- Loja: início (Novidades) e /catalogo leem produtos ativos do banco; cache renovado ao salvar no painel.
+- Testes no PC: Vitest 110/110, lint limpo, Playwright 125/125 (e2e agora isolado do banco real). Teste manual de fotos ok.
+- Próximo: 4B-2 (coleções, seções da home, banners, textos/WhatsApp da loja).
