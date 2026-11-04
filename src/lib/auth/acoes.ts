@@ -53,7 +53,12 @@ export async function entrar(_anterior: EstadoForm, dados: FormData): Promise<Es
     if (error.code === "email_not_confirmed") {
       return { erro: "Confirme seu e-mail pelo link que enviamos antes de entrar.", valores };
     }
-    return { erro: `E-mail ou senha incorretos.${detalhe(error)}`, valores };
+    if (error.code === "invalid_credentials") {
+      return { erro: `E-mail ou senha incorretos.${detalhe(error)}`, valores };
+    }
+    // Qualquer outro erro (chave errada, Supabase fora do ar...) NÃO é senha errada: registra no log do servidor.
+    console.error("[auth] falha ao entrar:", error.code ?? "sem-codigo", error.status ?? "sem-status");
+    return { erro: `Não foi possível entrar agora. Tente novamente em instantes.${detalhe(error)}`, valores };
   }
   redirect(caminhoInternoSeguro(bruto.proximo));
 }
