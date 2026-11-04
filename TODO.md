@@ -28,7 +28,10 @@
 - [ ] Logo sem telefone embutido
 
 ## Próximas etapas (não iniciadas)
-- [ ] Etapa 4 — Painel administrativo (próxima)
+- [ ] Etapa 4 — Painel administrativo (em andamento, branch etapa-4-painel)
+  - [~] 4A Base + produtos + variações/estoque + categorias: escrito, **aguardando teste no PC**
+  - [ ] 4B Fotos, coleções, home, conteúdo, vitrine lendo do banco
+  - [ ] 4C Pedidos, equipe, histórico
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)
 - [ ] Etapa 5c — Bot do Telegram
