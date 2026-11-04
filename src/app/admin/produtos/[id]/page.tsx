@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { BotaoConfirmar } from "@/components/admin/BotaoConfirmar";
 import { camposEstoque, camposNovaVariacao, camposProduto } from "@/components/admin/campos";
 import { FormularioAdmin } from "@/components/admin/FormularioAdmin";
+import { ColecoesDoProduto } from "@/components/admin/ColecoesDoProduto";
 import { GaleriaFotos } from "@/components/admin/GaleriaFotos";
 import { atualizarProduto, atualizarVariacao, criarVariacao, excluirProduto, excluirVariacao } from "@/lib/admin/acoes";
 import { centavosParaReais } from "@/lib/admin/formatacao";
@@ -116,21 +117,7 @@ export default async function EditarProduto({ params, searchParams }: PageProps<
         {colecoes.length === 0 ? (
           <p className="text-texto-suave">Você ainda não criou coleções. Crie na aba Coleções do painel.</p>
         ) : (
-          <form action={definirColecoesDoProduto.bind(null, produto.id)} className="space-y-2">
-            <p className="mb-2 text-texto-suave">Marque as coleções em que esta peça aparece.</p>
-            {colecoes.map((c) => (
-              <label key={c.id} className="flex min-h-11 items-center gap-3 text-sm font-semibold">
-                <input type="checkbox" name="colecao" value={c.id} defaultChecked={marcadas.has(c.id)} className="h-5 w-5 accent-primario" />
-                {c.nome}
-              </label>
-            ))}
-            <button
-              type="submit"
-              className="inline-flex min-h-11 items-center justify-center rounded-full bg-primario px-6 text-sm font-semibold text-primario-texto transition-opacity hover:opacity-90"
-            >
-              Salvar coleções
-            </button>
-          </form>
+          <ColecoesDoProduto acao={definirColecoesDoProduto.bind(null, produto.id)} colecoes={colecoes} marcadas={[...marcadas]} />
         )}
       </section>
 

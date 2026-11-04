@@ -70,9 +70,10 @@ export async function excluirColecao(id: string): Promise<void> {
 }
 
 /** Marca em quais coleções o produto aparece (compara com o que já existe e só mexe no que mudou). */
-export async function definirColecoesDoProduto(produtoId: string, dados: FormData): Promise<void> {
+export async function definirColecoesDoProduto(produtoId: string, _anterior: EstadoForm, dados: FormData): Promise<EstadoForm> {
   const admin = await obterAdmin();
-  if (!admin || !UUID.safeParse(produtoId).success) return;
+  if (!admin) return SEM_PERMISSAO;
+  if (!UUID.safeParse(produtoId).success) return { erro: ERRO_GERAL };
   const desejadas = new Set(
     dados
       .getAll("colecao")
@@ -80,14 +81,21 @@ export async function definirColecoesDoProduto(produtoId: string, dados: FormDat
   );
 
   const { data: atuais, error } = await admin.supabase.from("produto_colecoes").select("colecao_id").eq("produto_id", produtoId);
-  if (error) return;
+  if (error) return { erro: ERRO_GERAL };
   const existentes = new Set((atuais ?? []).map((l) => l.colecao_id as string));
 
   const adicionar = [...desejadas].filter((c) => !existentes.has(c)).map((colecao_id) => ({ produto_id: produtoId, colecao_id }));
   const remover = [...existentes].filter((c) => !desejadas.has(c));
 
-  if (adicionar.length > 0) await admin.supabase.from("produto_colecoes").insert(adicionar);
-  if (remover.length > 0) await admin.supabase.from("produto_colecoes").delete().eq("produto_id", produtoId).in("colecao_id", remover);
+  if (adicionar.length > 0) {
+    const { error: erroAdd } = await admin.supabase.from("produto_colecoes").insert(adicionar);
+    if (erroAdd) return { erro: ERRO_GERAL };
+  }
+  if (remover.length > 0) {
+    const { error: erroDel } = await admin.supabase.from("produto_colecoes").delete().eq("produto_id", produtoId).in("colecao_id", remover);
+    if (erroDel) return { erro: ERRO_GERAL };
+  }
   atualizarVitrine();
   revalidatePath(`/admin/produtos/${produtoId}`);
+  return { sucesso: "Coleções salvas." };
 }
