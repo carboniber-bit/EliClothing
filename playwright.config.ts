@@ -15,5 +15,7 @@ export default defineConfig({
     url: `http://localhost:${PORTA}`,
     timeout: 300_000,
     reuseExistingServer: false,
+    // Os testes de tela vazia não podem depender do banco real do seu .env.local.
+    env: { NEXT_PUBLIC_SUPABASE_URL: "", NEXT_PUBLIC_SUPABASE_ANON_KEY: "" },
   },
 });

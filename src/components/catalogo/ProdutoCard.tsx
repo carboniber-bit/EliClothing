@@ -22,7 +22,7 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
           <div
             data-testid="produto-sem-imagem"
             aria-hidden="true"
-            className="flex h-full items-center justify-center font-titulo text-4xl text-acento"
+            className="flex h-full items-center justify-center font-titulo text-4xl text-texto-suave"
           >
             ELI
           </div>
