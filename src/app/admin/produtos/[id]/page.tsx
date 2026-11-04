@@ -4,9 +4,13 @@ import { notFound } from "next/navigation";
 import { BotaoConfirmar } from "@/components/admin/BotaoConfirmar";
 import { camposEstoque, camposNovaVariacao, camposProduto } from "@/components/admin/campos";
 import { FormularioAdmin } from "@/components/admin/FormularioAdmin";
+import { GaleriaFotos } from "@/components/admin/GaleriaFotos";
 import { atualizarProduto, atualizarVariacao, criarVariacao, excluirProduto, excluirVariacao } from "@/lib/admin/acoes";
 import { centavosParaReais } from "@/lib/admin/formatacao";
+import { definirFotoPrincipal, excluirFoto, moverFoto, registrarFoto } from "@/lib/admin/acoes-fotos";
 import { exigirAdmin } from "@/lib/admin/guarda";
+import { urlFoto } from "@/lib/catalogo/mapeamento";
+import { configSupabase } from "@/lib/supabase/config";
 
 export const metadata: Metadata = { title: "Editar produto · Painel", robots: { index: false } };
 
@@ -22,6 +26,7 @@ type Produto = {
   destaque: boolean;
   novidade: boolean;
 };
+type Foto = { id: string; caminho: string; principal: boolean };
 type Variacao = { id: string; tamanho: string; cor: string; estoque: number; ativo: boolean };
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -32,15 +37,18 @@ export default async function EditarProduto({ params, searchParams }: PageProps<
   if (!UUID.test(id)) notFound();
   const { supabase } = await exigirAdmin();
 
-  const [{ data: produtoBruto }, { data: variacoesBrutas }, { data: categoriasBrutas }] = await Promise.all([
+  const [{ data: produtoBruto }, { data: variacoesBrutas }, { data: categoriasBrutas }, { data: fotosBrutas }] = await Promise.all([
     supabase.from("produtos").select("*").eq("id", id).maybeSingle(),
     supabase.from("variacoes").select("id, tamanho, cor, estoque, ativo").eq("produto_id", id).order("tamanho").order("cor"),
     supabase.from("categorias").select("id, nome").order("ordem").order("nome"),
+    supabase.from("imagens").select("id, caminho, principal").eq("produto_id", id).order("ordem").order("criado_em"),
   ]);
   if (!produtoBruto) notFound();
   const produto = produtoBruto as Produto;
   const variacoes = (variacoesBrutas ?? []) as Variacao[];
   const categorias = (categoriasBrutas ?? []) as { id: string; nome: string }[];
+  const base = configSupabase()?.url ?? "";
+  const fotos = ((fotosBrutas ?? []) as Foto[]).map((f) => ({ id: f.id, url: urlFoto(base, f.caminho), principal: f.principal }));
 
   const iniciais: Record<string, string> = {
     nome: produto.nome,
@@ -77,6 +85,22 @@ export default async function EditarProduto({ params, searchParams }: PageProps<
           campos={camposProduto(categorias)}
           iniciais={iniciais}
           botao="Salvar alterações"
+        />
+      </section>
+
+      <section aria-labelledby="fotos-titulo" className="mt-12">
+        <h2 id="fotos-titulo" className="mb-1 text-2xl">
+          Fotos
+        </h2>
+        <p className="mb-4 text-texto-suave">A foto principal aparece na loja. Você pode enviar várias de uma vez.</p>
+        <GaleriaFotos
+          produtoId={produto.id}
+          nomeProduto={produto.nome}
+          fotos={fotos}
+          registrar={registrarFoto}
+          tornarPrincipal={definirFotoPrincipal}
+          mover={moverFoto}
+          excluir={excluirFoto}
         />
       </section>
 
