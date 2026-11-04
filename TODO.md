@@ -29,7 +29,7 @@
 
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 4 — Painel administrativo (em andamento, branch etapa-4-painel)
-  - [~] 4A Base + produtos + variações/estoque + categorias: escrito, **aguardando teste no PC**
+  - [x] 4A Base + produtos + variações/estoque + categorias + botão Minha conta + sessão renovada (testado no PC: Vitest 90/90, lint, Playwright; mesclada na main)
   - [ ] 4B Fotos, coleções, home, conteúdo, vitrine lendo do banco
   - [ ] 4C Pedidos, equipe, histórico
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp

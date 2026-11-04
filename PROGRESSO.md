@@ -1,6 +1,6 @@
 # PROGRESSO — EliClothing
 
-_Última atualização: 2026-11-02 (noite)_
+_Última atualização: 2026-11-04_
 
 ## Objetivo geral
 Loja virtual completa da EliClothing (moda feminina, loja física e online em Osasco-SP): vitrine, carrinho, pedidos (WhatsApp, Pix e cartão), login, painel administrativo e bot do Telegram, com Supabase e Vercel, priorizando planos gratuitos.
@@ -78,3 +78,9 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 ## Etapa 3 — encerramento
 - Verificado no site real (Vercel): cadastro, login, recuperação de senha por e-mail, /admin só para administradora. Causa de um falso erro de login na Vercel: a variável NEXT_PUBLIC_SUPABASE_URL tinha o endereço do painel em vez da Project URL; o código agora só diz "senha incorreta" para erro de credenciais.
 - Próxima ação: Etapa 4 (painel administrativo + catálogo lendo do banco).
+
+## Etapa 4A (2026-11-04, mesclada na main)
+- Painel: /admin (números), /admin/produtos (listar, criar, editar, esconder/mostrar, excluir), variações com estoque, /admin/categorias. Escrita com a sessão do usuário (RLS) + `obterAdmin()` em cada ação.
+- Cabeçalho: botão Entrar / Minha conta (avatar com inicial) para todas as páginas; proxy agora renova a sessão em todas as páginas (a sessão dura até Sair).
+- Verificado no PC do usuário: Vitest 90/90, ESLint limpo, Playwright passando (o teste de texto a 200% achou overflow no cabeçalho e foi corrigido); uso manual do painel confirmado.
+- Próximo: 4B (fotos, vitrine lendo do banco, coleções, home, conteúdo).
