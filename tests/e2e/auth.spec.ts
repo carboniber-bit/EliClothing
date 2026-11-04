@@ -50,7 +50,8 @@ test("dados válidos com login ainda não configurado ou inválido mostram um av
   await page.getByLabel("E-mail").fill("ninguem@exemplo.com");
   await page.getByLabel("Senha").fill("senha-qualquer");
   await page.getByRole("button", { name: "Entrar" }).click();
-  await expect(page.getByRole("alert")).toBeVisible();
+  // O Next também cria um aviso invisível (route announcer); queremos só a mensagem do formulário.
+  await expect(page.locator('p[role="alert"]')).toBeVisible();
 });
 
 test("o parâmetro 'proximo' aponta só para dentro do site", async ({ page }) => {
