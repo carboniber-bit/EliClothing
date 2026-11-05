@@ -1,3 +1,4 @@
+import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { IconeInstagram, IconeLocal, IconeWhatsapp } from "@/components/ui/Icones";
 import { loja } from "@/lib/loja/config";
@@ -8,9 +9,16 @@ function exibirNumero(numero: string): string {
   return d.length === 11 ? `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}` : d;
 }
 
-export function Footer() {
+// O ano é guardado em cache (renova a cada dia): o Next não aceita ler a data direto ao montar a página.
+async function anoAtual(): Promise<number> {
+  "use cache";
+  cacheLife("days");
+  return new Date().getFullYear();
+}
+
+export async function Footer() {
   const whatsapp = linkWhatsapp(loja.whatsappNumero);
-  const ano = new Date().getFullYear();
+  const ano = await anoAtual();
 
   return (
     <footer className="mt-24 bg-primario text-primario-texto dark:bg-superficie dark:text-texto">
