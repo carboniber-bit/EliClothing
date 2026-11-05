@@ -8,7 +8,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 0,
   reporter: process.env.CI ? [["list"], ["html", { open: "never" }]] : [["list"]],
-  use: { baseURL: `http://localhost:${PORTA}`, trace: "retain-on-failure" },
+  use: { baseURL: `http://localhost:${PORTA}`, trace: "retain-on-failure", reducedMotion: "reduce" },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: `npm run build && npm run start -- --port ${PORTA}`,

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* O tema escuro é escolhido pelo atributo data-tema do <html> (não pela preferência do sistema). */
+@custom-variant dark (&:where([data-tema="dark"], [data-tema="dark"] *));
+
 /* Tema claro (padrão). Valores aproximados do logo e do Instagram da loja. */
 :root {
   --fundo: #fff8f5;
@@ -13,6 +16,9 @@
   --erro: #9b1c1c;
   --fonte-titulo: "Playfair Display Variable", Georgia, serif;
   --fonte-texto: "Manrope Variable", system-ui, sans-serif;
+  --suave: cubic-bezier(0.22, 1, 0.36, 1);
+  --sombra-suave: 0 10px 30px -18px color-mix(in oklab, #6b1f2e 35%, transparent);
+  --sombra-elevada: 0 28px 50px -24px color-mix(in oklab, #6b1f2e 45%, transparent);
 }
 
 [data-tema="dark"] {
@@ -25,6 +31,8 @@
   --primario-texto: #1e1015;
   --borda: #4a2a35;
   --erro: #ffb4ab;
+  --sombra-suave: 0 10px 30px -18px oklch(0 0 0 / 60%);
+  --sombra-elevada: 0 28px 50px -24px oklch(0 0 0 / 70%);
 }
 
 @theme inline {
@@ -39,6 +47,8 @@
   --color-erro: var(--erro);
   --font-titulo: var(--fonte-titulo);
   --font-sans: var(--fonte-texto);
+  --shadow-suave: var(--sombra-suave);
+  --shadow-elevada: var(--sombra-elevada);
 }
 
 /* Ícones do botão de tema: a lua aparece no claro, o sol no escuro. */
@@ -103,4 +113,128 @@ label:has(input[type="checkbox"]) {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- Visual moderno: rótulos, links, animações ---------- */
+
+/* Rótulo pequeno em caixa alta, usado sobre os títulos */
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+/* Sublinhado que cresce ao passar o mouse */
+.link-elegante {
+  position: relative;
+}
+.link-elegante::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.35s var(--suave);
+}
+.link-elegante:hover::after,
+.link-elegante:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Palavras do título que sobem de dentro de uma "janela" */
+.palavra {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  vertical-align: bottom;
+}
+.palavra > span {
+  display: inline-block;
+  animation: sobe 0.9s var(--suave) both;
+  animation-delay: var(--atraso, 0s);
+}
+@keyframes sobe {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Entradas suaves do topo da página */
+.surge {
+  animation: surge 0.8s var(--suave) both;
+  animation-delay: var(--atraso, 0s);
+}
+@keyframes surge {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.entra-imagem {
+  animation: entra-imagem 1.2s var(--suave) both;
+}
+@keyframes entra-imagem {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.zoom-suave {
+  animation: zoom-suave 2.2s var(--suave) both;
+}
+@keyframes zoom-suave {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1.04);
+  }
+}
+
+/* Aparece ao rolar até o elemento (ver Revelar.tsx). Sem JavaScript tudo fica visível. */
+.revelar {
+  transition:
+    opacity 0.8s var(--suave),
+    transform 0.8s var(--suave);
+}
+.revelar[data-estado="oculto"] {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Cabeçalho que ganha vidro ao rolar e se esconde ao descer (ver CabecalhoFixo.tsx) */
+.cabecalho-fixo {
+  background: var(--fundo);
+  border-bottom: 1px solid transparent;
+  transition:
+    transform 0.35s var(--suave),
+    background-color 0.5s ease,
+    box-shadow 0.5s ease,
+    border-color 0.5s ease;
+}
+.cabecalho-fixo[data-rolado="true"] {
+  background: color-mix(in srgb, var(--fundo) 85%, transparent);
+  backdrop-filter: blur(16px);
+  border-color: var(--borda);
+  box-shadow: var(--sombra-suave);
+}
+.cabecalho-fixo[data-oculto="true"] {
+  transform: translateY(-100%);
 }

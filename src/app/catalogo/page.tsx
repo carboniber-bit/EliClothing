@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { ListaColecoes } from "@/components/catalogo/ListaColecoes";
 import { GradeProdutos } from "@/components/catalogo/GradeProdutos";
 import { Botao } from "@/components/ui/Botao";
+import { Revelar } from "@/components/ui/Revelar";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
+import rua from "@/assets/look-rua.jpg";
 import { loja } from "@/lib/loja/config";
 
 export const metadata: Metadata = {
@@ -16,10 +18,15 @@ export default async function Catalogo() {
   const [produtos, colecoes] = await Promise.all([repositorio.listarProdutos(), repositorio.listarColecoes()]);
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-10">
-      <h1 className="text-4xl">Catálogo</h1>
-      <p className="mt-2 text-texto-suave">Todas as peças da {loja.nome} em um só lugar.</p>
-      <div className="mt-6">
+    <div className="mx-auto max-w-7xl px-5 pt-10 md:px-8 md:pt-16">
+      <Revelar className="border-b border-borda pb-10">
+        <p className="eyebrow text-texto-suave">Coleção {loja.nome}</p>
+        <h1 className="mt-3 text-5xl md:text-7xl">
+          Catálogo<span className="italic text-texto-suave">.</span>
+        </h1>
+        <p className="mt-4 max-w-lg text-texto-suave">Todas as peças da {loja.nome} em um só lugar.</p>
+      </Revelar>
+      <div className="mt-8">
         <ListaColecoes colecoes={colecoes} rotulo="Coleções" />
       </div>
       <div className="mt-8">
@@ -31,6 +38,7 @@ export default async function Catalogo() {
         ) : (
           <EstadoVazio
             titulo="Catálogo em preparação"
+            imagem={rua}
             texto="Estamos preparando a coleção. Enquanto isso, acompanhe as novidades no Instagram."
             acao={<Botao href={loja.instagramUrl}>Ver no Instagram</Botao>}
           />

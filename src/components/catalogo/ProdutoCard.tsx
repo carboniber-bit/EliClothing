@@ -5,31 +5,51 @@ import { formatarPreco, precoFinal, temEstoque, type Produto } from "@/lib/catal
 export function ProdutoCard({ produto }: { produto: Produto }) {
   const final = precoFinal(produto);
   const emPromocao = final < produto.precoCentavos;
+  const desconto = emPromocao ? Math.round(((produto.precoCentavos - final) / produto.precoCentavos) * 100) : 0;
   const disponivel = temEstoque(produto);
 
   return (
-    <article className="min-w-0 overflow-hidden rounded-2xl border border-borda bg-superficie">
-      <div className="relative aspect-[3/4] bg-fundo">
+    <article className="group min-w-0">
+      <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-superficie shadow-suave transition-[box-shadow,transform] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:shadow-elevada">
         {produto.imagemPrincipalUrl ? (
           <Image
             src={produto.imagemPrincipalUrl}
             alt={produto.nome}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-            className="object-cover"
+            className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.06]"
           />
         ) : (
           <div
             data-testid="produto-sem-imagem"
             aria-hidden="true"
-            className="flex h-full items-center justify-center font-titulo text-4xl text-texto-suave"
+            className="flex h-full flex-col items-center justify-center text-texto-suave"
           >
-            ELI
+            <span className="font-titulo text-5xl tracking-[0.08em]">ELI</span>
+            <span className="text-[0.55rem] font-bold tracking-[0.5em]">CLOTHING</span>
           </div>
         )}
+
+        <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+          {produto.novidade ? (
+            <span className="rounded-full bg-fundo px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-texto">Novidade</span>
+          ) : null}
+          {desconto > 0 ? (
+            <span className="rounded-full bg-acento px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#6b1f2e]">
+              −{desconto}%
+            </span>
+          ) : null}
+        </div>
+
+        {!disponivel ? (
+          <span className="absolute bottom-3 left-3 rounded-full bg-fundo px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-texto">
+            Indisponível
+          </span>
+        ) : null}
       </div>
-      <div className="space-y-1 p-3">
-        <h3 className="line-clamp-2 break-words font-sans text-sm font-semibold">{produto.nome}</h3>
+
+      <div className="mt-4 space-y-1 px-1">
+        <h3 className="line-clamp-2 break-words font-sans text-sm font-semibold leading-snug md:text-[0.95rem]">{produto.nome}</h3>
         <p className="text-sm">
           {emPromocao ? (
             <>
@@ -39,15 +59,14 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
               <s aria-hidden="true" className="mr-2 text-texto-suave">
                 {formatarPreco(produto.precoCentavos)}
               </s>
-              <span aria-hidden="true" className="font-semibold">
+              <span aria-hidden="true" className="font-titulo text-base font-semibold">
                 {formatarPreco(final)}
               </span>
             </>
           ) : (
-            <span className="font-semibold">{formatarPreco(final)}</span>
+            <span className="font-titulo text-base font-semibold">{formatarPreco(final)}</span>
           )}
         </p>
-        {!disponivel ? <p className="text-xs font-semibold text-texto-suave">Indisponível</p> : null}
       </div>
     </article>
   );
