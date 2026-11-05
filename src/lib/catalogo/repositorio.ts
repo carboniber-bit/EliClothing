@@ -4,9 +4,13 @@ import { configSupabase } from "@/lib/supabase/config";
 import { mapearProduto, type LinhaProduto } from "./mapeamento";
 import type { Produto } from "./produto";
 
+export type Colecao = { id: string; slug: string; nome: string; descricao: string | null };
+
 export interface RepositorioCatalogo {
   listarProdutos(): Promise<Produto[]>;
   listarNovidades(limite: number): Promise<Produto[]>;
+  listarColecoes(): Promise<Colecao[]>;
+  obterColecao(slug: string): Promise<{ colecao: Colecao; produtos: Produto[] } | null>;
 }
 
 const COLUNAS =
@@ -39,13 +43,64 @@ async function buscarProdutos(limite: number | null, novidadesPrimeiro: boolean)
   return ((data ?? []) as unknown as LinhaProduto[]).map((linha) => mapearProduto(linha, config.url));
 }
 
+function clientePublico() {
+  const config = configSupabase();
+  if (!config) return null;
+  return { config, supabase: createClient(config.url, config.chave, { auth: { persistSession: false, autoRefreshToken: false } }) };
+}
+
+async function buscarColecoes(): Promise<Colecao[]> {
+  "use cache";
+  cacheTag("catalogo");
+  cacheLife("minutes");
+  const cliente = clientePublico();
+  if (!cliente) return [];
+  const { data, error } = await cliente.supabase.from("colecoes").select("id, slug, nome, descricao").order("ordem").order("nome");
+  if (error) {
+    console.error("[catalogo] falha ao ler coleções:", error.code ?? "sem-codigo");
+    return [];
+  }
+  return (data ?? []) as Colecao[];
+}
+
+async function buscarColecao(slug: string): Promise<{ colecao: Colecao; produtos: Produto[] } | null> {
+  "use cache";
+  cacheTag("catalogo");
+  cacheLife("minutes");
+  const cliente = clientePublico();
+  if (!cliente || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return null;
+  const { supabase, config } = cliente;
+
+  const { data: colecao } = await supabase.from("colecoes").select("id, slug, nome, descricao").eq("slug", slug).maybeSingle();
+  if (!colecao) return null;
+  const { data: ligacoes } = await supabase.from("produto_colecoes").select("produto_id").eq("colecao_id", colecao.id);
+  const ids = (ligacoes ?? []).map((l) => l.produto_id as string);
+  if (ids.length === 0) return { colecao: colecao as Colecao, produtos: [] };
+
+  const { data: linhas, error } = await supabase.from("produtos").select(COLUNAS).in("id", ids).order("criado_em", { ascending: false });
+  if (error) {
+    console.error("[catalogo] falha ao ler produtos da coleção:", error.code ?? "sem-codigo");
+    return { colecao: colecao as Colecao, produtos: [] };
+  }
+  const produtos = ((linhas ?? []) as unknown as LinhaProduto[]).map((l) => mapearProduto(l, config.url));
+  return { colecao: colecao as Colecao, produtos };
+}
+
 const repositorioSupabase: RepositorioCatalogo = {
+  listarColecoes: () => buscarColecoes(),
+  obterColecao: (slug) => buscarColecao(slug),
   listarProdutos: () => buscarProdutos(null, false),
   // Marcados como novidade primeiro; se faltar, completa com os mais recentes.
   listarNovidades: (limite) => buscarProdutos(limite, true),
 };
 
 const repositorioVazio: RepositorioCatalogo = {
+  async listarColecoes() {
+    return [];
+  },
+  async obterColecao() {
+    return null;
+  },
   async listarProdutos() {
     return [];
   },

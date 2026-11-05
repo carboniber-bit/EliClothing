@@ -1,3 +1,4 @@
+import { ListaColecoes } from "@/components/catalogo/ListaColecoes";
 import { GradeProdutos } from "@/components/catalogo/GradeProdutos";
 import { Hero } from "@/components/home/Hero";
 import { Botao } from "@/components/ui/Botao";
@@ -6,11 +7,18 @@ import { obterRepositorio } from "@/lib/catalogo/repositorio";
 import { loja } from "@/lib/loja/config";
 
 export default async function Home() {
-  const novidades = await obterRepositorio().listarNovidades(8);
+  const repositorio = obterRepositorio();
+  const [novidades, colecoes] = await Promise.all([repositorio.listarNovidades(8), repositorio.listarColecoes()]);
 
   return (
     <>
       <Hero />
+      {colecoes.length > 0 ? (
+        <section className="mx-auto max-w-6xl px-4 pt-14">
+          <h2 className="mb-6 text-3xl">Coleções</h2>
+          <ListaColecoes colecoes={colecoes} rotulo="Coleções da loja" />
+        </section>
+      ) : null}
       <section className="mx-auto max-w-6xl px-4 pt-14">
         <h2 className="mb-6 text-3xl">Novidades</h2>
         {novidades.length > 0 ? (

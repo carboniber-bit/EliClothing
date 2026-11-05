@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ListaColecoes } from "@/components/catalogo/ListaColecoes";
 import { GradeProdutos } from "@/components/catalogo/GradeProdutos";
 import { Botao } from "@/components/ui/Botao";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
@@ -11,12 +12,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Catalogo() {
-  const produtos = await obterRepositorio().listarProdutos();
+  const repositorio = obterRepositorio();
+  const [produtos, colecoes] = await Promise.all([repositorio.listarProdutos(), repositorio.listarColecoes()]);
 
   return (
     <div className="mx-auto max-w-6xl px-4 pt-10">
       <h1 className="text-4xl">Catálogo</h1>
       <p className="mt-2 text-texto-suave">Todas as peças da {loja.nome} em um só lugar.</p>
+      <div className="mt-6">
+        <ListaColecoes colecoes={colecoes} rotulo="Coleções" />
+      </div>
       <div className="mt-8">
         {produtos.length > 0 ? (
           <>

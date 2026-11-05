@@ -90,3 +90,18 @@ export const categoriaSchema = z
     }
   })
   .transform((d) => ({ ...d, slug: slugify(d.slug || d.nome) }));
+
+export const colecaoSchema = z
+  .object({
+    nome: z.string().trim().min(1, "Digite o nome da coleção.").max(80, "No máximo 80 caracteres."),
+    slug: textoOpcional(80),
+    descricao: textoOpcional(500),
+    ordem: inteiro(10000, "Ordem").or(z.literal("").transform(() => 0)),
+    ativo: marcado,
+  })
+  .superRefine((d, ctx) => {
+    if (slugify(String(d.slug || d.nome || "")) === "") {
+      ctx.addIssue({ code: "custom", path: ["slug"], message: "Use letras ou números no endereço." });
+    }
+  })
+  .transform((d) => ({ ...d, slug: slugify(d.slug || d.nome), descricao: d.descricao === "" ? null : d.descricao }));
