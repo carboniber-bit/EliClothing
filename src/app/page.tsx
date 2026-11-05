@@ -38,11 +38,11 @@ export default async function Home() {
       <section aria-label="Nossos valores" className="border-y border-borda bg-superficie">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-3 md:px-8">
           {valores.map(({ Icone, titulo, texto }, i) => (
-            <Revelar key={titulo} atraso={i * 0.1} className="flex items-start gap-4">
+            <Revelar key={titulo} atraso={i * 0.1} className="flex min-w-0 items-start gap-4">
               <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-fundo transition-transform duration-500 hover:rotate-12">
                 <Icone className="h-5 w-5" />
               </span>
-              <div>
+              <div className="min-w-0 [overflow-wrap:anywhere]">
                 <p className="font-titulo text-xl">{titulo}</p>
                 <p className="mt-1 text-sm text-texto-suave">{texto}</p>
               </div>
