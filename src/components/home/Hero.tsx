@@ -13,8 +13,8 @@ const atraso = (segundos: number) => ({ "--atraso": `${segundos}s` }) as CSSProp
 export function Hero() {
   return (
     <section className="relative overflow-hidden">
-      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-12 md:gap-6 md:px-8 md:pb-24 md:pt-10">
-        <div className="relative z-10 order-2 min-w-0 md:order-1 md:col-span-6">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-2 md:gap-6 md:px-8 md:pb-24 md:pt-10">
+        <div className="relative z-10 order-2 min-w-0 md:order-1">
           <p className="eyebrow surge text-texto-suave">Moda feminina · {loja.cidade}</p>
 
           <h1 className="mt-6 text-[clamp(2.25rem,8vw,6.5rem)] leading-[0.95]">
@@ -54,7 +54,7 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative order-1 md:order-2 md:col-span-6">
+        <div className="relative order-1 md:order-2">
           <div className="entra-imagem relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-superficie shadow-elevada">
             <Image
               src={hero}

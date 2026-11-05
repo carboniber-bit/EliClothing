@@ -23,7 +23,7 @@ export async function Footer() {
   return (
     <footer className="mt-24 bg-primario text-primario-texto dark:bg-superficie dark:text-texto">
       <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 md:px-8">
-        <div className="grid gap-12 md:grid-cols-12">
+        <div className="grid gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,2fr)_minmax(0,3fr)_minmax(0,2fr)] md:gap-x-8">
           <div className="md:col-span-5">
             <p className="font-titulo text-4xl tracking-[0.08em]">ELI</p>
             <p className="text-[0.6rem] font-bold tracking-[0.5em]">CLOTHING</p>

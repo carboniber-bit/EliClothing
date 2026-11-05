@@ -94,8 +94,8 @@ export default async function Home() {
       </section>
 
       <section id="sobre" className="scroll-mt-24 pt-24 md:pt-36">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-12 md:gap-16 md:px-8">
-          <Revelar className="relative md:col-span-6">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:gap-16 md:px-8">
+          <Revelar className="relative">
             <div className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-elevada">
               <Image
                 src={sobre}
@@ -109,7 +109,7 @@ export default async function Home() {
             </div>
           </Revelar>
 
-          <div className="min-w-0 md:col-span-6">
+          <div className="min-w-0">
             <Revelar>
               <p className="eyebrow text-texto-suave">Sobre a marca</p>
               <h2 className="mt-4 text-4xl leading-tight md:text-6xl">
@@ -139,8 +139,8 @@ export default async function Home() {
       <section className="pt-24 md:pt-36">
         <div className="mx-auto max-w-7xl px-5 md:px-8">
           <div className="overflow-hidden rounded-[2.5rem] bg-superficie">
-            <div className="grid items-center gap-10 p-7 md:grid-cols-12 md:p-14">
-              <Revelar className="min-w-0 md:col-span-5">
+            <div className="grid items-center gap-10 p-7 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:p-14">
+              <Revelar className="min-w-0">
                 <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-fundo">
                   <IconeInstagram className="h-5 w-5" />
                 </span>
@@ -159,7 +159,7 @@ export default async function Home() {
                 </Botao>
               </Revelar>
 
-              <div className="grid grid-cols-2 gap-3 md:col-span-7 md:gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {fotosInstagram.map((f, i) => (
                   <Revelar key={f.alt} atraso={i * 0.08} className={i % 2 === 1 ? "translate-y-6" : ""}>
                     <a
