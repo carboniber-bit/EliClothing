@@ -11,7 +11,7 @@ type Props = {
 };
 
 const base =
-  "group/botao inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:scale-[0.97]";
+  "group/botao inline-flex max-w-full min-h-12 text-center [overflow-wrap:anywhere] items-center justify-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:scale-[0.97]";
 
 const variantes = {
   primario: "bg-primario text-primario-texto shadow-suave hover:shadow-elevada",

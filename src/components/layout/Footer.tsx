@@ -24,14 +24,14 @@ export async function Footer() {
     <footer className="mt-24 bg-primario text-primario-texto dark:bg-superficie dark:text-texto">
       <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,2fr)_minmax(0,3fr)_minmax(0,2fr)] md:gap-x-8">
-          <div className="md:col-span-5">
+          <div>
             <p className="font-titulo text-4xl tracking-[0.08em]">ELI</p>
             <p className="text-[0.6rem] font-bold tracking-[0.5em]">CLOTHING</p>
             <p className="mt-6 max-w-sm font-titulo text-xl italic">{loja.slogan}.</p>
             <p className="mt-3 max-w-sm text-sm opacity-90">Moda feminina com personalidade, de {loja.cidade} para você.</p>
           </div>
 
-          <nav aria-label="Rodapé" className="md:col-span-2">
+          <nav aria-label="Rodapé">
             <p className="eyebrow opacity-80">Navegue</p>
             <ul className="mt-5 space-y-3 text-sm font-semibold">
               <li>
@@ -52,7 +52,7 @@ export async function Footer() {
             </ul>
           </nav>
 
-          <div className="md:col-span-3">
+          <div>
             <p className="eyebrow opacity-80">Contato</p>
             <ul className="mt-5 space-y-3 text-sm">
               {whatsapp ? (
@@ -72,7 +72,7 @@ export async function Footer() {
             </ul>
           </div>
 
-          <div className="md:col-span-2">
+          <div>
             <p className="eyebrow opacity-80">A loja</p>
             <p className="mt-5 inline-flex items-start gap-2 text-sm">
               <span className="mt-0.5 shrink-0">

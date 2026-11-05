@@ -20,7 +20,7 @@ export function Hero() {
           <h1 className="mt-6 text-[clamp(2.25rem,8vw,6.5rem)] leading-[0.95]">
             {palavras.map((p, i) => (
               <span key={p}>
-                <span className="palavra mr-[0.22em]">
+                <span className="palavra">
                   <span style={atraso(0.1 + i * 0.09)}>{p}</span>
                 </span>{" "}
               </span>
