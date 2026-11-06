@@ -48,3 +48,6 @@ export function formatarPreco(centavos: number): string {
   const resto = (total % 100).toString().padStart(2, "0");
   return `R$ ${reais},${resto}`;
 }
+
+/** Produto com tudo o que a página dele mostra. */
+export type ProdutoDetalhe = Produto & { descricao: string | null; fotos: string[] };

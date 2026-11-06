@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { obterLoja } from "@/lib/loja/repositorio";
+import { BotaoCarrinho } from "@/components/carrinho/BotaoCarrinho";
 import { BotaoConta } from "./BotaoConta";
 import { CabecalhoFixo } from "./CabecalhoFixo";
 import { Logo } from "./Logo";
@@ -38,6 +39,7 @@ export async function Header() {
           )}
         </nav>
         <div className="flex max-w-full flex-wrap items-center justify-end gap-2">
+          <BotaoCarrinho />
           <BotaoConta />
           <ThemeToggle />
           <MenuMobile links={links} />

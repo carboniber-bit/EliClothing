@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "@fontsource-variable/playfair-display";
 import "@fontsource-variable/manrope";
 import "./globals.css";
+import { CarrinhoProvider } from "@/components/carrinho/CarrinhoProvider";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { loja } from "@/lib/loja/config";
@@ -25,10 +26,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Pular para o conteúdo
         </a>
-        <Header />
-        <main id="conteudo" className="flex-1">
-          {children}
-        </main>
+        <CarrinhoProvider>
+          <Header />
+          <main id="conteudo" className="flex-1">
+            {children}
+          </main>
+        </CarrinhoProvider>
         <Footer />
       </body>
     </html>

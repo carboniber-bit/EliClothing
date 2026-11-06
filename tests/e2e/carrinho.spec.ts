@@ -1,0 +1,64 @@
+import { expect, test } from "@playwright/test";
+import { semProblemasGravesDeAcessibilidade, usarTema } from "./ajudas";
+
+const item = {
+  variacaoId: "11111111-1111-4111-8111-111111111111",
+  slug: "vestido-teste",
+  nome: "Vestido de teste",
+  tamanho: "38/44",
+  cor: "Vermelho",
+  precoCentavos: 7900,
+  quantidade: 2,
+  estoque: 3,
+  foto: null,
+};
+
+test("sacola vazia mostra o aviso e o caminho para o catálogo", async ({ page }) => {
+  await page.goto("/carrinho");
+  await expect(page.getByRole("heading", { level: 1, name: "Sua sacola" })).toBeVisible();
+  await expect(page.getByText("Sua sacola está vazia")).toBeVisible();
+  await expect(page.getByRole("main").getByRole("link", { name: "Ver o catálogo" })).toBeVisible();
+});
+
+test("o cabeçalho tem o botão da sacola e ele abre a sacola", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("banner").getByRole("link", { name: /Sacola/ }).click();
+  await expect(page).toHaveURL(/\/carrinho$/);
+});
+
+test("sacola com itens guardados mostra total e controla a quantidade", async ({ page }) => {
+  await page.addInitScript((i) => localStorage.setItem("eliclothing-carrinho-v1", JSON.stringify([i])), item);
+  await page.goto("/carrinho");
+  await expect(page.getByText("Vestido de teste")).toBeVisible();
+  await expect(page.getByText("Tamanho 38/44 · Vermelho")).toBeVisible();
+  await expect(page.getByRole("complementary").getByText("R$ 158,00")).toBeVisible();
+  await expect(page.getByRole("banner").getByRole("link", { name: "Sacola, 2 itens" })).toBeVisible();
+
+  await page.getByRole("button", { name: "Aumentar quantidade de Vestido de teste" }).click();
+  await expect(page.getByRole("complementary").getByText("R$ 237,00")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Aumentar quantidade de Vestido de teste" })).toBeDisabled(); // estoque 3
+
+  await page.getByRole("button", { name: /Remover/ }).click();
+  await expect(page.getByText("Sua sacola está vazia")).toBeVisible();
+});
+
+test("dados estranhos guardados no navegador são ignorados", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("eliclothing-carrinho-v1", '[{"nome":"<img src=x onerror=alert(1)>"}]'));
+  await page.goto("/carrinho");
+  await expect(page.getByText("Sua sacola está vazia")).toBeVisible();
+});
+
+test("produto que não existe mostra a página de não encontrado", async ({ page }) => {
+  const resposta = await page.goto("/produto/nao-existe");
+  expect(resposta?.status()).toBe(404);
+});
+
+for (const tema of ["light", "dark"] as const) {
+  test(`acessibilidade da sacola com itens no tema ${tema}`, async ({ page }) => {
+    await usarTema(page, tema);
+    await page.addInitScript((i) => localStorage.setItem("eliclothing-carrinho-v1", JSON.stringify([i])), item);
+    await page.goto("/carrinho");
+    await expect(page.getByText("Vestido de teste")).toBeVisible();
+    await semProblemasGravesDeAcessibilidade(page);
+  });
+}
