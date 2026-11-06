@@ -8,6 +8,7 @@ const itens = [
   { rotulo: "Produtos", href: "/admin/produtos" },
   { rotulo: "Categorias", href: "/admin/categorias" },
   { rotulo: "Coleções", href: "/admin/colecoes" },
+  { rotulo: "Textos da loja", href: "/admin/textos" },
 ];
 
 export function MenuAdmin() {

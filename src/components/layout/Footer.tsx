@@ -1,7 +1,7 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
 import { IconeInstagram, IconeLocal, IconeWhatsapp } from "@/components/ui/Icones";
-import { loja } from "@/lib/loja/config";
+import { obterLoja } from "@/lib/loja/repositorio";
 import { linkWhatsapp } from "@/lib/loja/whatsapp";
 
 function exibirNumero(numero: string): string {
@@ -17,6 +17,7 @@ async function anoAtual(): Promise<number> {
 }
 
 export async function Footer() {
+  const loja = await obterLoja();
   const whatsapp = linkWhatsapp(loja.whatsappNumero);
   const ano = await anoAtual();
 

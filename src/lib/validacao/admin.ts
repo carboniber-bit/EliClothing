@@ -1,5 +1,12 @@
 import { z } from "zod";
 import { reaisParaCentavos, slugify } from "@/lib/admin/formatacao";
+import {
+  MAX_LETRAS_LINHA_TITULO,
+  MAX_LINHAS_TITULO,
+  linhasDoTitulo,
+  normalizarUsuarioInstagram,
+  normalizarWhatsapp,
+} from "@/lib/loja/textos";
 
 const textoOpcional = (max: number) => z.string().trim().max(max, `No máximo ${max} caracteres.`);
 
@@ -105,3 +112,39 @@ export const colecaoSchema = z
     }
   })
   .transform((d) => ({ ...d, slug: slugify(d.slug || d.nome), descricao: d.descricao === "" ? null : d.descricao }));
+
+// Textarea do navegador envia quebras de linha do Windows (\r\n); aqui viram \n.
+const textoLivre = (max: number) => z.string().transform((v) => v.replace(/\r\n/g, "\n").trim()).pipe(z.string().max(max, `No máximo ${max} caracteres.`));
+
+export const textosLojaSchema = z.object({
+  topo_titulo: textoLivre(200).superRefine((v, ctx) => {
+    const linhas = v.replace(/\r\n/g, "\n").split("\n").map((l) => l.trim()).filter(Boolean);
+    if (linhas.length > MAX_LINHAS_TITULO) ctx.addIssue({ code: "custom", message: `Use no máximo ${MAX_LINHAS_TITULO} linhas.` });
+    if (linhas.some((l) => l.length > MAX_LETRAS_LINHA_TITULO)) {
+      ctx.addIssue({ code: "custom", message: `Cada linha pode ter até ${MAX_LETRAS_LINHA_TITULO} letras.` });
+    }
+  }).transform((v) => linhasDoTitulo(v).join("\n")),
+  topo_subtitulo: textoLivre(200),
+  sobre_titulo: textoLivre(120),
+  sobre_texto: textoLivre(1200),
+  instagram_titulo: textoLivre(100),
+  instagram_texto: textoLivre(300),
+  instagram_usuario: z.string().trim().transform((v, ctx) => {
+    if (v === "") return "";
+    const usuario = normalizarUsuarioInstagram(v);
+    if (!usuario) {
+      ctx.addIssue({ code: "custom", message: "Use só letras, números, ponto e _. Exemplo: @eliclothing_" });
+      return z.NEVER;
+    }
+    return usuario;
+  }),
+  whatsapp: z.string().trim().transform((v, ctx) => {
+    if (v === "") return "";
+    const numero = normalizarWhatsapp(v);
+    if (!numero) {
+      ctx.addIssue({ code: "custom", message: "Digite o número com DDD. Exemplo: (11) 97302-9002" });
+      return z.NEVER;
+    }
+    return numero;
+  }),
+});
