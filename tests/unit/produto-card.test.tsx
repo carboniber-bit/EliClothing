@@ -61,7 +61,8 @@ describe("ProdutoCard", () => {
   it("nome muito longo é truncado por CSS e o cartão pode encolher", () => {
     const longo = "Vestido ".repeat(40).trim();
     const { container } = render(<ProdutoCard produto={{ ...base, nome: longo }} />);
-    expect(screen.getByText(longo).className).toContain("line-clamp-2");
+    expect(screen.getByText(longo).closest("h3")?.className).toContain("line-clamp-2");
+    expect(screen.getByRole("link", { name: longo })).toHaveAttribute("href", "/produto/" + base.slug);
     expect((container.firstElementChild as HTMLElement).className).toContain("min-w-0");
   });
 });
