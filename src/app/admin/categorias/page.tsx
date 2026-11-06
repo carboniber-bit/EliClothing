@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { BotaoConfirmar } from "@/components/admin/BotaoConfirmar";
 import { camposCategoria } from "@/components/admin/campos";
 import { FormularioAdmin } from "@/components/admin/FormularioAdmin";
@@ -13,6 +14,11 @@ export default async function Categorias() {
   const { supabase } = await exigirAdmin();
   const { data } = await supabase.from("categorias").select("id, nome, slug, pai_id, ordem, ativo").order("ordem").order("nome");
   const categorias = (data ?? []) as Categoria[];
+  const { data: produtosBrutos } = await supabase.from("produtos").select("id, nome, ativo, categoria_id").not("categoria_id", "is", null).order("nome");
+  const produtosPorCategoria = new Map<string, { id: string; nome: string; ativo: boolean }[]>();
+  for (const p of (produtosBrutos ?? []) as { id: string; nome: string; ativo: boolean; categoria_id: string }[]) {
+    produtosPorCategoria.set(p.categoria_id, [...(produtosPorCategoria.get(p.categoria_id) ?? []), p]);
+  }
   const nomePorId = new Map(categorias.map((c) => [c.id, c.nome]));
 
   return (
@@ -35,15 +41,37 @@ export default async function Categorias() {
         <p className="rounded-2xl border border-borda bg-superficie p-4 text-sm">Nenhuma categoria ainda.</p>
       ) : (
         <ul className="space-y-3">
-          {categorias.map((c) => (
+          {categorias.map((c) => {
+            const produtos = produtosPorCategoria.get(c.id) ?? [];
+            return (
             <li key={c.id} className="rounded-2xl border border-borda bg-superficie p-4">
               <details>
                 <summary className="min-h-11 cursor-pointer py-2 font-semibold">
                   {c.pai_id ? `${nomePorId.get(c.pai_id) ?? "?"} › ` : ""}
                   {c.nome}
-                  <span className="ml-2 text-sm font-normal text-texto-suave">{c.ativo ? "" : "(escondida)"}</span>
+                  <span className="ml-2 text-sm font-normal text-texto-suave">
+                    {produtos.length} {produtos.length === 1 ? "produto" : "produtos"}
+                    {c.ativo ? "" : " · escondida"}
+                  </span>
                 </summary>
                 <div className="mt-4 space-y-4">
+                  <div>
+                    <h3 className="mb-2 text-lg">Produtos nesta categoria</h3>
+                    {produtos.length === 0 ? (
+                      <p className="text-sm text-texto-suave">Nenhum produto ainda. Escolha esta categoria ao editar um produto.</p>
+                    ) : (
+                      <ul className="space-y-2">
+                        {produtos.map((p) => (
+                          <li key={p.id}>
+                            <Link href={`/admin/produtos/${p.id}`} className="flex min-h-11 items-center justify-between gap-3 rounded-xl border border-borda px-4 py-2 text-sm font-semibold [overflow-wrap:anywhere] hover:bg-acento/20">
+                              <span>{p.nome}</span>
+                              <span className="shrink-0 font-normal text-texto-suave">{p.ativo ? "Editar" : "Escondido · Editar"}</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
                   <FormularioAdmin
                     acao={atualizarCategoria.bind(null, c.id)}
                     campos={camposCategoria(categorias.filter((o) => o.pai_id === null && o.id !== c.id))}
@@ -56,7 +84,8 @@ export default async function Categorias() {
                 </div>
               </details>
             </li>
-          ))}
+            );
+          })}
         </ul>
       )}
     </div>
