@@ -4,7 +4,7 @@ import { Botao } from "@/components/ui/Botao";
 import { IconeSeta } from "@/components/ui/Icones";
 import { escalaDoTitulo, linhasDoTitulo } from "@/lib/loja/textos";
 import type { DadosLoja } from "@/lib/loja/repositorio";
-import hero from "@/assets/hero-campanha.jpg";
+import hero from "@/assets/vestido-roxo.jpg";
 
 // Atraso da animação de cada elemento (lido pelo CSS em globals.css).
 const atraso = (segundos: number) => ({ "--atraso": `${segundos}s` }) as CSSProperties;
@@ -55,10 +55,10 @@ export function Hero({ loja }: { loja: DadosLoja }) {
           <div className="entra-imagem relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-superficie shadow-elevada">
             <Image
               src={hero}
-              alt="Mulher com blazer bordô e calça creme em campanha da EliClothing"
+              alt="Mulher com vestido roxo de frente única e saia franzida"
               priority
               sizes="(min-width: 768px) 560px, 90vw"
-              className="zoom-suave h-full w-full object-cover object-[70%_center]"
+              className="zoom-suave h-full w-full object-cover object-[50%_20%]"
             />
           </div>
 

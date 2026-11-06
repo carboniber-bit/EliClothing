@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatarPreco, precoFinal, temEstoque, type Produto } from "@/lib/catalogo/produto";
+import { estoqueTotal, formatarPreco, poucasUnidades, precoFinal, temEstoque, type Produto } from "@/lib/catalogo/produto";
 
 const base: Produto = {
   id: "1",
@@ -65,5 +65,28 @@ describe("temEstoque", () => {
         ],
       }),
     ).toBe(true);
+  });
+});
+
+describe("poucasUnidades", () => {
+  const comEstoque = (...estoques: number[]): Produto => ({
+    ...base,
+    variacoes: estoques.map((estoque, i) => ({ id: `v${i}`, tamanho: "M", cor: "Rosa", estoque })),
+  });
+
+  it("soma o estoque de todas as variações", () => {
+    expect(estoqueTotal(comEstoque(1, 2, 0))).toBe(3);
+  });
+  it("1 ou 2 unidades no total: poucas unidades", () => {
+    expect(poucasUnidades(comEstoque(1))).toBe(true);
+    expect(poucasUnidades(comEstoque(1, 1))).toBe(true);
+  });
+  it("3 ou mais no total: sem aviso", () => {
+    expect(poucasUnidades(comEstoque(3))).toBe(false);
+    expect(poucasUnidades(comEstoque(1, 1, 1))).toBe(false);
+  });
+  it("zero unidades é indisponível, não 'poucas'", () => {
+    expect(poucasUnidades(comEstoque(0))).toBe(false);
+    expect(poucasUnidades({ ...base, variacoes: [] })).toBe(false);
   });
 });

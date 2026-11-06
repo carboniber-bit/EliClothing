@@ -5,7 +5,7 @@ import { Botao } from "@/components/ui/Botao";
 import { Revelar } from "@/components/ui/Revelar";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
-import rua from "@/assets/look-rua.jpg";
+import telha from "@/assets/conjunto-telha.jpg";
 import { loja as lojaFixa } from "@/lib/loja/config";
 import { obterLoja } from "@/lib/loja/repositorio";
 
@@ -39,7 +39,7 @@ export default async function Catalogo() {
         ) : (
           <EstadoVazio
             titulo="Catálogo em preparação"
-            imagem={rua}
+            imagem={telha}
             texto="Estamos preparando a coleção. Enquanto isso, acompanhe as novidades no Instagram."
             acao={<Botao href={loja.instagramUrl}>Ver no Instagram</Botao>}
           />

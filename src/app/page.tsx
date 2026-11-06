@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { GradeProdutos } from "@/components/catalogo/GradeProdutos";
 import { ListaColecoes } from "@/components/catalogo/ListaColecoes";
+import { BannerMarca } from "@/components/home/BannerMarca";
 import { Hero } from "@/components/home/Hero";
 import { Botao } from "@/components/ui/Botao";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
@@ -10,10 +11,10 @@ import { Revelar } from "@/components/ui/Revelar";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
 import { obterLoja } from "@/lib/loja/repositorio";
 import { paragrafos } from "@/lib/loja/textos";
-import detalhe from "@/assets/detalhe-blusa.jpg";
-import hero from "@/assets/hero-campanha.jpg";
-import rua from "@/assets/look-rua.jpg";
-import sobre from "@/assets/sobre-atelie.jpg";
+import telha from "@/assets/conjunto-telha.jpg";
+import fotoLoja from "@/assets/foto-loja.jpg";
+import roxo from "@/assets/vestido-roxo.jpg";
+import vermelho from "@/assets/vestido-vermelho.jpg";
 
 const valores = [
   { Icone: IconeBrilho, titulo: "Curadoria com carinho", texto: "Peças escolhidas para valorizar quem você é." },
@@ -22,10 +23,10 @@ const valores = [
 ];
 
 const fotosInstagram = [
-  { src: rua, alt: "Look com saia plissada rosa e blusa creme" },
-  { src: hero, alt: "Look com blazer bordô" },
-  { src: detalhe, alt: "Detalhe de blusa de cetim bordô" },
-  { src: sobre, alt: "Arara de roupas da loja" },
+  { src: telha, alt: "Conjunto moletinho gola polo na cor telha" },
+  { src: roxo, alt: "Vestido roxo de frente única com saia franzida" },
+  { src: fotoLoja, alt: "Vestido marrom longo em camadas" },
+  { src: vermelho, alt: "Vestido vermelho de alças visto de frente, de lado e de costas" },
 ];
 
 export default async function Home() {
@@ -87,7 +88,7 @@ export default async function Home() {
           <EstadoVazio
             titulo="Novidades em breve"
             texto="Estamos preparando tudo com carinho. Acompanhe os lançamentos no nosso Instagram."
-            imagem={sobre}
+            imagem={telha}
             acao={
               <Botao href={loja.instagramUrl}>
                 <IconeInstagram />
@@ -98,19 +99,21 @@ export default async function Home() {
         )}
       </section>
 
+      <BannerMarca loja={loja} />
+
       <section id="sobre" className="scroll-mt-24 pt-24 md:pt-36">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:gap-16 md:px-8">
           <Revelar className="relative">
             <div className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-elevada">
               <Image
-                src={sobre}
-                alt="Arara com roupas femininas em tons de rosa, creme e bordô"
+                src={vermelho}
+                alt="Vestido vermelho de alças visto de frente, de lado e de costas"
                 sizes="(min-width: 768px) 50vw, 100vw"
                 className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
               />
             </div>
             <div className="absolute -bottom-6 right-0 w-40 overflow-hidden rounded-2xl border-4 border-fundo shadow-suave sm:w-52 md:-right-8">
-              <Image src={detalhe} alt="" sizes="208px" className="aspect-square w-full object-cover" />
+              <Image src={fotoLoja} alt="" sizes="208px" className="aspect-square w-full object-cover" />
             </div>
           </Revelar>
 

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { formatarPreco, precoFinal, temEstoque, type Produto } from "@/lib/catalogo/produto";
+import { formatarPreco, poucasUnidades, precoFinal, temEstoque, type Produto } from "@/lib/catalogo/produto";
 
 // Nesta etapa o cartão não é um link: a página do produto só existe na Etapa 5a.
 export function ProdutoCard({ produto }: { produto: Produto }) {
@@ -7,6 +7,7 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
   const emPromocao = final < produto.precoCentavos;
   const desconto = emPromocao ? Math.round(((produto.precoCentavos - final) / produto.precoCentavos) * 100) : 0;
   const disponivel = temEstoque(produto);
+  const poucas = poucasUnidades(produto);
 
   return (
     <article className="group min-w-0">
@@ -40,6 +41,12 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
             </span>
           ) : null}
         </div>
+
+        {poucas ? (
+          <span className="absolute bottom-3 left-3 rounded-full bg-acento px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-[#6b1f2e]">
+            Poucas unidades
+          </span>
+        ) : null}
 
         {!disponivel ? (
           <span className="absolute bottom-3 left-3 rounded-full bg-fundo px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-texto">

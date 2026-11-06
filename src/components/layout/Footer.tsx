@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import Link from "next/link";
+import { Marca } from "@/components/ui/Marca";
 import { IconeInstagram, IconeLocal, IconeWhatsapp } from "@/components/ui/Icones";
 import { obterLoja } from "@/lib/loja/repositorio";
 import { linkWhatsapp } from "@/lib/loja/whatsapp";
@@ -26,8 +27,7 @@ export async function Footer() {
       <div className="mx-auto max-w-7xl px-5 pb-10 pt-16 md:px-8">
         <div className="grid gap-12 md:grid-cols-2 md:gap-x-8 xl:grid-cols-[minmax(0,5fr)_minmax(0,2fr)_minmax(0,3fr)_minmax(0,2fr)]">
           <div>
-            <p className="font-titulo text-4xl tracking-[0.08em]">ELI</p>
-            <p className="text-[0.6rem] font-bold tracking-[0.5em]">CLOTHING</p>
+            <Marca className="w-24" />
             <p className="mt-6 max-w-sm font-titulo text-xl italic">{loja.slogan}.</p>
             <p className="mt-3 max-w-sm text-sm opacity-90">Moda feminina com personalidade, de {loja.cidade} para você.</p>
           </div>
