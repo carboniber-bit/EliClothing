@@ -155,6 +155,11 @@ label:has(input[type="checkbox"]) {
   padding-bottom: 0.08em;
   vertical-align: bottom;
 }
+/* Palavras do título nunca são cortadas com hífen; só quebram se a tela for pequena demais. */
+.palavra,
+.palavra > span {
+  hyphens: none;
+}
 .palavra > span {
   display: inline-block;
   animation: sobe 0.9s var(--suave) both;

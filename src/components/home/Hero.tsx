@@ -17,9 +17,9 @@ export function Hero() {
         <div className="relative z-10 order-2 min-w-0 md:order-1">
           <p className="eyebrow surge text-texto-suave">Moda feminina · {loja.cidade}</p>
 
-          <h1 className="mt-6 text-[clamp(2.25rem,8vw,6.5rem)] leading-[0.95]">
+          <h1 className="mt-6 text-[clamp(2.25rem,11vw,4.5rem)] leading-[0.98] md:text-[clamp(2.5rem,5.4vw,5.5rem)]">
             {palavras.map((p, i) => (
-              <span key={p}>
+              <span key={p} className="block">
                 <span className="palavra">
                   <span style={atraso(0.1 + i * 0.09)}>{p}</span>
                 </span>{" "}
