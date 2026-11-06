@@ -49,3 +49,15 @@ export function separarTamanhos(texto: string): string[] {
   }
   return [...vistos];
 }
+
+/** "branco, Preto ;  branco" → ["Branco", "Preto"]. Vazio → [] (produto sem cor). */
+export function separarCores(texto: string): string[] {
+  const vistas = new Map<string, string>();
+  for (const parte of texto.split(/[,;]/)) {
+    const t = parte.trim().replace(/\s+/g, " ");
+    if (!t) continue;
+    const chave = t.toLocaleLowerCase("pt-BR");
+    if (!vistas.has(chave)) vistas.set(chave, t.charAt(0).toLocaleUpperCase("pt-BR") + t.slice(1));
+  }
+  return [...vistas.values()];
+}

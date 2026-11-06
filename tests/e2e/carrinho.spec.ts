@@ -62,3 +62,30 @@ for (const tema of ["light", "dark"] as const) {
     await semProblemasGravesDeAcessibilidade(page);
   });
 }
+
+test("a gaveta de categorias abre, mostra o atalho para todos os produtos e fecha com Esc", async ({ page }) => {
+  await page.goto("/");
+  const botao = page.getByRole("banner").getByRole("button", { name: "Categorias" });
+  await botao.click();
+  const gaveta = page.getByRole("dialog", { name: "Categorias" });
+  await expect(gaveta).toBeVisible();
+  await expect(gaveta.getByRole("link", { name: "Todos os produtos" })).toHaveAttribute("href", "/catalogo");
+  await page.keyboard.press("Escape");
+  await expect(gaveta).toBeHidden();
+  await expect(botao).toBeFocused();
+});
+
+test("categoria que não existe mostra a página de não encontrado", async ({ page }) => {
+  await page.goto("/categoria/nao-existe");
+  await expect(page.getByRole("heading", { level: 1, name: "Página não encontrada" })).toBeVisible();
+});
+
+for (const tema of ["light", "dark"] as const) {
+  test(`acessibilidade da gaveta de categorias aberta no tema ${tema}`, async ({ page }) => {
+    await usarTema(page, tema);
+    await page.goto("/");
+    await page.getByRole("banner").getByRole("button", { name: "Categorias" }).click();
+    await expect(page.getByRole("dialog", { name: "Categorias" })).toBeVisible();
+    await semProblemasGravesDeAcessibilidade(page);
+  });
+}
