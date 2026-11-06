@@ -7,11 +7,12 @@ export const metadata: Metadata = { title: "Painel da loja", robots: { index: fa
 export default async function Painel() {
   const { supabase, usuario } = await exigirAdmin();
   const contar = (consulta: PromiseLike<{ count: number | null }>) => consulta.then((r) => r.count ?? 0);
-  const [total, ativos, semEstoque, novos] = await Promise.all([
+  const [total, ativos, semEstoque, novos, aguardando] = await Promise.all([
     contar(supabase.from("produtos").select("id", { count: "exact", head: true })),
     contar(supabase.from("produtos").select("id", { count: "exact", head: true }).eq("ativo", true)),
     contar(supabase.from("variacoes").select("id", { count: "exact", head: true }).eq("ativo", true).eq("estoque", 0)),
     contar(supabase.from("pedidos").select("id", { count: "exact", head: true }).eq("status", "novo")),
+    contar(supabase.from("pedidos").select("id", { count: "exact", head: true }).eq("status", "aguardando_pagamento")),
   ]);
 
   const cartoes = [
@@ -19,6 +20,7 @@ export default async function Painel() {
     { rotulo: "Aparecendo na loja", valor: ativos },
     { rotulo: "Variações sem estoque", valor: semEstoque },
     { rotulo: "Pedidos novos", valor: novos },
+    { rotulo: "Aguardando pagamento", valor: aguardando },
   ];
 
   return (
@@ -34,7 +36,10 @@ export default async function Painel() {
         ))}
       </dl>
       <div className="mt-8 flex flex-wrap gap-3">
-        <Botao href="/admin/produtos/novo">Cadastrar produto</Botao>
+        <Botao href="/admin/pedidos">Ver pedidos</Botao>
+        <Botao href="/admin/produtos/novo" variante="secundario">
+          Cadastrar produto
+        </Botao>
         <Botao href="/admin/categorias" variante="secundario">
           Categorias
         </Botao>

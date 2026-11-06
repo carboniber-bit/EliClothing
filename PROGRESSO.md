@@ -90,3 +90,7 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 - Loja: início (Novidades) e /catalogo leem produtos ativos do banco; cache renovado ao salvar no painel.
 - Testes no PC: Vitest 110/110, lint limpo, Playwright 125/125 (e2e agora isolado do banco real). Teste manual de fotos ok.
 - Próximo: 4B-2 (coleções, seções da home, banners, textos/WhatsApp da loja).
+
+## 4B-2 e 4C (resumo)
+- 4B-2: coleções (painel + loja), nova interface inspirada no Lovable, textos e fotos da página inicial editáveis, aviso "Poucas unidades" (menos de 3 no estoque). Tudo mesclado na main.
+- 4C (em andamento): pedidos no painel (lista com filtro por situação, detalhe com itens e histórico, mudança de situação com regras do banco; cancelar devolve estoque), equipe (dar/remover acesso ao painel), histórico de alterações (auditoria) e novo cartão no painel.
