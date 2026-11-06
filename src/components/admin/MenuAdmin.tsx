@@ -9,6 +9,7 @@ const itens = [
   { rotulo: "Categorias", href: "/admin/categorias" },
   { rotulo: "Coleções", href: "/admin/colecoes" },
   { rotulo: "Textos da loja", href: "/admin/textos" },
+  { rotulo: "Fotos da página inicial", href: "/admin/fotos-inicio" },
 ];
 
 export function MenuAdmin() {

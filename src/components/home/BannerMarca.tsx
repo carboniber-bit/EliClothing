@@ -19,10 +19,10 @@ export function BannerMarca({ loja }: { loja: DadosLoja }) {
           <div className="min-w-0 text-center md:text-left">
             <p className="eyebrow text-[#7a3a48] dark:text-texto-suave">Loja física & online · {loja.cidade}</p>
             <h2 id="banner-titulo" className="mt-4 text-4xl leading-tight md:text-5xl">
-              Moda feminina com personalidade
+              {loja.textos.banner_titulo}
             </h2>
             <p className="mx-auto mt-4 max-w-lg text-[#7a3a48] md:mx-0 dark:text-texto-suave">
-              Peças femininas, românticas e atuais, para você se vestir do seu jeito. Venha nos visitar ou chame no WhatsApp.
+              {loja.textos.banner_texto}
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3 md:justify-start">
               <Botao href="/catalogo">Ver peças</Botao>

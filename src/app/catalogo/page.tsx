@@ -39,7 +39,7 @@ export default async function Catalogo() {
         ) : (
           <EstadoVazio
             titulo="Catálogo em preparação"
-            imagem={telha}
+            imagem={loja.imagens.imagem_instagram_1 ?? telha}
             texto="Estamos preparando a coleção. Enquanto isso, acompanhe as novidades no Instagram."
             acao={<Botao href={loja.instagramUrl}>Ver no Instagram</Botao>}
           />

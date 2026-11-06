@@ -129,6 +129,8 @@ export const textosLojaSchema = z.object({
   sobre_texto: textoLivre(1200),
   instagram_titulo: textoLivre(100),
   instagram_texto: textoLivre(300),
+  banner_titulo: textoLivre(100),
+  banner_texto: textoLivre(300),
   instagram_usuario: z.string().trim().transform((v, ctx) => {
     if (v === "") return "";
     const usuario = normalizarUsuarioInstagram(v);

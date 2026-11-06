@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { GradeProdutos } from "@/components/catalogo/GradeProdutos";
 import { ListaColecoes } from "@/components/catalogo/ListaColecoes";
@@ -7,14 +6,12 @@ import { Hero } from "@/components/home/Hero";
 import { Botao } from "@/components/ui/Botao";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { IconeBrilho, IconeCoracao, IconeInstagram, IconeJoia, IconeSeta, IconeSetaCima } from "@/components/ui/Icones";
+import { FotoSite } from "@/components/ui/FotoSite";
 import { Revelar } from "@/components/ui/Revelar";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
 import { obterLoja } from "@/lib/loja/repositorio";
 import { paragrafos } from "@/lib/loja/textos";
 import telha from "@/assets/conjunto-telha.jpg";
-import fotoLoja from "@/assets/foto-loja.jpg";
-import roxo from "@/assets/vestido-roxo.jpg";
-import vermelho from "@/assets/vestido-vermelho.jpg";
 
 const valores = [
   { Icone: IconeBrilho, titulo: "Curadoria com carinho", texto: "Peças escolhidas para valorizar quem você é." },
@@ -23,11 +20,11 @@ const valores = [
 ];
 
 const fotosInstagram = [
-  { src: telha, alt: "Conjunto moletinho gola polo na cor telha" },
-  { src: roxo, alt: "Vestido roxo de frente única com saia franzida" },
-  { src: fotoLoja, alt: "Vestido marrom longo em camadas" },
-  { src: vermelho, alt: "Vestido vermelho de alças visto de frente, de lado e de costas" },
-];
+  { chave: "imagem_instagram_1", alt: "Foto de destaque da loja no Instagram" },
+  { chave: "imagem_instagram_2", alt: "Foto de destaque da loja no Instagram" },
+  { chave: "imagem_instagram_3", alt: "Foto de destaque da loja no Instagram" },
+  { chave: "imagem_instagram_4", alt: "Foto de destaque da loja no Instagram" },
+] as const;
 
 export default async function Home() {
   const repositorio = obterRepositorio();
@@ -88,7 +85,7 @@ export default async function Home() {
           <EstadoVazio
             titulo="Novidades em breve"
             texto="Estamos preparando tudo com carinho. Acompanhe os lançamentos no nosso Instagram."
-            imagem={telha}
+            imagem={loja.imagens.imagem_instagram_1 ?? telha}
             acao={
               <Botao href={loja.instagramUrl}>
                 <IconeInstagram />
@@ -105,15 +102,18 @@ export default async function Home() {
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:gap-16 md:px-8">
           <Revelar className="relative">
             <div className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-elevada">
-              <Image
-                src={vermelho}
-                alt="Vestido vermelho de alças visto de frente, de lado e de costas"
+              <FotoSite
+                chave="imagem_sobre"
+                url={loja.imagens.imagem_sobre}
+                alt="Foto da coleção da EliClothing"
                 sizes="(min-width: 768px) 50vw, 100vw"
-                className="h-full w-full object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
+                className="object-cover transition-transform duration-[1.6s] ease-out group-hover:scale-105"
               />
             </div>
             <div className="absolute -bottom-6 right-0 w-40 overflow-hidden rounded-2xl border-4 border-fundo shadow-suave sm:w-52 md:-right-8">
-              <Image src={fotoLoja} alt="" sizes="208px" className="aspect-square w-full object-cover" />
+              <div className="relative aspect-square">
+                <FotoSite chave="imagem_sobre_detalhe" url={loja.imagens.imagem_sobre_detalhe} alt="" sizes="208px" className="object-cover" />
+              </div>
             </div>
           </Revelar>
 
@@ -166,7 +166,7 @@ export default async function Home() {
 
               <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {fotosInstagram.map((f, i) => (
-                  <Revelar key={f.alt} atraso={i * 0.08} className={i % 2 === 1 ? "translate-y-6" : ""}>
+                  <Revelar key={f.chave} atraso={i * 0.08} className={i % 2 === 1 ? "translate-y-6" : ""}>
                     <a
                       href={loja.instagramUrl}
                       target="_blank"
@@ -174,11 +174,12 @@ export default async function Home() {
                       aria-label={`Abrir o Instagram ${loja.instagramUsuario}`}
                       className="group relative block aspect-square overflow-hidden rounded-2xl"
                     >
-                      <Image
-                        src={f.src}
+                      <FotoSite
+                        chave={f.chave}
+                        url={loja.imagens[f.chave]}
                         alt={f.alt}
                         sizes="(min-width: 768px) 25vw, 45vw"
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <span className="absolute inset-0 flex items-center justify-center bg-[#6b1f2e]/0 text-[#fff8f5] opacity-0 transition-all duration-500 group-hover:bg-[#6b1f2e]/40 group-hover:opacity-100">
                         <IconeInstagram className="h-7 w-7" />

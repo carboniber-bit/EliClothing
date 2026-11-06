@@ -19,6 +19,8 @@ const campos: CampoAdmin[] = [
   { nome: "sobre_texto", rotulo: "Texto de “Sobre a marca”", tipo: "area", dica: "Deixe uma linha em branco para separar parágrafos. Até 1200 letras." },
   { nome: "instagram_titulo", rotulo: "Título da seção do Instagram", tipo: "texto", dica: "Até 100 letras." },
   { nome: "instagram_texto", rotulo: "Texto da seção do Instagram", tipo: "area", dica: "Até 300 letras." },
+  { nome: "banner_titulo", rotulo: "Título do banner da marca", tipo: "texto", dica: "Faixa rosada com o logotipo. Até 100 letras." },
+  { nome: "banner_texto", rotulo: "Texto do banner da marca", tipo: "area", dica: "Até 300 letras." },
   { nome: "instagram_usuario", rotulo: "Instagram da loja", tipo: "texto", dica: "Exemplo: @eliclothing_ (pode colar o link do perfil)." },
   { nome: "whatsapp", rotulo: "WhatsApp da loja", tipo: "texto", dica: "Com DDD. Exemplo: (11) 97302-9002." },
 ];

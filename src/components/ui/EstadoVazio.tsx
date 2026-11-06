@@ -1,7 +1,7 @@
 import Image, { type StaticImageData } from "next/image";
 import type { ReactNode } from "react";
 
-type Props = { titulo: string; texto: string; acao?: ReactNode; imagem?: StaticImageData };
+type Props = { titulo: string; texto: string; acao?: ReactNode; imagem?: StaticImageData | string };
 
 export function EstadoVazio({ titulo, texto, acao, imagem }: Props) {
   return (
