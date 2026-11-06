@@ -35,7 +35,8 @@
     - [x] 4B-1 fotos do produto (envio, principal, ordem, exclusão) + loja lendo produtos do banco (testado no PC: Vitest 110/110, lint, Playwright 125/125, teste manual ok)
     - [x] 4B-2a coleções no painel (criar/editar/excluir + marcar no produto) — testado no PC
     - [ ] 4B-2a+ coleções visíveis na loja (home, /catalogo, /colecoes/[slug]) — código pronto, aguardando teste
-    - [ ] 4B-2b seções da home, banners, textos/WhatsApp da loja
+    - [x] 4B-2b-1 textos e contatos da loja editáveis (aba Textos da loja) — CI verde, aguardando teste manual
+    - [ ] 4B-2b-2 banners e fotos da página inicial editáveis
   - [ ] 4C Pedidos, equipe, histórico
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)

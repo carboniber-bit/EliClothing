@@ -244,3 +244,13 @@ label:has(input[type="checkbox"]) {
 .cabecalho-fixo[data-oculto="true"] {
   transform: translateY(-100%);
 }
+
+/* Título do topo: a letra diminui sozinha quando uma linha é comprida (--escala vem do texto editado). */
+.titulo-topo {
+  font-size: calc(clamp(2.25rem, 11vw, 4.5rem) * var(--escala, 1));
+}
+@media (min-width: 48rem) {
+  .titulo-topo {
+    font-size: calc(clamp(2.5rem, 5.4vw, 5.5rem) * var(--escala, 1));
+  }
+}

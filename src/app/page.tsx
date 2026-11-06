@@ -8,7 +8,8 @@ import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { IconeBrilho, IconeCoracao, IconeInstagram, IconeJoia, IconeSeta, IconeSetaCima } from "@/components/ui/Icones";
 import { Revelar } from "@/components/ui/Revelar";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
-import { loja } from "@/lib/loja/config";
+import { obterLoja } from "@/lib/loja/repositorio";
+import { paragrafos } from "@/lib/loja/textos";
 import detalhe from "@/assets/detalhe-blusa.jpg";
 import hero from "@/assets/hero-campanha.jpg";
 import rua from "@/assets/look-rua.jpg";
@@ -29,11 +30,15 @@ const fotosInstagram = [
 
 export default async function Home() {
   const repositorio = obterRepositorio();
-  const [novidades, colecoes] = await Promise.all([repositorio.listarNovidades(8), repositorio.listarColecoes()]);
+  const [novidades, colecoes, loja] = await Promise.all([
+    repositorio.listarNovidades(8),
+    repositorio.listarColecoes(),
+    obterLoja(),
+  ]);
 
   return (
     <>
-      <Hero />
+      <Hero loja={loja} />
 
       <section aria-label="Nossos valores" className="border-y border-borda bg-superficie">
         <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 sm:grid-cols-3 md:px-8">
@@ -113,18 +118,15 @@ export default async function Home() {
             <Revelar>
               <p className="eyebrow text-texto-suave">Sobre a marca</p>
               <h2 className="mt-4 text-4xl leading-tight md:text-6xl">
-                Moda que celebra <span className="italic">a mulher que você é.</span>
+                {loja.textos.sobre_titulo}
               </h2>
             </Revelar>
             <Revelar atraso={0.1}>
-              <p className="mt-8 text-lg leading-relaxed text-texto-suave">
-                A {loja.nome} nasceu em {loja.cidade} com um propósito simples: fazer cada mulher se sentir bonita, confiante e do
-                jeito dela. Escolhemos peças femininas, românticas e atuais, pensadas para acompanhar a sua rotina e os seus
-                momentos especiais.
-              </p>
-              <p className="mt-5 text-lg leading-relaxed text-texto-suave">
-                Porque se vestir bem começa por dentro, e a primeira pessoa a se impressionar é você mesma.
-              </p>
+              {paragrafos(loja.textos.sobre_texto).map((p, i) => (
+                <p key={i} className={`${i === 0 ? "mt-8" : "mt-5"} text-lg leading-relaxed text-texto-suave`}>
+                  {p}
+                </p>
+              ))}
             </Revelar>
             <Revelar atraso={0.2} className="mt-10 flex flex-wrap gap-3">
               <Botao href="/catalogo">Conhecer o catálogo</Botao>
@@ -146,10 +148,10 @@ export default async function Home() {
                 </span>
                 <p className="eyebrow mt-6 text-texto-suave">{loja.instagramUsuario}</p>
                 <h2 className="mt-3 text-4xl leading-tight md:text-5xl">
-                  Siga a {loja.nome} <span className="italic">no Instagram</span>
+                  {loja.textos.instagram_titulo}
                 </h2>
                 <p className="mt-5 max-w-sm text-texto-suave">
-                  Lançamentos, looks e dicas de estilo direto de {loja.cidade}. Seja a primeira a ver as peças novas.
+                  {loja.textos.instagram_texto}
                 </p>
                 <Botao href={loja.instagramUrl} className="mt-8">
                   Seguir {loja.instagramUsuario}

@@ -2,40 +2,37 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Botao } from "@/components/ui/Botao";
 import { IconeSeta } from "@/components/ui/Icones";
-import { loja } from "@/lib/loja/config";
+import { escalaDoTitulo, linhasDoTitulo } from "@/lib/loja/textos";
+import type { DadosLoja } from "@/lib/loja/repositorio";
 import hero from "@/assets/hero-campanha.jpg";
-
-const palavras = ["Vista-se", "para", "impressionar"];
 
 // Atraso da animação de cada elemento (lido pelo CSS em globals.css).
 const atraso = (segundos: number) => ({ "--atraso": `${segundos}s` }) as CSSProperties;
 
-export function Hero() {
+export function Hero({ loja }: { loja: DadosLoja }) {
+  const linhas = linhasDoTitulo(loja.textos.topo_titulo);
+  const ultima = linhas.length - 1;
+  const estiloTitulo = { "--escala": escalaDoTitulo(linhas) } as CSSProperties;
   return (
     <section className="relative overflow-hidden">
       <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-6 md:grid-cols-2 md:gap-6 md:px-8 md:pb-24 md:pt-10">
         <div className="relative z-10 order-2 min-w-0 md:order-1">
           <p className="eyebrow surge text-texto-suave">Moda feminina · {loja.cidade}</p>
 
-          <h1 className="mt-6 text-[clamp(2.25rem,11vw,4.5rem)] leading-[0.98] md:text-[clamp(2.5rem,5.4vw,5.5rem)]">
-            {palavras.map((p, i) => (
-              <span key={p} className="block">
+          <h1 className="titulo-topo mt-6 leading-[0.98]" style={estiloTitulo}>
+            {linhas.map((linha, i) => (
+              <span key={`${i}-${linha}`} className="block">
                 <span className="palavra">
-                  <span style={atraso(0.1 + i * 0.09)}>{p}</span>
+                  <span className={i === ultima && ultima > 0 ? "italic text-texto-suave" : undefined} style={atraso(0.1 + i * 0.09)}>
+                    {linha}
+                  </span>
                 </span>{" "}
               </span>
             ))}
-            <span className="block">
-              <span className="palavra">
-                <span className="italic text-texto-suave" style={atraso(0.4)}>
-                  (você mesma).
-                </span>
-              </span>
-            </span>
           </h1>
 
           <p className="surge mt-8 max-w-md text-base leading-relaxed text-texto-suave md:text-lg" style={atraso(0.6)}>
-            Moda feminina para mulheres que expressam sua personalidade em cada detalhe.
+            {loja.textos.topo_subtitulo}
           </p>
 
           <div className="surge mt-10 flex flex-wrap gap-3" style={atraso(0.75)}>

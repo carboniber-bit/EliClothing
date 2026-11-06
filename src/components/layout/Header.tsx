@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { loja } from "@/lib/loja/config";
+import { obterLoja } from "@/lib/loja/repositorio";
 import { BotaoConta } from "./BotaoConta";
 import { CabecalhoFixo } from "./CabecalhoFixo";
 import { Logo } from "./Logo";
 import { MenuMobile, type LinkMenu } from "./MenuMobile";
 import { ThemeToggle } from "./ThemeToggle";
 
-const links: LinkMenu[] = [
-  { rotulo: "Início", href: "/" },
-  { rotulo: "Catálogo", href: "/catalogo" },
-  { rotulo: "Instagram", href: loja.instagramUrl, externo: true },
-];
+export async function Header() {
+  const loja = await obterLoja();
+  const links: LinkMenu[] = [
+    { rotulo: "Início", href: "/" },
+    { rotulo: "Catálogo", href: "/catalogo" },
+    { rotulo: "Instagram", href: loja.instagramUrl, externo: true },
+  ];
 
-export function Header() {
   return (
     <CabecalhoFixo>
       <div className="relative mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-2 md:px-8">

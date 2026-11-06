@@ -6,16 +6,17 @@ import { Revelar } from "@/components/ui/Revelar";
 import { EstadoVazio } from "@/components/ui/EstadoVazio";
 import { obterRepositorio } from "@/lib/catalogo/repositorio";
 import rua from "@/assets/look-rua.jpg";
-import { loja } from "@/lib/loja/config";
+import { loja as lojaFixa } from "@/lib/loja/config";
+import { obterLoja } from "@/lib/loja/repositorio";
 
 export const metadata: Metadata = {
   title: "Catálogo",
-  description: `Catálogo de moda feminina da ${loja.nome}.`,
+  description: `Catálogo de moda feminina da ${lojaFixa.nome}.`,
 };
 
 export default async function Catalogo() {
   const repositorio = obterRepositorio();
-  const [produtos, colecoes] = await Promise.all([repositorio.listarProdutos(), repositorio.listarColecoes()]);
+  const [produtos, colecoes, loja] = await Promise.all([repositorio.listarProdutos(), repositorio.listarColecoes(), obterLoja()]);
 
   return (
     <div className="mx-auto max-w-7xl px-5 pt-10 md:px-8 md:pt-16">
