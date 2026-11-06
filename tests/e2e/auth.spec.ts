@@ -68,7 +68,7 @@ test("o cabeçalho tem o link Entrar", async ({ page }) => {
 });
 
 test("todas as páginas do painel mandam visitante para a tela de entrar", async ({ page }) => {
-  for (const rota of ["/admin/produtos", "/admin/produtos/novo", "/admin/categorias", "/admin/produtos/11111111-1111-4111-8111-111111111111"]) {
+  for (const rota of ["/admin/produtos", "/admin/produtos/novo", "/admin/categorias", "/admin/pedidos", "/admin/pedidos?status=pago", "/admin/pedidos/11111111-1111-4111-8111-111111111111", "/admin/equipe", "/admin/historico", "/admin/produtos/11111111-1111-4111-8111-111111111111"]) {
     await page.goto(rota);
     await expect(page, rota).toHaveURL(/\/entrar\?proximo=/);
   }

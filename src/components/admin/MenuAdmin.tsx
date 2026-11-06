@@ -5,11 +5,14 @@ import { usePathname } from "next/navigation";
 
 const itens = [
   { rotulo: "Painel", href: "/admin" },
+  { rotulo: "Pedidos", href: "/admin/pedidos" },
   { rotulo: "Produtos", href: "/admin/produtos" },
   { rotulo: "Categorias", href: "/admin/categorias" },
   { rotulo: "Coleções", href: "/admin/colecoes" },
   { rotulo: "Textos da loja", href: "/admin/textos" },
   { rotulo: "Fotos da página inicial", href: "/admin/fotos-inicio" },
+  { rotulo: "Equipe", href: "/admin/equipe" },
+  { rotulo: "Histórico", href: "/admin/historico" },
 ];
 
 export function MenuAdmin() {

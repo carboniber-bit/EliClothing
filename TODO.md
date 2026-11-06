@@ -34,10 +34,11 @@
   - [ ] 4B Fotos, coleções, home, conteúdo, vitrine lendo do banco
     - [x] 4B-1 fotos do produto (envio, principal, ordem, exclusão) + loja lendo produtos do banco (testado no PC: Vitest 110/110, lint, Playwright 125/125, teste manual ok)
     - [x] 4B-2a coleções no painel (criar/editar/excluir + marcar no produto) — testado no PC
-    - [ ] 4B-2a+ coleções visíveis na loja (home, /catalogo, /colecoes/[slug]) — código pronto, aguardando teste
-    - [x] 4B-2b-1 textos e contatos da loja editáveis (aba Textos da loja) — CI verde, aguardando teste manual
-    - [ ] 4B-2b-2 banners e fotos da página inicial editáveis
-  - [ ] 4C Pedidos, equipe, histórico
+    - [x] 4B-2a+ coleções visíveis na loja (home, /catalogo, /colecoes/[slug]) — testado e mesclada
+    - [x] 4B-2b-1 textos e contatos da loja editáveis (aba Textos da loja) — mesclada
+    - [x] 4B-2b-2 banners e fotos da página inicial editáveis — mesclada (PR #5)
+  - [ ] 4C Pedidos, equipe, histórico (branch etapa-4c-pedidos-equipe)
+    - [x] Código: /admin/pedidos (lista, filtro, detalhe, mudar situação), /admin/equipe, /admin/historico, painel com 'Aguardando pagamento' — aguardando CI e teste manual
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)
 - [ ] Etapa 5c — Bot do Telegram
