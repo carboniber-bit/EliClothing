@@ -29,7 +29,7 @@ test("o cabeçalho tem o botão da sacola e ele abre a sacola", async ({ page })
 test("sacola com itens guardados mostra total e controla a quantidade", async ({ page }) => {
   await page.addInitScript((i) => localStorage.setItem("eliclothing-carrinho-v1", JSON.stringify([i])), item);
   await page.goto("/carrinho");
-  await expect(page.getByText("Vestido de teste")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Vestido de teste" })).toBeVisible();
   await expect(page.getByText("Tamanho 38/44 · Vermelho")).toBeVisible();
   await expect(page.getByRole("complementary").getByText("R$ 158,00")).toBeVisible();
   await expect(page.getByRole("banner").getByRole("link", { name: "Sacola, 2 itens" })).toBeVisible();
@@ -49,8 +49,8 @@ test("dados estranhos guardados no navegador são ignorados", async ({ page }) =
 });
 
 test("produto que não existe mostra a página de não encontrado", async ({ page }) => {
-  const resposta = await page.goto("/produto/nao-existe");
-  expect(resposta?.status()).toBe(404);
+  await page.goto("/produto/nao-existe");
+  await expect(page.getByRole("heading", { level: 1, name: "Página não encontrada" })).toBeVisible();
 });
 
 for (const tema of ["light", "dark"] as const) {
@@ -58,7 +58,7 @@ for (const tema of ["light", "dark"] as const) {
     await usarTema(page, tema);
     await page.addInitScript((i) => localStorage.setItem("eliclothing-carrinho-v1", JSON.stringify([i])), item);
     await page.goto("/carrinho");
-    await expect(page.getByText("Vestido de teste")).toBeVisible();
+    await expect(page.getByRole("link", { name: "Vestido de teste" })).toBeVisible();
     await semProblemasGravesDeAcessibilidade(page);
   });
 }
