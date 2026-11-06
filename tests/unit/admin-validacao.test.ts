@@ -46,7 +46,9 @@ describe("produtoSchema", () => {
 
 describe("variações e estoque", () => {
   it("aceita tamanho, cor e estoque", () => {
-    expect(variacaoSchema.parse({ tamanho: " M ", cor: "Rosa", estoque: "5" })).toEqual({ tamanho: "M", cor: "Rosa", estoque: 5 });
+    expect(variacaoSchema.parse({ tamanho: " M ", cor: "Rosa", estoque: "5" })).toEqual({ tamanho: ["M"], cor: "Rosa", estoque: 5 });
+    expect(variacaoSchema.parse({ tamanho: "p, m, G", cor: "", estoque: "2" }).tamanho).toEqual(["P", "M", "G"]);
+    expect(variacaoSchema.safeParse({ tamanho: "a, b, c, d, e, f, g, h, i, j, k, l, m", cor: "", estoque: "1" }).success).toBe(false);
   });
   it("recusa estoque negativo, decimal ou texto", () => {
     for (const estoque of ["-1", "1,5", "dois", ""]) {

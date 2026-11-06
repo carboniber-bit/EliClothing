@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCarrinho } from "@/components/carrinho/CarrinhoProvider";
 import { Botao } from "@/components/ui/Botao";
-import { coresDisponiveis, corInicial, tamanhosDaCor } from "@/lib/catalogo/variacoes";
+import { coresDisponiveis, corInicial, opcoesDeTamanho, tamanhosDaCor } from "@/lib/catalogo/variacoes";
 import { LIMITE_POUCAS_UNIDADES, precoFinal, type Produto } from "@/lib/catalogo/produto";
 
 const opcao = "inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border px-4 text-sm font-semibold [overflow-wrap:anywhere]";
@@ -18,6 +18,7 @@ export function ComprarProduto({ produto, foto }: { produto: Produto; foto: stri
   const [adicionado, setAdicionado] = useState(false);
 
   const tamanhos = tamanhosDaCor(produto.variacoes, cor);
+  const opcoes = opcoesDeTamanho(tamanhos);
   const escolhida = tamanhos.find((v) => v.id === variacaoId) ?? null;
 
   if (produto.variacoes.every((v) => v.estoque <= 0)) {
@@ -71,25 +72,27 @@ export function ComprarProduto({ produto, foto }: { produto: Produto; foto: stri
       <fieldset>
         <legend className="mb-2 text-sm font-semibold">Tamanho</legend>
         <div className="flex flex-wrap gap-2">
-          {tamanhos.map((v) => {
-            const esgotado = v.estoque <= 0;
+          {opcoes.map(({ tamanho, variacao: v }) => {
+            const indisponivel = !v || v.estoque <= 0;
+            const marcado = !!v && v.id === variacaoId;
             return (
               <button
-                key={v.id}
+                key={tamanho}
                 type="button"
-                disabled={esgotado}
-                aria-pressed={v.id === variacaoId}
+                disabled={indisponivel}
+                aria-pressed={marcado}
                 onClick={() => {
+                  if (!v) return;
                   setVariacaoId(v.id);
                   setAviso(null);
                   setAdicionado(false);
                 }}
                 className={`${opcao} ${
-                  v.id === variacaoId ? "border-primario bg-primario text-primario-texto" : "border-borda bg-superficie hover:bg-acento/30"
-                } disabled:cursor-not-allowed disabled:line-through disabled:opacity-50`}
+                  marcado ? "border-primario bg-primario text-primario-texto" : "border-borda bg-superficie hover:bg-acento/30"
+                } disabled:cursor-not-allowed disabled:border-borda disabled:bg-borda/40 disabled:text-texto-suave disabled:opacity-60 ${v ? "disabled:line-through" : ""}`}
               >
-                {v.tamanho}
-                {esgotado ? <span className="sr-only"> (esgotado)</span> : null}
+                {tamanho}
+                {indisponivel ? <span className="sr-only"> ({v ? "esgotado" : "não disponível neste produto"})</span> : null}
               </button>
             );
           })}

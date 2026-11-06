@@ -19,3 +19,25 @@ describe("variações do produto", () => {
     expect(corInicial([])).toBe("");
   });
 });
+
+import { opcoesDeTamanho } from "@/lib/catalogo/variacoes";
+import { separarTamanhos } from "@/lib/admin/formatacao";
+
+describe("tamanhos", () => {
+  it("mostra a escala PP–XG com os que faltam sem variação", () => {
+    const op = opcoesDeTamanho([v("1", "P", "", 2), v("2", "M", "", 0)]);
+    expect(op.map((o) => o.tamanho)).toEqual(["PP", "P", "M", "G", "GG", "XG"]);
+    expect(op.map((o) => o.variacao !== null)).toEqual([false, true, true, false, false, false]);
+  });
+  it("tamanhos fora da escala mostram só os do produto", () => {
+    expect(opcoesDeTamanho([v("1", "38/44", "", 2)]).map((o) => o.tamanho)).toEqual(["38/44"]);
+    expect(opcoesDeTamanho([v("1", "P", "", 1), v("2", "Único", "", 1)]).map((o) => o.tamanho)).toEqual(["P", "Único"]);
+    expect(opcoesDeTamanho([])).toEqual([]);
+  });
+  it("separa vários tamanhos digitados de uma vez", () => {
+    expect(separarTamanhos("p, M, g,, gg ; XG, m")).toEqual(["P", "M", "G", "GG", "XG"]);
+    expect(separarTamanhos("38/44")).toEqual(["38/44"]);
+    expect(separarTamanhos("Único")).toEqual(["Único"]);
+    expect(separarTamanhos(" , ")).toEqual([]);
+  });
+});

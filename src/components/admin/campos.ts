@@ -37,7 +37,7 @@ export function camposCategoria(outras: CategoriaOpcao[]): CampoAdmin[] {
 }
 
 export const camposNovaVariacao: CampoAdmin[] = [
-  { nome: "tamanho", rotulo: "Tamanho", tipo: "texto", dica: "P, M, G, 38, Único..." },
+  { nome: "tamanho", rotulo: "Tamanho", tipo: "texto", dica: "Um tamanho (M, 38, Único...) ou vários separados por vírgula: P, M, G. Cada tamanho vira uma caixa na loja." },
   { nome: "cor", rotulo: "Cor (opcional)", tipo: "texto" },
   { nome: "estoque", rotulo: "Quantidade em estoque", tipo: "inteiro" },
 ];

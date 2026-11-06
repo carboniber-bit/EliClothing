@@ -36,3 +36,16 @@ export function centavosParaReais(centavos: number): string {
   const total = Math.round(centavos);
   return `${Math.floor(total / 100)},${(total % 100).toString().padStart(2, "0")}`;
 }
+
+/**
+ * "p, m, G" → ["P", "M", "G"]. Separa só por vírgula/ponto e vírgula (tamanhos como "38/44" continuam inteiros),
+ * tira repetidos e põe letras de tamanho em maiúsculas.
+ */
+export function separarTamanhos(texto: string): string[] {
+  const vistos = new Set<string>();
+  for (const parte of texto.split(/[,;]/)) {
+    const t = parte.trim().replace(/\s+/g, " ");
+    if (t) vistos.add(/^[a-z]{1,3}$/i.test(t) ? t.toUpperCase() : t);
+  }
+  return [...vistos];
+}

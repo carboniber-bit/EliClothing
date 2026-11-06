@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { reaisParaCentavos, slugify } from "@/lib/admin/formatacao";
+import { reaisParaCentavos, separarTamanhos, slugify } from "@/lib/admin/formatacao";
 import {
   MAX_LETRAS_LINHA_TITULO,
   MAX_LINHAS_TITULO,
@@ -73,7 +73,17 @@ const inteiro = (maximo: number, rotulo: string) =>
     .refine((n) => n <= maximo, `${rotulo}: no máximo ${maximo}.`);
 
 export const variacaoSchema = z.object({
-  tamanho: z.string().trim().min(1, "Digite o tamanho (P, M, G, 38, Único...).").max(20, "No máximo 20 caracteres."),
+  tamanho: z
+    .string()
+    .trim()
+    .min(1, "Digite o tamanho (P, M, G, 38, Único...).")
+    .transform(separarTamanhos)
+    .pipe(
+      z
+        .array(z.string().max(20, "Cada tamanho pode ter no máximo 20 caracteres."))
+        .min(1, "Digite o tamanho (P, M, G, 38, Único...).")
+        .max(12, "No máximo 12 tamanhos de uma vez."),
+    ),
   cor: textoOpcional(40),
   estoque: inteiro(100000, "Estoque"),
 });
