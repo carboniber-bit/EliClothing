@@ -1,10 +1,9 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Botao } from "@/components/ui/Botao";
 import { IconeSeta } from "@/components/ui/Icones";
 import { escalaDoTitulo, linhasDoTitulo } from "@/lib/loja/textos";
 import type { DadosLoja } from "@/lib/loja/repositorio";
-import hero from "@/assets/vestido-roxo.jpg";
+import { FotoSite } from "@/components/ui/FotoSite";
 
 // Atraso da animação de cada elemento (lido pelo CSS em globals.css).
 const atraso = (segundos: number) => ({ "--atraso": `${segundos}s` }) as CSSProperties;
@@ -53,12 +52,13 @@ export function Hero({ loja }: { loja: DadosLoja }) {
 
         <div className="relative order-1 md:order-2">
           <div className="entra-imagem relative mx-auto aspect-[4/5] w-full max-w-[560px] overflow-hidden rounded-t-[999px] rounded-b-[2rem] bg-superficie shadow-elevada">
-            <Image
-              src={hero}
-              alt="Mulher com vestido roxo de frente única e saia franzida"
+            <FotoSite
+              chave="imagem_topo"
+              url={loja.imagens.imagem_topo}
+              alt="Foto de destaque da EliClothing"
               priority
               sizes="(min-width: 768px) 560px, 90vw"
-              className="zoom-suave h-full w-full object-cover object-[50%_20%]"
+              className="zoom-suave object-cover object-[50%_20%]"
             />
           </div>
 

@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useRef, useState, useTransition } from "react";
 import type { ResultadoFoto } from "@/lib/admin/acoes-fotos";
-import { LADO_MAXIMO, TIPOS_FOTO, calcularTamanho } from "@/lib/admin/imagem";
+import { TIPOS_FOTO } from "@/lib/admin/imagem";
+import { prepararFoto } from "@/lib/admin/preparar-foto";
 import { criarClienteNavegador } from "@/lib/supabase/navegador";
 
 export type FotoLista = { id: string; url: string; principal: boolean };
@@ -17,24 +18,6 @@ type Props = {
   mover: (imagemId: string, produtoId: string, direcao: -1 | 1) => Promise<ResultadoFoto>;
   excluir: (imagemId: string, produtoId: string) => Promise<ResultadoFoto>;
 };
-
-/** Reduz a foto (celular tira fotos enormes) e converte para JPEG antes de enviar. */
-async function prepararFoto(arquivo: File): Promise<Blob> {
-  const imagem = await createImageBitmap(arquivo);
-  const { largura, altura } = calcularTamanho(imagem.width, imagem.height, LADO_MAXIMO);
-  const tela = document.createElement("canvas");
-  tela.width = largura;
-  tela.height = altura;
-  const contexto = tela.getContext("2d");
-  if (!contexto) throw new Error("sem-canvas");
-  contexto.fillStyle = "#ffffff"; // PNG com fundo transparente fica sobre branco
-  contexto.fillRect(0, 0, largura, altura);
-  contexto.drawImage(imagem, 0, 0, largura, altura);
-  imagem.close();
-  return new Promise((resolver, rejeitar) =>
-    tela.toBlob((b) => (b ? resolver(b) : rejeitar(new Error("sem-blob"))), "image/jpeg", 0.85),
-  );
-}
 
 const botao =
   "inline-flex min-h-11 items-center justify-center rounded-full border border-primario px-4 text-sm font-semibold transition-colors hover:bg-acento/30 disabled:opacity-60";

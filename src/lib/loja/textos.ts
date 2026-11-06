@@ -10,6 +10,8 @@ export const CHAVES_TEXTO = [
   "instagram_texto",
   "instagram_usuario",
   "whatsapp",
+  "banner_titulo",
+  "banner_texto",
 ] as const;
 
 export type ChaveTexto = (typeof CHAVES_TEXTO)[number];
@@ -25,6 +27,8 @@ export const TEXTOS_PADRAO: TextosLoja = {
   instagram_texto: "Lançamentos, looks e dicas de estilo direto de Osasco-SP. Seja a primeira a ver as peças novas.",
   instagram_usuario: "@eliclothing_",
   whatsapp: "11973029002",
+  banner_titulo: "Moda feminina com personalidade",
+  banner_texto: "Peças femininas, românticas e atuais, para você se vestir do seu jeito. Venha nos visitar ou chame no WhatsApp.",
 };
 
 export const MAX_LINHAS_TITULO = 4;
