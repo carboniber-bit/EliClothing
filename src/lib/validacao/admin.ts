@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { reaisParaCentavos, slugify } from "@/lib/admin/formatacao";
+import { reaisParaCentavos, separarCores, separarTamanhos, slugify } from "@/lib/admin/formatacao";
 import {
   MAX_LETRAS_LINHA_TITULO,
   MAX_LINHAS_TITULO,
@@ -73,9 +73,26 @@ const inteiro = (maximo: number, rotulo: string) =>
     .refine((n) => n <= maximo, `${rotulo}: no máximo ${maximo}.`);
 
 export const variacaoSchema = z.object({
-  tamanho: z.string().trim().min(1, "Digite o tamanho (P, M, G, 38, Único...).").max(20, "No máximo 20 caracteres."),
-  cor: textoOpcional(40),
+  tamanho: z
+    .string()
+    .trim()
+    .min(1, "Digite o tamanho (P, M, G, 38, Único...).")
+    .transform(separarTamanhos)
+    .pipe(
+      z
+        .array(z.string().max(20, "Cada tamanho pode ter no máximo 20 caracteres."))
+        .min(1, "Digite o tamanho (P, M, G, 38, Único...).")
+        .max(12, "No máximo 12 tamanhos de uma vez."),
+    ),
+  cor: z
+    .string()
+    .trim()
+    .transform(separarCores)
+    .pipe(z.array(z.string().max(40, "Cada cor pode ter no máximo 40 caracteres.")).max(12, "No máximo 12 cores de uma vez.")),
   estoque: inteiro(100000, "Estoque"),
+}).refine((d) => d.tamanho.length * Math.max(1, d.cor.length) <= 60, {
+  path: ["tamanho"],
+  message: "São muitas combinações de uma vez (máximo 60). Adicione em partes.",
 });
 
 export const estoqueSchema = z.object({

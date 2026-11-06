@@ -120,18 +120,19 @@ export async function criarVariacao(produtoId: string, _anterior: EstadoForm, da
   const r = variacaoSchema.safeParse(bruto);
   if (!r.success) return { campos: errosDoZod(r.error), valores: bruto };
 
-  const { error } = await admin.supabase
-    .from("variacoes")
-    .insert({ produto_id: produtoId, tamanho: r.data.tamanho, cor: r.data.cor, estoque: r.data.estoque });
+  // Uma variação para cada combinação: "P, M" com "Branco, Preto" cria 4, todas com o mesmo estoque.
+  const cores = r.data.cor.length > 0 ? r.data.cor : [""];
+  const linhas = r.data.tamanho.flatMap((tamanho) => cores.map((cor) => ({ produto_id: produtoId, tamanho, cor, estoque: r.data.estoque })));
+  const { error } = await admin.supabase.from("variacoes").insert(linhas);
   if (error) {
     if (eEnderecoRepetido(error)) {
-      return { campos: { tamanho: "Esse tamanho com essa cor já existe neste produto." }, valores: bruto };
+      return { campos: { tamanho: "Alguma dessas combinações de tamanho e cor já existe neste produto. Nada foi adicionado." }, valores: bruto };
     }
     return { erro: ERRO_GERAL, valores: bruto };
   }
   atualizarVitrine();
   revalidatePath(`/admin/produtos/${produtoId}`);
-  return { sucesso: "Variação adicionada." };
+  return { sucesso: linhas.length > 1 ? `${linhas.length} variações adicionadas.` : "Variação adicionada." };
 }
 
 export async function atualizarVariacao(variacaoId: string, produtoId: string, _anterior: EstadoForm, dados: FormData): Promise<EstadoForm> {

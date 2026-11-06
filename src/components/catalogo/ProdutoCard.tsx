@@ -1,7 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
 import { formatarPreco, poucasUnidades, precoFinal, temEstoque, type Produto } from "@/lib/catalogo/produto";
 
-// Nesta etapa o cartão não é um link: a página do produto só existe na Etapa 5a.
 export function ProdutoCard({ produto }: { produto: Produto }) {
   const final = precoFinal(produto);
   const emPromocao = final < produto.precoCentavos;
@@ -10,7 +10,7 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
   const poucas = poucasUnidades(produto);
 
   return (
-    <article className="group min-w-0">
+    <article className="group relative min-w-0">
       <div className="relative aspect-[3/4] overflow-hidden rounded-2xl bg-superficie shadow-suave transition-[box-shadow,transform] duration-500 ease-out group-hover:-translate-y-1.5 group-hover:shadow-elevada">
         {produto.imagemPrincipalUrl ? (
           <Image
@@ -56,7 +56,12 @@ export function ProdutoCard({ produto }: { produto: Produto }) {
       </div>
 
       <div className="mt-4 space-y-1 px-1">
-        <h3 className="line-clamp-2 break-words font-sans text-sm font-semibold leading-snug md:text-[0.95rem]">{produto.nome}</h3>
+        <h3 className="line-clamp-2 break-words font-sans text-sm font-semibold leading-snug md:text-[0.95rem]">
+          {/* O link cobre o cartão inteiro (after:absolute), mas o leitor de tela ouve só o nome. */}
+          <Link href={`/produto/${produto.slug}`} className="after:absolute after:inset-0 after:content-['']">
+            {produto.nome}
+          </Link>
+        </h3>
         <p className="text-sm">
           {emPromocao ? (
             <>

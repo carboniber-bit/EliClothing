@@ -1,8 +1,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { cacheLife, cacheTag } from "next/cache";
 import { configSupabase } from "@/lib/supabase/config";
-import { mapearProduto, type LinhaProduto } from "./mapeamento";
-import type { Produto } from "./produto";
+import { mapearProduto, urlFoto, type LinhaProduto } from "./mapeamento";
+import type { Categoria } from "./categorias";
+import { idsDaCategoria } from "./categorias";
+import type { Produto, ProdutoDetalhe } from "./produto";
 
 export type Colecao = { id: string; slug: string; nome: string; descricao: string | null };
 
@@ -10,6 +12,9 @@ export interface RepositorioCatalogo {
   listarProdutos(): Promise<Produto[]>;
   listarNovidades(limite: number): Promise<Produto[]>;
   listarColecoes(): Promise<Colecao[]>;
+  obterProduto(slug: string): Promise<ProdutoDetalhe | null>;
+  listarCategorias(): Promise<Categoria[]>;
+  obterCategoria(slug: string): Promise<{ categoria: Categoria; todas: Categoria[]; produtos: Produto[] } | null>;
   obterColecao(slug: string): Promise<{ colecao: Colecao; produtos: Produto[] } | null>;
 }
 
@@ -86,7 +91,62 @@ async function buscarColecao(slug: string): Promise<{ colecao: Colecao; produtos
   return { colecao: colecao as Colecao, produtos };
 }
 
+async function buscarCategorias(): Promise<Categoria[]> {
+  "use cache";
+  cacheTag("catalogo");
+  cacheLife("minutes");
+  const cliente = clientePublico();
+  if (!cliente) return [];
+  const { data, error } = await cliente.supabase.from("categorias").select("id, slug, nome, pai_id").order("ordem").order("nome");
+  if (error) {
+    console.error("[catalogo] falha ao ler categorias:", error.code ?? "sem-codigo");
+    return [];
+  }
+  return (data ?? []).map((c) => ({ id: c.id as string, slug: c.slug as string, nome: c.nome as string, paiId: (c.pai_id as string | null) ?? null }));
+}
+
+async function buscarCategoria(slug: string): Promise<{ categoria: Categoria; todas: Categoria[]; produtos: Produto[] } | null> {
+  "use cache";
+  cacheTag("catalogo");
+  cacheLife("minutes");
+  const cliente = clientePublico();
+  if (!cliente || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return null;
+  const todas = await buscarCategorias();
+  const categoria = todas.find((c) => c.slug === slug);
+  if (!categoria) return null;
+  const { data, error } = await cliente.supabase
+    .from("produtos")
+    .select(COLUNAS)
+    .in("categoria_id", idsDaCategoria(todas, categoria.id))
+    .order("criado_em", { ascending: false });
+  if (error) console.error("[catalogo] falha ao ler produtos da categoria:", error.code ?? "sem-codigo");
+  const produtos = ((data ?? []) as unknown as LinhaProduto[]).map((l) => mapearProduto(l, cliente.config.url));
+  return { categoria, todas, produtos };
+}
+
+async function buscarProduto(slug: string): Promise<ProdutoDetalhe | null> {
+  "use cache";
+  cacheTag("catalogo");
+  cacheLife("minutes");
+  const cliente = clientePublico();
+  if (!cliente || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(slug)) return null;
+  const { data, error } = await cliente.supabase.from("produtos").select(`${COLUNAS}, descricao`).eq("slug", slug).maybeSingle();
+  if (error || !data) {
+    if (error) console.error("[catalogo] falha ao ler produto:", error.code ?? "sem-codigo");
+    return null;
+  }
+  const linha = data as unknown as LinhaProduto & { descricao: string | null };
+  const produto = mapearProduto(linha, cliente.config.url);
+  const fotos = [...(linha.imagens ?? [])]
+    .sort((a, b) => Number(b.principal) - Number(a.principal) || a.ordem - b.ordem)
+    .map((i) => urlFoto(cliente.config.url, i.caminho));
+  return { ...produto, descricao: linha.descricao, fotos };
+}
+
 const repositorioSupabase: RepositorioCatalogo = {
+  obterProduto: (slug) => buscarProduto(slug),
+  listarCategorias: () => buscarCategorias(),
+  obterCategoria: (slug) => buscarCategoria(slug),
   listarColecoes: () => buscarColecoes(),
   obterColecao: (slug) => buscarColecao(slug),
   listarProdutos: () => buscarProdutos(null, false),
@@ -95,6 +155,15 @@ const repositorioSupabase: RepositorioCatalogo = {
 };
 
 const repositorioVazio: RepositorioCatalogo = {
+  async obterProduto() {
+    return null;
+  },
+  async listarCategorias() {
+    return [];
+  },
+  async obterCategoria() {
+    return null;
+  },
   async listarColecoes() {
     return [];
   },

@@ -56,9 +56,9 @@ test("dados válidos com login ainda não configurado ou inválido mostram um av
 
 test("o parâmetro 'proximo' aponta só para dentro do site", async ({ page }) => {
   await page.goto("/entrar?proximo=https://site-falso.com");
-  await expect(page.locator('input[name="proximo"]')).toHaveValue("/conta");
+  await expect(page.locator('#conteudo input[name="proximo"]')).toHaveValue("/conta");
   await page.goto("/entrar?proximo=/admin");
-  await expect(page.locator('input[name="proximo"]')).toHaveValue("/admin");
+  await expect(page.locator('#conteudo input[name="proximo"]')).toHaveValue("/admin");
 });
 
 test("o cabeçalho tem o link Entrar", async ({ page }) => {

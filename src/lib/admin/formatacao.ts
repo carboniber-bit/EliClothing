@@ -36,3 +36,28 @@ export function centavosParaReais(centavos: number): string {
   const total = Math.round(centavos);
   return `${Math.floor(total / 100)},${(total % 100).toString().padStart(2, "0")}`;
 }
+
+/**
+ * "p, m, G" → ["P", "M", "G"]. Separa só por vírgula/ponto e vírgula (tamanhos como "38/44" continuam inteiros),
+ * tira repetidos e põe letras de tamanho em maiúsculas.
+ */
+export function separarTamanhos(texto: string): string[] {
+  const vistos = new Set<string>();
+  for (const parte of texto.split(/[,;]/)) {
+    const t = parte.trim().replace(/\s+/g, " ");
+    if (t) vistos.add(/^[a-z]{1,3}$/i.test(t) ? t.toUpperCase() : t);
+  }
+  return [...vistos];
+}
+
+/** "branco, Preto ;  branco" → ["Branco", "Preto"]. Vazio → [] (produto sem cor). */
+export function separarCores(texto: string): string[] {
+  const vistas = new Map<string, string>();
+  for (const parte of texto.split(/[,;]/)) {
+    const t = parte.trim().replace(/\s+/g, " ");
+    if (!t) continue;
+    const chave = t.toLocaleLowerCase("pt-BR");
+    if (!vistas.has(chave)) vistas.set(chave, t.charAt(0).toLocaleUpperCase("pt-BR") + t.slice(1));
+  }
+  return [...vistas.values()];
+}
