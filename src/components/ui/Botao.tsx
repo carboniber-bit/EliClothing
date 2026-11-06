@@ -11,11 +11,11 @@ type Props = {
 };
 
 const base =
-  "inline-flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200 active:scale-[0.98]";
+  "group/botao inline-flex max-w-full min-h-12 text-center [overflow-wrap:anywhere] items-center justify-center gap-2 rounded-full px-7 py-2.5 text-sm font-semibold tracking-wide transition-all duration-300 ease-out hover:-translate-y-0.5 active:scale-[0.97]";
 
 const variantes = {
-  primario: "bg-primario text-primario-texto hover:opacity-90",
-  secundario: "border border-primario bg-transparent text-texto hover:bg-acento/30",
+  primario: "bg-primario text-primario-texto shadow-suave hover:shadow-elevada",
+  secundario: "border border-primario bg-transparent text-texto hover:bg-primario hover:text-primario-texto",
 };
 
 export function Botao({ children, variante = "primario", href, onClick, type = "button", className = "" }: Props) {

@@ -6,10 +6,10 @@ export function Logo() {
     <Link
       href="/"
       aria-label="EliClothing, página inicial"
-      className="flex min-h-11 flex-col justify-center leading-none"
+      className="group flex min-h-11 flex-col justify-center leading-none"
     >
-      <span className="font-titulo text-2xl tracking-wide">ELI</span>
-      <span className="text-[0.6rem] font-semibold tracking-[0.35em]">CLOTHING</span>
+      <span className="font-titulo text-[1.7rem] font-medium tracking-[0.08em] transition-transform duration-500 group-hover:scale-[1.03]">ELI</span>
+      <span className="mt-0.5 text-[0.55rem] font-bold tracking-[0.5em]">CLOTHING</span>
     </Link>
   );
 }

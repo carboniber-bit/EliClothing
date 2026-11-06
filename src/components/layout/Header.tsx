@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { loja } from "@/lib/loja/config";
 import { BotaoConta } from "./BotaoConta";
+import { CabecalhoFixo } from "./CabecalhoFixo";
 import { Logo } from "./Logo";
 import { MenuMobile, type LinkMenu } from "./MenuMobile";
 import { ThemeToggle } from "./ThemeToggle";
@@ -13,8 +14,8 @@ const links: LinkMenu[] = [
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-borda bg-fundo">
-      <div className="relative mx-auto flex min-h-16 max-w-6xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-2">
+    <CabecalhoFixo>
+      <div className="relative mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 py-2 md:px-8">
         <Logo />
         <nav aria-label="Principal" className="hidden items-center gap-8 md:flex">
           {links.map((l) =>
@@ -24,12 +25,12 @@ export function Header() {
                 href={l.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold hover:underline"
+                className="link-elegante text-sm font-semibold tracking-wide"
               >
                 {l.rotulo}
               </a>
             ) : (
-              <Link key={l.href} href={l.href} className="text-sm font-semibold hover:underline">
+              <Link key={l.href} href={l.href} className="link-elegante text-sm font-semibold tracking-wide">
                 {l.rotulo}
               </Link>
             ),
@@ -41,6 +42,6 @@ export function Header() {
           <MenuMobile links={links} />
         </div>
       </div>
-    </header>
+    </CabecalhoFixo>
   );
 }
