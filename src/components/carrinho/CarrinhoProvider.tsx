@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
 import { adicionarItem, alterarQuantidade, lerCarrinho, quantidadeTotal, removerItem, subtotalCentavos, type ItemCarrinho } from "@/lib/carrinho/carrinho";
 
 const CHAVE = "eliclothing-carrinho-v1";
@@ -19,42 +19,55 @@ type Contexto = {
 
 const CarrinhoContexto = createContext<Contexto | null>(null);
 
-function ler(): ItemCarrinho[] {
+function lerBruto(): string | null {
   try {
-    return lerCarrinho(window.localStorage.getItem(CHAVE));
+    return window.localStorage.getItem(CHAVE);
   } catch {
-    return [];
+    return null;
   }
+}
+
+// Sem armazenamento (janela privada) o carrinho vale só até recarregar a página.
+let reserva: string | null = null;
+const ouvintes = new Set<() => void>();
+
+function lerAtual(): string | null {
+  return lerBruto() ?? reserva;
 }
 
 function gravar(itens: ItemCarrinho[]) {
+  const texto = JSON.stringify(itens);
+  reserva = texto;
   try {
-    window.localStorage.setItem(CHAVE, JSON.stringify(itens));
+    window.localStorage.setItem(CHAVE, texto);
   } catch {
-    // Navegador sem armazenamento (janela privada): o carrinho vale só enquanto a página estiver aberta.
+    // segue só com a reserva em memória
   }
+  ouvintes.forEach((f) => f());
+}
+
+function assinar(aviso: () => void) {
+  ouvintes.add(aviso);
+  // Mantém abas abertas ao mesmo tempo em sincronia.
+  const aoMudar = (e: StorageEvent) => {
+    if (e.key === CHAVE) aviso();
+  };
+  window.addEventListener("storage", aoMudar);
+  return () => {
+    ouvintes.delete(aviso);
+    window.removeEventListener("storage", aoMudar);
+  };
 }
 
 export function CarrinhoProvider({ children }: { children: ReactNode }) {
-  const [itens, setItens] = useState<ItemCarrinho[]>([]);
-  const [pronto, setPronto] = useState(false);
-
-  useEffect(() => {
-    setItens(ler());
-    setPronto(true);
-    // Mantém abas abertas ao mesmo tempo em sincronia.
-    const aoMudar = (e: StorageEvent) => {
-      if (e.key === CHAVE) setItens(ler());
-    };
-    window.addEventListener("storage", aoMudar);
-    return () => window.removeEventListener("storage", aoMudar);
-  }, []);
+  // No servidor o retorno é undefined ("ainda não li"); no navegador é o texto guardado (ou null se vazio).
+  const bruto = useSyncExternalStore(assinar, lerAtual, () => undefined);
+  const pronto = bruto !== undefined;
+  const itens = useMemo(() => lerCarrinho(bruto ?? null), [bruto]);
 
   const atualizar = useCallback((fn: (atual: ItemCarrinho[]) => ItemCarrinho[]) => {
     // Parte sempre do que está guardado, para não apagar mudanças feitas em outra aba.
-    const novo = fn(ler());
-    gravar(novo);
-    setItens(novo);
+    gravar(fn(lerCarrinho(lerAtual())));
   }, []);
 
   const valor = useMemo<Contexto>(

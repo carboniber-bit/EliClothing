@@ -8,7 +8,7 @@ import { obterAdmin } from "./guarda";
 const UUID = z.uuid();
 
 /** Promove uma cliente a administradora ou volta para cliente. O banco impede remover o próprio acesso. */
-export async function definirPapel(id: string, papel: "admin" | "cliente", _anterior: EstadoForm): Promise<EstadoForm> {
+export async function definirPapel(id: string, papel: "admin" | "cliente"): Promise<EstadoForm> {
   const admin = await obterAdmin();
   if (!admin) return { erro: "Você não tem permissão para fazer isso." };
   if (!UUID.safeParse(id).success || (papel !== "admin" && papel !== "cliente")) return { erro: "Dados inválidos." };
