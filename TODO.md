@@ -30,6 +30,7 @@
 ## Próximas etapas (não iniciadas)
 - [ ] Etapa 4 — Painel administrativo (em andamento, branch etapa-4-painel)
   - [x] 4A Base + produtos + variações/estoque + categorias + botão Minha conta + sessão renovada (testado no PC: Vitest 90/90, lint, Playwright; mesclada na main)
+  - [x] Visual: nova interface inspirada no Lovable (branch etapa-visual-lovable, CI verde; aguardando olhar do usuário)
   - [ ] 4B Fotos, coleções, home, conteúdo, vitrine lendo do banco
     - [x] 4B-1 fotos do produto (envio, principal, ordem, exclusão) + loja lendo produtos do banco (testado no PC: Vitest 110/110, lint, Playwright 125/125, teste manual ok)
     - [x] 4B-2a coleções no painel (criar/editar/excluir + marcar no produto) — testado no PC
