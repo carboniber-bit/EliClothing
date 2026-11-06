@@ -36,6 +36,17 @@ describe("ProdutoCard", () => {
     expect(screen.getByText("Indisponível")).toBeInTheDocument();
   });
 
+  it("com 1 ou 2 unidades avisa que restam poucas", () => {
+    render(<ProdutoCard produto={{ ...base, variacoes: [{ id: "v1", tamanho: "M", cor: "Rosa", estoque: 2 }] }} />);
+    expect(screen.getByText("Poucas unidades")).toBeInTheDocument();
+    expect(screen.queryByText("Indisponível")).not.toBeInTheDocument();
+  });
+
+  it("com 3 ou mais unidades não avisa", () => {
+    render(<ProdutoCard produto={base} />);
+    expect(screen.queryByText("Poucas unidades")).not.toBeInTheDocument();
+  });
+
   it("com estoque não mostra Indisponível", () => {
     render(<ProdutoCard produto={base} />);
     expect(screen.queryByText("Indisponível")).not.toBeInTheDocument();
