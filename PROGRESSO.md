@@ -94,3 +94,7 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 ## 4B-2 e 4C (resumo)
 - 4B-2: coleções (painel + loja), nova interface inspirada no Lovable, textos e fotos da página inicial editáveis, aviso "Poucas unidades" (menos de 3 no estoque). Tudo mesclado na main.
 - 4C (em andamento): pedidos no painel (lista com filtro por situação, detalhe com itens e histórico, mudança de situação com regras do banco; cancelar devolve estoque), equipe (dar/remover acesso ao painel), histórico de alterações (auditoria) e novo cartão no painel.
+
+## 5a-1 e 5a-2 (resumo)
+- 5a-1 (mesclada): página do produto, sacola no navegador, ícone no topo, tamanhos e cores em caixas separadas (escala PP–XG com cinza), painel separa vários tamanhos/cores, gaveta lateral de categorias e página de categoria.
+- 5a-2 (em andamento): /finalizar → ação de servidor valida, limita tentativas (IP em memória + telefone no banco), chama criar_pedido com a chave de serviço (SUPABASE_SERVICE_ROLE_KEY, só servidor) e devolve link do WhatsApp com o resumo. Pagamento é combinado pelo WhatsApp; estoque fica reservado até a equipe mudar a situação do pedido.

@@ -89,3 +89,43 @@ for (const tema of ["light", "dark"] as const) {
     await semProblemasGravesDeAcessibilidade(page);
   });
 }
+
+const guardarItem = (page: import("@playwright/test").Page) =>
+  page.addInitScript((i) => localStorage.setItem("eliclothing-carrinho-v1", JSON.stringify([i])), item);
+
+test("finalizar com sacola vazia leva de volta ao catálogo", async ({ page }) => {
+  await page.goto("/finalizar");
+  await expect(page.getByText("Sua sacola está vazia")).toBeVisible();
+});
+
+test("finalizar: erros aparecem junto dos campos e o endereço só aparece na entrega", async ({ page }) => {
+  await guardarItem(page);
+  await page.goto("/finalizar");
+  await expect(page.getByLabel("Endereço completo")).toHaveCount(0);
+  await page.getByRole("button", { name: "Enviar pedido" }).click();
+  await expect(page.getByText("Digite seu nome.")).toBeVisible();
+  await expect(page.getByText(/Digite o telefone com DDD/)).toBeVisible();
+  await page.getByText("Receber em casa").click();
+  await expect(page.getByLabel("Endereço completo")).toBeVisible();
+});
+
+test("finalizar sem o servidor configurado avisa com clareza e mantém a sacola", async ({ page }) => {
+  await guardarItem(page);
+  await page.goto("/finalizar");
+  await page.getByLabel("Seu nome").fill("Maria Teste");
+  await page.getByLabel(/WhatsApp \/ telefone/).fill("(11) 97302-9002");
+  await page.getByRole("button", { name: "Enviar pedido" }).click();
+  await expect(page.getByRole("alert").filter({ hasText: "ainda não estão ativados" })).toBeVisible();
+  await page.goto("/carrinho");
+  await expect(page.getByRole("link", { name: "Vestido de teste" })).toBeVisible();
+});
+
+for (const tema of ["light", "dark"] as const) {
+  test(`acessibilidade do finalizar no tema ${tema}`, async ({ page }) => {
+    await usarTema(page, tema);
+    await guardarItem(page);
+    await page.goto("/finalizar");
+    await expect(page.getByRole("button", { name: "Enviar pedido" })).toBeVisible();
+    await semProblemasGravesDeAcessibilidade(page);
+  });
+}

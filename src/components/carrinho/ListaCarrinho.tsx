@@ -59,7 +59,10 @@ export function ListaCarrinho() {
           <span>Total das peças</span>
           <strong>{formatarPreco(subtotalCentavos)}</strong>
         </p>
-        <p className="mt-2 text-sm text-texto-suave">Frete e forma de pagamento são combinados ao finalizar o pedido.</p>
+        <p className="mb-5 mt-2 text-sm text-texto-suave">Frete e forma de pagamento são combinados pelo WhatsApp depois que você enviar o pedido.</p>
+        <Botao href="/finalizar" className="w-full">
+          Finalizar pedido
+        </Botao>
       </aside>
     </div>
   );

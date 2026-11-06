@@ -41,8 +41,8 @@
     - [x] Código: /admin/pedidos (lista, filtro, detalhe, mudar situação), /admin/equipe, /admin/historico, painel com 'Aguardando pagamento' — aguardando CI e teste manual
 - [ ] Etapa 5a — Catálogo no banco, carrinho, pedido por WhatsApp (branch etapa-5a-carrinho-whatsapp)
   - [x] 4C mesclada na main (PR #6)
-  - [ ] 5a-1 página do produto, sacola (navegador), ícone no topo — aguardando CI e teste
-  - [ ] 5a-2 finalizar pedido: rota no servidor com chave de serviço, criar_pedido, mensagem WhatsApp, limite de tentativas
+  - [x] 5a-1 página do produto, sacola, categorias (gaveta + /categoria/[slug]), tamanhos/cores em caixas — mesclada (PR #7)
+  - [ ] 5a-2 (em andamento; precisa SUPABASE_SERVICE_ROLE_KEY no .env.local e na Vercel) finalizar pedido: rota no servidor com chave de serviço, criar_pedido, mensagem WhatsApp, limite de tentativas
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago)
 - [ ] Etapa 5c — Bot do Telegram
 - [ ] Etapa 6 — Testes e melhorias
