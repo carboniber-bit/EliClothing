@@ -129,3 +129,25 @@ for (const tema of ["light", "dark"] as const) {
     await semProblemasGravesDeAcessibilidade(page);
   });
 }
+
+test("escolher Pix sem o pagamento online ativado avisa e oferece o WhatsApp", async ({ page }) => {
+  await guardarItem(page);
+  await page.goto("/finalizar");
+  await page.getByLabel("Seu nome").fill("Maria Teste");
+  await page.getByLabel(/WhatsApp \/ telefone/).fill("(11) 97302-9002");
+  await page.getByText("Pix", { exact: true }).click();
+  await page.getByRole("button", { name: "Enviar pedido" }).click();
+  await expect(page.getByRole("alert").filter({ hasText: "pagamento online ainda não está ativado" })).toBeVisible();
+});
+
+test("a página de retorno do pagamento mostra a mensagem de cada situação", async ({ page }) => {
+  for (const [status, titulo] of [["sucesso", "Pagamento aprovado!"], ["pendente", "Pagamento em análise"], ["falha", "Pagamento não concluído"], ["qualquer", "Pagamento em análise"]]) {
+    await page.goto(`/pagamento/retorno?status=${status}`);
+    await expect(page.getByRole("heading", { level: 1, name: titulo })).toBeVisible();
+  }
+});
+
+test("o aviso do Mercado Pago sem configuração é recusado", async ({ request }) => {
+  const r = await request.post("/api/mercadopago/webhook?data.id=1&type=payment", { data: {} });
+  expect(r.status()).toBe(503);
+});

@@ -14,7 +14,17 @@ export function FormularioPedido() {
   const [pendente, iniciar] = useTransition();
   const [entrega, setEntrega] = useState(false);
   const [resultado, setResultado] = useState<ResultadoPedido | null>(null);
-  const [concluido, setConcluido] = useState<{ numero: number; total: number; whatsappUrl: string | null } | null>(null);
+  const [concluido, setConcluido] = useState<{ numero: number; total: number; whatsappUrl: string | null; pagarUrl: string | null } | null>(null);
+
+  if (concluido?.pagarUrl) {
+    return (
+      <div role="status" className="max-w-xl space-y-5 rounded-2xl border border-borda bg-superficie p-6">
+        <h2 className="text-3xl">Pedido #{concluido.numero} criado</h2>
+        <p>Levando você para o pagamento seguro do Mercado Pago… Suas peças ficam guardadas por 30 minutos.</p>
+        <Botao href={concluido.pagarUrl}>Ir para o pagamento</Botao>
+      </div>
+    );
+  }
 
   if (concluido) {
     return (
@@ -49,6 +59,7 @@ export function FormularioPedido() {
         nome: texto("nome"),
         telefone: texto("telefone"),
         tipo_entrega: texto("tipo_entrega"),
+        forma_pagamento: texto("forma_pagamento"),
         endereco: texto("endereco"),
         observacao: texto("observacao"),
         site: texto("site"),
@@ -57,7 +68,8 @@ export function FormularioPedido() {
       setResultado(r);
       if (r.ok) {
         limpar();
-        setConcluido({ numero: r.numero, total: r.totalCentavos, whatsappUrl: r.whatsappUrl });
+        setConcluido({ numero: r.numero, total: r.totalCentavos, whatsappUrl: r.whatsappUrl, pagarUrl: r.pagarUrl });
+        if (r.pagarUrl) window.location.assign(r.pagarUrl);
       }
     });
   }
@@ -87,6 +99,18 @@ export function FormularioPedido() {
             ))}
           </div>
         </fieldset>
+        <fieldset>
+          <legend className="mb-2 text-sm font-semibold">Como quer pagar?</legend>
+          <div className="flex flex-wrap gap-3">
+            {[["pix", "Pix"], ["cartao", "Cartão"], ["whatsapp", "Combinar pelo WhatsApp"]].map(([valor, rotulo]) => (
+              <label key={valor} className="inline-flex min-h-12 cursor-pointer items-center gap-2 rounded-full border border-borda bg-superficie px-5 text-sm font-semibold has-[:checked]:border-primario has-[:checked]:bg-primario has-[:checked]:text-primario-texto has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2">
+                <input type="radio" name="forma_pagamento" value={valor} defaultChecked={valor === "whatsapp"} className="sr-only" />
+                {rotulo}
+              </label>
+            ))}
+          </div>
+          {campos.forma_pagamento ? <p className="mt-1 text-sm text-erro">{campos.forma_pagamento}</p> : null}
+        </fieldset>
         {entrega ? campo("endereco", "Endereço completo", { type: "text", autoComplete: "street-address" }, "Rua, número, bairro e complemento. O frete é combinado pelo WhatsApp.") : null}
         <div>
           <label htmlFor="observacao" className="mb-1 block text-sm font-semibold">Observação (opcional)</label>
@@ -102,7 +126,7 @@ export function FormularioPedido() {
         <button type="submit" disabled={pendente} className="inline-flex min-h-12 items-center justify-center rounded-full bg-primario px-8 text-sm font-semibold text-primario-texto shadow-suave disabled:opacity-60">
           {pendente ? "Enviando…" : "Enviar pedido"}
         </button>
-        <p className="text-sm text-texto-suave">O pagamento é combinado depois, pelo WhatsApp. Suas peças ficam guardadas para você.</p>
+        <p className="text-sm text-texto-suave">Pix e cartão são pagos na página segura do Mercado Pago (as peças ficam guardadas por 30 minutos). Se preferir, combine o pagamento pelo WhatsApp.</p>
       </form>
 
       <aside className="h-fit rounded-2xl border border-borda bg-superficie p-5">

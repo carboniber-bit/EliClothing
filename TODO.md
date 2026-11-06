@@ -43,7 +43,10 @@
   - [x] 4C mesclada na main (PR #6)
   - [x] 5a-1 página do produto, sacola, categorias (gaveta + /categoria/[slug]), tamanhos/cores em caixas — mesclada (PR #7)
   - [ ] 5a-2 (em andamento; precisa SUPABASE_SERVICE_ROLE_KEY no .env.local e na Vercel) finalizar pedido: rota no servidor com chave de serviço, criar_pedido, mensagem WhatsApp, limite de tentativas
-- [ ] Etapa 5b — Pix e cartão (Mercado Pago)
+- [ ] Etapa 5b — Pix e cartão (Mercado Pago) (branch etapa-5b-mercadopago)
+  - [x] Código: Checkout Pro (Pix/cartão), webhook com assinatura + consulta à API, expiração em 30 min, página de retorno
+  - [ ] Usuário: criar conta/credenciais de teste do Mercado Pago, definir NEXT_PUBLIC_SITE_URL (https) e as chaves na Vercel, cadastrar webhook, testar com pagamento de teste
+  - [ ] Trocar para credenciais de produção antes de vender
 - [ ] Etapa 5c — Bot do Telegram
 - [ ] Etapa 6 — Testes e melhorias
 - [ ] Etapa 7 — Publicação (decidir plano Pro antes de vender)

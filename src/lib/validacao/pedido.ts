@@ -15,6 +15,7 @@ export const pedidoSchema = z
     nome: z.string().trim().min(2, "Digite seu nome.").max(120, "O nome pode ter no máximo 120 letras."),
     telefone,
     tipo_entrega: z.enum(["retirada", "entrega"], "Escolha retirada ou entrega."),
+    forma_pagamento: z.enum(["whatsapp", "pix", "cartao"], "Escolha como quer pagar."),
     endereco: z.string().trim().max(300, "No máximo 300 caracteres."),
     observacao: z.string().trim().max(500, "No máximo 500 caracteres."),
     // Campo escondido que gente de verdade não preenche: robôs costumam preencher tudo.

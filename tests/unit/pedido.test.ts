@@ -6,7 +6,7 @@ import { montarMensagemPedido } from "@/lib/pedidos/mensagem";
 import { pedidoSchema } from "@/lib/validacao/pedido";
 
 const ID = "11111111-1111-4111-8111-111111111111";
-const base = { nome: "Maria", telefone: "(11) 97302-9002", tipo_entrega: "retirada", endereco: "", observacao: "", itens: [{ variacaoId: ID, quantidade: 2 }] };
+const base = { nome: "Maria", telefone: "(11) 97302-9002", tipo_entrega: "retirada", forma_pagamento: "whatsapp", endereco: "", observacao: "", itens: [{ variacaoId: ID, quantidade: 2 }] };
 
 describe("validação do pedido", () => {
   it("aceita um pedido de retirada e guarda só os números do telefone", () => {
@@ -25,6 +25,11 @@ describe("validação do pedido", () => {
     expect(pedidoSchema.safeParse({ ...base, itens: [{ variacaoId: ID, quantidade: 21 }] }).success).toBe(false);
     expect(pedidoSchema.safeParse({ ...base, itens: [{ variacaoId: "x", quantidade: 1 }] }).success).toBe(false);
     expect(pedidoSchema.safeParse({ ...base, tipo_entrega: "drone" }).success).toBe(false);
+  });
+  it("exige uma forma de pagamento válida", () => {
+    expect(pedidoSchema.safeParse({ ...base, forma_pagamento: "pix" }).success).toBe(true);
+    expect(pedidoSchema.safeParse({ ...base, forma_pagamento: "fiado" }).success).toBe(false);
+    expect(pedidoSchema.safeParse({ ...base, forma_pagamento: undefined }).success).toBe(false);
   });
   it("o campo-armadilha preenchido invalida", () => {
     expect(pedidoSchema.safeParse({ ...base, site: "http://spam" }).success).toBe(false);
