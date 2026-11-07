@@ -141,10 +141,15 @@ test("escolher Pix sem o pagamento online ativado avisa e oferece o WhatsApp", a
 });
 
 test("a página de retorno do pagamento mostra a mensagem de cada situação", async ({ page }) => {
-  for (const [status, titulo] of [["sucesso", "Pagamento aprovado!"], ["pendente", "Pagamento em análise"], ["falha", "Pagamento não concluído"], ["qualquer", "Pagamento em análise"]]) {
-    await page.goto(`/pagamento/retorno?status=${status}`);
+  for (const [situacao, titulo] of [["sucesso", "Pagamento aprovado!"], ["pendente", "Pagamento em análise"], ["falha", "Pagamento não concluído"], ["qualquer", "Pagamento em análise"]]) {
+    await page.goto(`/pagamento/retorno?situacao=${situacao}`);
     await expect(page.getByRole("heading", { level: 1, name: titulo })).toBeVisible();
   }
+});
+
+test("o retorno aprovado continua certo quando o Mercado Pago repete o parâmetro status", async ({ page }) => {
+  await page.goto("/pagamento/retorno?situacao=sucesso&collection_status=approved&status=approved&status=approved&external_reference=nao-e-um-pedido");
+  await expect(page.getByRole("heading", { level: 1, name: "Pagamento aprovado!" })).toBeVisible();
 });
 
 test("o aviso do Mercado Pago sem configuração é recusado", async ({ request }) => {
