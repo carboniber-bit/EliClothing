@@ -54,7 +54,7 @@ test.describe("teclado", () => {
   test("o Tab percorre cabeçalho, conteúdo e rodapé com foco visível", async ({ page }) => {
     await page.goto("/");
     const regioes = new Set<string>();
-    for (let i = 0; i < 28; i++) {
+    for (let i = 0; i < 32; i++) {
       await page.keyboard.press("Tab");
       const info = await page.evaluate(() => {
         const el = document.activeElement as HTMLElement | null;

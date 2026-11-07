@@ -3,7 +3,9 @@
 Loja virtual da EliClothing (moda feminina, Osasco-SP). Next.js + TypeScript + Tailwind, com Supabase (banco, login e fotos) e hospedagem na Vercel nas próximas etapas.
 
 ## Estado atual
-Etapa 2 em andamento: estrutura, identidade visual (rosa/bordô), tema claro/escuro, página inicial e catálogo (vazio). O catálogo ainda não tem banco de dados; os produtos serão cadastrados depois pelo painel administrativo.
+Loja completa: catálogo, produtos, categorias e coleções, sacola, pedidos por WhatsApp e por Pix/cartão (Mercado Pago), login de clientes e painel administrativo. Falta o bot do Telegram (etapa 5c) e a publicação final.
+
+Documentação: `docs/SEGURANCA.md` (o que protege a loja e pendências) e `docs/ENTREGA.md` (transferência para o cliente, variáveis e uso diário).
 
 ## Como rodar
 ```

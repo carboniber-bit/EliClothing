@@ -103,3 +103,7 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 - Pix/cartão via Checkout Pro: /finalizar cria o pedido (aguardando pagamento, 30 min), cria a preferência no Mercado Pago e leva a cliente à página segura. O webhook /api/mercadopago/webhook valida a assinatura, consulta o pagamento na API do Mercado Pago e só então marca o pedido como pago (confere pedido, moeda e valor). Pedido não pago expira e devolve estoque (rodado ao criar pedido e ao abrir /admin/pedidos).
 - Variáveis (só servidor): MERCADOPAGO_ACCESS_TOKEN, MERCADOPAGO_WEBHOOK_SECRET; NEXT_PUBLIC_SITE_URL precisa ser https.
 - Pagamento aprovado depois de o pedido expirar fica no log (precisa de reembolso manual).
+
+## Etapa 6 (em andamento)
+- Auditoria das políticas RLS: todas as tabelas com RLS, leitura pública só de itens ativos, escrita só de admin, `role` protegida, funções sensíveis com permissão restrita.
+- Cabeçalhos de segurança (CSP, HSTS, X-Frame-Options...), robots.txt, sitemap.xml, Open Graph e JSON-LD de produto, páginas de erro, privacidade e termos (textos-modelo), docs de segurança e entrega, `npm audit` informativo no CI.

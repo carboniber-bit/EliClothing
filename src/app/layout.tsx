@@ -6,9 +6,12 @@ import { CarrinhoProvider } from "@/components/carrinho/CarrinhoProvider";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { loja } from "@/lib/loja/config";
+import { urlDoSite } from "@/lib/site";
 import { scriptTemaInicial } from "@/lib/tema";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(urlDoSite()),
+  openGraph: { siteName: loja.nome, locale: "pt_BR", type: "website" },
   title: { default: loja.nome, template: `%s · ${loja.nome}` },
   description: `${loja.nome}: moda feminina em ${loja.cidade}. ${loja.slogan}.`,
 };

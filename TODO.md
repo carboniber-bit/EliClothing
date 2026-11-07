@@ -49,7 +49,9 @@
   - [x] Testado com cartão de teste: pedido vira Pago pelo webhook; tela 'Pagamento confirmado'
   - [ ] Trocar para credenciais de produção antes de vender (e testar Pix real de baixo valor)
 - [ ] Etapa 5c — Bot do Telegram
-- [ ] Etapa 6 — Testes e melhorias
+- [ ] Etapa 6 — Testes e melhorias (branch etapa-6-seguranca)
+  - [x] Auditoria RLS (ok), cabeçalhos de segurança/CSP, robots/sitemap/Open Graph/JSON-LD, páginas de erro, privacidade e termos, docs/SEGURANCA.md e docs/ENTREGA.md, auditoria npm no CI — aguardando CI
+  - [ ] Revisar textos legais com a dona da loja; medir desempenho (Lighthouse) no site publicado
 - [ ] Etapa 7 — Publicação (decidir plano Pro antes de vender)
 
 ## Fora do primeiro lançamento (guardado)
