@@ -94,17 +94,17 @@ export async function finalizarPedido(entrada: unknown): Promise<ResultadoPedido
       siteUrl,
       expiraEm: (criado.expira_em as string | null) ?? null,
     });
-    const pagarUrl = await criarPreferencia(corpo, tokenMP);
-    if (!pagarUrl) {
+    const preferencia = await criarPreferencia(corpo, tokenMP);
+    if ("erro" in preferencia) {
       // Sem página de pagamento o pedido não serve: cancela e devolve o estoque.
       await servico.rpc("alterar_status_pedido", { p_pedido: criado.id, p_status: "cancelado", p_origem: "loja" });
       updateTag("catalogo");
-      return { ok: false, erro: "Não foi possível abrir o pagamento agora. Tente de novo em instantes ou escolha “Combinar pelo WhatsApp”." };
+      return { ok: false, erro: `Não foi possível abrir o pagamento agora (código ${preferencia.erro}). Tente de novo em instantes ou escolha “Combinar pelo WhatsApp”.` };
     }
     updateTag("catalogo");
     revalidatePath("/admin/pedidos");
     revalidatePath("/admin");
-    return { ok: true, numero: Number(criado.numero), totalCentavos: criado.total_centavos as number, whatsappUrl: null, pagarUrl };
+    return { ok: true, numero: Number(criado.numero), totalCentavos: criado.total_centavos as number, whatsappUrl: null, pagarUrl: preferencia.url };
   }
 
   const loja = await obterLoja();

@@ -20,10 +20,9 @@ export function montarPreferencia(d: {
   const base = d.siteUrl.replace(/\/+$/, "");
   const volta = (status: string) => `${base}/pagamento/retorno?status=${status}`;
   // Tipos de pagamento que NÃO queremos em cada forma escolhida.
-  const excluidos =
-    d.forma === "pix"
-      ? ["credit_card", "debit_card", "prepaid_card", "ticket", "atm", "digital_currency", "digital_wallet"]
-      : ["bank_transfer", "ticket", "atm", "digital_currency", "digital_wallet"];
+  const excluidos = d.forma === "pix" ? ["credit_card", "debit_card", "prepaid_card", "ticket", "atm"] : ["bank_transfer", "ticket", "atm"];
+  // O Mercado Pago quer data ISO com milissegundos (o banco devolve microssegundos) e no futuro.
+  const expira = d.expiraEm ? new Date(d.expiraEm) : null;
   return {
     items: d.itens.map((i, n) => ({
       id: `${d.numero}-${n + 1}`,
@@ -38,13 +37,15 @@ export function montarPreferencia(d: {
     back_urls: { success: volta("sucesso"), pending: volta("pendente"), failure: volta("falha") },
     auto_return: "approved",
     notification_url: `${base}/api/mercadopago/webhook`,
-    payment_methods: { excluded_payment_types: excluidos.map((id) => ({ id })), installments: d.forma === "cartao" ? 6 : 1 },
-    ...(d.expiraEm ? { expires: true, expiration_date_from: new Date().toISOString(), expiration_date_to: d.expiraEm } : {}),
+    payment_methods: { excluded_payment_types: excluidos.map((id) => ({ id })), ...(d.forma === "cartao" ? { installments: 6 } : {}) },
+    ...(expira && !Number.isNaN(expira.getTime()) ? { expires: true, expiration_date_to: expira.toISOString() } : {}),
   };
 }
 
-/** Cria a preferência e devolve o endereço da página de pagamento. */
-export async function criarPreferencia(corpo: ReturnType<typeof montarPreferencia>, token: string): Promise<string | null> {
+export type ResultadoPreferencia = { url: string } | { erro: string };
+
+/** Cria a preferência e devolve o endereço da página de pagamento (ou um código curto do que deu errado). */
+export async function criarPreferencia(corpo: ReturnType<typeof montarPreferencia>, token: string): Promise<ResultadoPreferencia> {
   try {
     const r = await fetch(`${API}/checkout/preferences`, {
       method: "POST",
@@ -53,17 +54,19 @@ export async function criarPreferencia(corpo: ReturnType<typeof montarPreferenci
       signal: AbortSignal.timeout(15_000),
     });
     if (!r.ok) {
-      console.error("[mercadopago] preferência recusada:", r.status);
-      return null;
+      const texto = (await r.text().catch(() => "")).slice(0, 500);
+      console.error("[mercadopago] preferência recusada:", r.status, texto);
+      return { erro: `MP${r.status}` };
     }
     const json = (await r.json()) as { init_point?: string; sandbox_init_point?: string };
-    // Com credenciais de teste o Mercado Pago devolve também um endereço de sandbox.
+    // Com credenciais de teste antigas (TEST-) o Mercado Pago devolve também um endereço de sandbox.
     const usarSandbox = token.startsWith("TEST-") && json.sandbox_init_point;
     const url = usarSandbox ? json.sandbox_init_point : json.init_point;
-    return typeof url === "string" && url.startsWith("https://") ? url : null;
+    if (typeof url === "string" && url.startsWith("https://")) return { url };
+    return { erro: "MPsem-endereco" };
   } catch (e) {
     console.error("[mercadopago] falha ao criar preferência:", e instanceof Error ? e.message : "erro");
-    return null;
+    return { erro: "MPrede" };
   }
 }
 

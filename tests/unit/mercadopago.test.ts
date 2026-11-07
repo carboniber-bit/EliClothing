@@ -14,6 +14,7 @@ describe("preferência do Mercado Pago", () => {
     expect(p.notification_url).toBe("https://loja.exemplo.com.br/api/mercadopago/webhook");
     expect(p.back_urls.success).toBe("https://loja.exemplo.com.br/pagamento/retorno?status=sucesso");
     expect(p.expires).toBe(true);
+    expect(p).not.toHaveProperty("expiration_date_from");
   });
   it("Pix bloqueia cartão e cartão bloqueia Pix", () => {
     const ids = (f: "pix" | "cartao") => montarPreferencia({ ...pedido, forma: f }).payment_methods.excluded_payment_types.map((t) => t.id);
@@ -21,6 +22,10 @@ describe("preferência do Mercado Pago", () => {
     expect(ids("pix")).not.toContain("bank_transfer");
     expect(ids("cartao")).toContain("bank_transfer");
     expect(ids("cartao")).not.toContain("credit_card");
+  });
+  it("a expiração sai com milissegundos, mesmo vindo do banco com microssegundos", () => {
+    const p = montarPreferencia({ ...pedido, forma: "pix", expiraEm: "2026-11-07T02:15:30.123456+00:00" });
+    expect((p as { expiration_date_to: string }).expiration_date_to).toBe("2026-11-07T02:15:30.123Z");
   });
   it("sem prazo não manda expiração", () => {
     expect("expires" in montarPreferencia({ ...pedido, forma: "pix", expiraEm: null })).toBe(false);
