@@ -84,3 +84,13 @@ describe("segurança da chave secreta", () => {
     expect(readFileSync(join("src", "lib", "supabase", "servico.ts"), "utf8")).not.toContain("NEXT_PUBLIC_SUPABASE_SERVICE");
   });
 });
+
+describe("rota do webhook do Mercado Pago", () => {
+  const rota = readFileSync(join("src", "app", "api", "mercadopago", "webhook", "route.ts"), "utf8");
+  it("não usa updateTag (só funciona em Server Actions e derrubava o aviso com erro 500)", () => {
+    expect(rota).not.toContain("updateTag");
+  });
+  it("não volta um pedido já adiantado para pago", () => {
+    expect(rota).toContain('pedido.status !== "novo" && pedido.status !== "aguardando_pagamento"');
+  });
+});

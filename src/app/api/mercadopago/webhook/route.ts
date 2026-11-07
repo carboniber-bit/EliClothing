@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { updateTag } from "next/cache";
 import { assinaturaValida, buscarPagamento, pagamentoConfere } from "@/lib/pagamento/mercadopago";
 import { criarClienteServico } from "@/lib/supabase/servico";
 
@@ -42,6 +41,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, ignorado: "não confere" });
     }
 
+    // Aviso repetido (o Mercado Pago reenvia): se a equipe já avançou o pedido, não volta para "pago".
+    if (pedido.status !== "novo" && pedido.status !== "aguardando_pagamento") return NextResponse.json({ ok: true, ignorado: "já processado" });
+
     const { error } = await servico.rpc("alterar_status_pedido", { p_pedido: pedido.id, p_status: "pago", p_origem: "mercadopago" });
     if (error) {
       // Pedido já cancelado/expirado quando o pagamento chegou: precisa de atenção humana (reembolso). Não adianta repetir.
@@ -51,7 +53,6 @@ export async function POST(request: NextRequest) {
       }
       throw new Error(error.message);
     }
-    updateTag("catalogo");
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("[mercadopago] falha ao processar aviso:", e instanceof Error ? e.message : "erro");
