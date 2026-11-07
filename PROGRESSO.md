@@ -98,3 +98,8 @@ Etapa 3: Supabase (banco, RLS, login, primeiro admin) e deploy de teste na Verce
 ## 5a-1 e 5a-2 (resumo)
 - 5a-1 (mesclada): página do produto, sacola no navegador, ícone no topo, tamanhos e cores em caixas separadas (escala PP–XG com cinza), painel separa vários tamanhos/cores, gaveta lateral de categorias e página de categoria.
 - 5a-2 (em andamento): /finalizar → ação de servidor valida, limita tentativas (IP em memória + telefone no banco), chama criar_pedido com a chave de serviço (SUPABASE_SERVICE_ROLE_KEY, só servidor) e devolve link do WhatsApp com o resumo. Pagamento é combinado pelo WhatsApp; estoque fica reservado até a equipe mudar a situação do pedido.
+
+## 5b (resumo)
+- Pix/cartão via Checkout Pro: /finalizar cria o pedido (aguardando pagamento, 30 min), cria a preferência no Mercado Pago e leva a cliente à página segura. O webhook /api/mercadopago/webhook valida a assinatura, consulta o pagamento na API do Mercado Pago e só então marca o pedido como pago (confere pedido, moeda e valor). Pedido não pago expira e devolve estoque (rodado ao criar pedido e ao abrir /admin/pedidos).
+- Variáveis (só servidor): MERCADOPAGO_ACCESS_TOKEN, MERCADOPAGO_WEBHOOK_SECRET; NEXT_PUBLIC_SITE_URL precisa ser https.
+- Pagamento aprovado depois de o pedido expirar fica no log (precisa de reembolso manual).

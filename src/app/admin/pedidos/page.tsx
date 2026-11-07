@@ -17,6 +17,9 @@ export default async function Pedidos({ searchParams }: PageProps<"/admin/pedido
   const filtro = ehStatusPedido(filtroBruto) ? filtroBruto : null;
   const { supabase } = await exigirAdmin();
 
+  // Pedidos de Pix/cartão não pagos a tempo voltam ao estoque (não há agendador, então conferimos aqui).
+  await supabase.rpc("expirar_pedidos_vencidos");
+
   let consulta = supabase
     .from("pedidos")
     .select("id, numero, nome, status, total_centavos, forma_pagamento, criado_em")
