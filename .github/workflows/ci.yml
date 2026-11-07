@@ -21,6 +21,9 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - name: Auditoria de dependências (só informa; não derruba o CI)
+        run: npm audit --omit=dev --audit-level=high
+        continue-on-error: true
       - run: npm test
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e

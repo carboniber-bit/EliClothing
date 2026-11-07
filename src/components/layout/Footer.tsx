@@ -50,6 +50,16 @@ export async function Footer() {
                   Minha conta
                 </Link>
               </li>
+              <li>
+                <Link href="/privacidade" className="link-elegante">
+                  Privacidade
+                </Link>
+              </li>
+              <li>
+                <Link href="/termos" className="link-elegante">
+                  Termos de compra
+                </Link>
+              </li>
             </ul>
           </nav>
 
