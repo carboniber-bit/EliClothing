@@ -18,7 +18,7 @@ export function montarPreferencia(d: {
   expiraEm: string | null;
 }) {
   const base = d.siteUrl.replace(/\/+$/, "");
-  const volta = (status: string) => `${base}/pagamento/retorno?status=${status}`;
+  const volta = (status: string) => `${base}/pagamento/retorno?situacao=${status}`;
   // Tipos de pagamento que NÃO queremos em cada forma escolhida.
   const excluidos = d.forma === "pix" ? ["credit_card", "debit_card", "prepaid_card", "ticket", "atm"] : ["bank_transfer", "ticket", "atm"];
   // O Mercado Pago quer data ISO com milissegundos (o banco devolve microssegundos) e no futuro.

@@ -12,7 +12,7 @@ describe("preferência do Mercado Pago", () => {
     expect(p.items[0].quantity).toBe(2);
     expect(p.external_reference).toBe(pedido.pedidoId);
     expect(p.notification_url).toBe("https://loja.exemplo.com.br/api/mercadopago/webhook");
-    expect(p.back_urls.success).toBe("https://loja.exemplo.com.br/pagamento/retorno?status=sucesso");
+    expect(p.back_urls.success).toBe("https://loja.exemplo.com.br/pagamento/retorno?situacao=sucesso");
     expect(p.expires).toBe(true);
     expect(p).not.toHaveProperty("expiration_date_from");
   });

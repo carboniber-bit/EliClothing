@@ -46,7 +46,8 @@
 - [ ] Etapa 5b — Pix e cartão (Mercado Pago) (branch etapa-5b-mercadopago)
   - [x] Código: Checkout Pro (Pix/cartão), webhook com assinatura + consulta à API, expiração em 30 min, página de retorno
   - [ ] Usuário: criar conta/credenciais de teste do Mercado Pago, definir NEXT_PUBLIC_SITE_URL (https) e as chaves na Vercel, cadastrar webhook, testar com pagamento de teste
-  - [ ] Trocar para credenciais de produção antes de vender
+  - [x] Testado com cartão de teste: pedido vira Pago pelo webhook; tela 'Pagamento confirmado'
+  - [ ] Trocar para credenciais de produção antes de vender (e testar Pix real de baixo valor)
 - [ ] Etapa 5c — Bot do Telegram
 - [ ] Etapa 6 — Testes e melhorias
 - [ ] Etapa 7 — Publicação (decidir plano Pro antes de vender)
